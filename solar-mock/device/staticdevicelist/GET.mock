@@ -1,0 +1,11 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_b8fbed34-4005-4722-9253-cdeacf31d306","service":"staticdevicelist","type":"1","is_check_token":"0"}
+
+{{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"staticdevicelist",
+		"list":	[],
+		"count":	0
+	}
+}

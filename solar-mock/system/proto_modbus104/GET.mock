@@ -1,0 +1,171 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"proto_modbus104"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"proto_modbus104",
+		"list":	[{
+				"data_name":	"MODBUS-TCP IP1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP2",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP3",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP4",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP5",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP6",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP7",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP8",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP9",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP10",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP11",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP12",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP13",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP14",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP IP15",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP2",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP3",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP4",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP5",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP6",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP7",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP8",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP9",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP10",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP11",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP12",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP13",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP14",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 IP15",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP CLIENT1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP CLIENT2",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP CLIENT3",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP CLIENT4",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"MODBUS-TCP CLIENT5",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 CLIENT1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 CLIENT2",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 CLIENT3",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 CLIENT4",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"IEC104 CLIENT5",
+				"data_value":	"--",
+				"data_unit":	""
+			}],
+		"count":	40
+	}
+}

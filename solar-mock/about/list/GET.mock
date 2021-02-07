@@ -1,0 +1,34 @@
+http://192.168.1.227/about/list?page=1&limit=10&token=1313_5db7694d-00ab-4474-86f0-51bd186651dd&lang=en_us
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"list":	[{
+				"data_name":	"Device S/N",
+				"data_value":	"B2005121413",
+				"data_unit":	"",
+				"type":	"1"
+			}, {
+				"data_name":	"Application Software Version",
+				"data_value":	"LOGGER-SV300.001.00.P002",
+				"data_unit":	"",
+				"type":	"2"
+			}, {
+				"data_name":	"Build Software Version",
+				"data_value":	"LOGGER-SV300.001.01.B004",
+				"data_unit":	"",
+				"type":	"2"
+			}, {
+				"data_name":	"System Software Version",
+				"data_value":	"A7SYS-SV100.001.00.PA08",
+				"data_unit":	"",
+				"type":	"2"
+			}, {
+				"data_name":	"Version",
+				"data_value":	"M_Logger1000_V01_V01_A",
+				"data_unit":	"",
+				"type":	"0"
+			}]
+	}
+}

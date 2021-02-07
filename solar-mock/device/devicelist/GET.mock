@@ -1,0 +1,41 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"devicelist","type":"0","is_check_token":"0"
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"devicelist",
+		"list":	[{
+				"id":	1,
+				"dev_id":	1,
+				"dev_code":	61003,
+				"dev_type":	25,
+				"dev_sn":	"",
+				"dev_name":	"SUN2000(36~50)(COM3-001)",
+				"dev_model":	"SUN2000(36~50)",
+				"port_name":	"COM3",
+				"phys_addr":	"1",
+				"logc_addr":	"1",
+				"link_status":	0,
+				"init_status":	0,
+				"dev_special":	"0",
+				"list":	[]
+			}, {
+				"id":	2,
+				"dev_id":	2,
+				"dev_code":	61003,
+				"dev_type":	25,
+				"dev_sn":	"",
+				"dev_name":	"SUN2000(36~50)(COM2-001)",
+				"dev_model":	"SUN2000(36~50)",
+				"port_name":	"COM2",
+				"phys_addr":	"1",
+				"logc_addr":	"2",
+				"link_status":	0,
+				"init_status":	0,
+				"dev_special":	"0",
+				"list":	[]
+			}],
+		"count":	2
+	}
+}

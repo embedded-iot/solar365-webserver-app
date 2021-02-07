@@ -1,0 +1,47 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"local"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"local",
+		"list":	[{
+				"data_name":	"System Time",
+				"data_value":	"2021-02-07 16:48",
+				"data_unit":	""
+			}, {
+				"data_name":	"ETH IP Address",
+				"data_value":	"12.12.12.12",
+				"data_unit":	""
+			}, {
+				"data_name":	"ETH MAC Address",
+				"data_value":	"AC:19:9F:AA:08:17",
+				"data_unit":	""
+			}, {
+				"data_name":	"WiFi Hotspot IP Address",
+				"data_value":	"11.11.11.1",
+				"data_unit":	""
+			}, {
+				"data_name":	"WiFi Client IP Address",
+				"data_value":	"192.168.1.227",
+				"data_unit":	""
+			}, {
+				"data_name":	"WLAN Signal Strength",
+				"data_value":	"-67",
+				"data_unit":	"dBm"
+			}, {
+				"data_name":	"Information Management System of Photovoltaic Poverty Alleviation in China",
+				"data_value":	"Not Connected",
+				"data_unit":	""
+			}, {
+				"data_name":	"FTP upload time",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"FTP upload results",
+				"data_value":	"--",
+				"data_unit":	""
+			}],
+		"count":	6
+	}
+}

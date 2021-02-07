@@ -1,0 +1,255 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"real","dev_id":"1"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"real",
+		"list":	[{
+				"data_name":	"Nominal Power",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"System Time",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"CO2 Reduction",
+				"data_value":	"--",
+				"data_unit":	"kg"
+			}, {
+				"data_name":	"PV1 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV1 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"PV2 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV2 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"PV3 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV3 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"PV4 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV4 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"PV5 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV5 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"PV6 Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"PV6 Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"A-B Line Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"B-C Line Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"C-A Line Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase A Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase B Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase C Voltage",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase A Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Phase B Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Phase C Current",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Grid Frequency",
+				"data_value":	"--",
+				"data_unit":	"Hz"
+			}, {
+				"data_name":	"PF",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Inverter Efficiency",
+				"data_value":	"--",
+				"data_unit":	"%"
+			}, {
+				"data_name":	"Interior Temperature",
+				"data_value":	"--",
+				"data_unit":	"℃"
+			}, {
+				"data_name":	"Inverter State 1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Active Power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Reactive Power",
+				"data_value":	"--",
+				"data_unit":	"kvar"
+			}, {
+				"data_name":	"Total DC Input Power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Hourly Yield",
+				"data_value":	"--",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Daily Yield",
+				"data_value":	"--",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Monthly Yield",
+				"data_value":	"--",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Annual Yield",
+				"data_value":	"--",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Total Yield",
+				"data_value":	"--",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Upv-7",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Ipv-7",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Upv-8",
+				"data_value":	"--",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Ipv-8",
+				"data_value":	"--",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Blocking Status",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"ZVTR Protection",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"LVRT Protection",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Islanding Protection",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Insulation Resistance",
+				"data_value":	"--",
+				"data_unit":	"MΩ"
+			}, {
+				"data_name":	"MPPT 1 total input power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"MPPT 2 total input power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"MPPT 3 total input power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"MPPT 4 total input power",
+				"data_value":	"--",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Alarm information 0",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 1",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 2",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 3",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 4",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 5",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 6",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 7",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 8",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 9",
+				"data_value":	"--",
+				"data_unit":	""
+			}, {
+				"data_name":	"Alarm information 16",
+				"data_value":	"--",
+				"data_unit":	""
+			}],
+		"count":	61
+	}
+}

@@ -1,0 +1,63 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"samp_aidido"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"samp_aidido",
+		"list":	[{
+				"data_name":	"AI1 Voltage",
+				"data_value":	"0.000",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"AI1 Current",
+				"data_value":	"--",
+				"data_unit":	"mA"
+			}, {
+				"data_name":	"AI2 Voltage",
+				"data_value":	"0.000",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"AI2 Current",
+				"data_value":	"--",
+				"data_unit":	"mA"
+			}, {
+				"data_name":	"AI3 Voltage",
+				"data_value":	"0.000",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"AI3 Current",
+				"data_value":	"--",
+				"data_unit":	"mA"
+			}, {
+				"data_name":	"AI4 Voltage",
+				"data_value":	"0.000",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"AI4 Current",
+				"data_value":	"--",
+				"data_unit":	"mA"
+			}, {
+				"data_name":	"DI1 Status",
+				"data_value":	"NO",
+				"data_unit":	""
+			}, {
+				"data_name":	"DI2 Status",
+				"data_value":	"NO",
+				"data_unit":	""
+			}, {
+				"data_name":	"DI3 Status",
+				"data_value":	"NO",
+				"data_unit":	""
+			}, {
+				"data_name":	"DI4 Status",
+				"data_value":	"NO",
+				"data_unit":	""
+			}, {
+				"data_name":	"DI5 Status",
+				"data_value":	"NO",
+				"data_unit":	""
+			}],
+		"count":	13
+	}
+}

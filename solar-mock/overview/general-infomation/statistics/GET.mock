@@ -1,0 +1,35 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"statistics"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"statistics",
+		"list":	[{
+				"today_energy":	"--",
+				"today_energy_unit":	"kWh",
+				"total_energy":	"--",
+				"total_energy_unit":	"kWh",
+				"curr_power":	"--",
+				"curr_power_unit":	"kW",
+				"curr_reactive":	"--",
+				"curr_reactive_unit":	"kvar",
+				"rated_power":	"--",
+				"rated_power_unit":	"kW",
+				"rated_reactive":	"--",
+				"rated_reactive_unit":	"kvar",
+				"adjust_power_uplimit":	"--",
+				"adjust_power_uplimit_unit":	"kW",
+				"adjust_reactive_uplimit":	"--",
+				"adjust_reactive_uplimit_unit":	"kvar",
+				"adjust_reactive_lowlimit":	"--",
+				"adjust_reactive_lowlimit_unit":	"kvar"
+			}, {
+				"online_num":	"0",
+				"online_num_unit":	"",
+				"offline_num":	"2",
+				"offline_num_unit":	""
+			}],
+		"count":	2
+	}
+}
