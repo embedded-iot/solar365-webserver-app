@@ -18,6 +18,37 @@ components:
         email: fake@example.com
         name: fake name
         role: user
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        deviceData:
+          type: object
+      example:
+        id: 32bac534954b54139806c112
+        name: Device name
+        description: Device description
+        deviceData: {
+          "id": 1,
+          "dev_id": 1,
+          "dev_code": 61003,
+          "dev_type": 25,
+          "dev_sn": "",
+          "dev_name": "SUN2000(36~50)(COM3-001)",
+          "dev_model": "SUN2000(36~50)",
+          "port_name": "COM3",
+          "phys_addr": "1",
+          "logc_addr": "1",
+          "link_status": 0,
+          "init_status": 0,
+          "dev_special": "0",
+          "list": [ ]
+        }
 
     Token:
       type: object
@@ -48,6 +79,15 @@ components:
           type: string
 
   responses:
+    DuplicateName:
+      description: Name already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Name already taken
     DuplicateEmail:
       description: Email already taken
       content:
