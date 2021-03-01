@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
+const DeviceLog = require('./deviceLog.model');
 
 const deviceSchema = mongoose.Schema(
   {
@@ -56,6 +57,12 @@ deviceSchema.statics.isDeviceNameTaken = async function (deviceId, excludeDevice
   const user = await this.findOne({ deviceId, _id: { $ne: excludeDeviceId } });
   return !!user;
 };
+
+deviceSchema.pre('remove', async function (next) {
+  const device = this;
+  await DeviceLog.deleteMany({ device: device._id });
+  next();
+});
 
 /**
  * @typedef Device

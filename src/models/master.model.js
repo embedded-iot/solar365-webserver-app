@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
+const Device = require('./device.model');
+const DeviceLog = require('./deviceLog.model');
 
 const masterSchema = mongoose.Schema(
   {
@@ -42,6 +44,13 @@ masterSchema.statics.isMasterKeyTaken = async function (masterKey, excludeMaster
   const master = await this.findOne({ masterKey, _id: { $ne: excludeMasterId } });
   return !!master;
 };
+
+masterSchema.pre('remove', async function (next) {
+  const master = this;
+  await DeviceLog.deleteMany({ master: master._id });
+  await Device.deleteMany({ master: master._id });
+  next();
+});
 
 /**
  * @typedef Master
