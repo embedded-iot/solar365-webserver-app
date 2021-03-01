@@ -18,6 +18,22 @@ components:
         email: fake@example.com
         name: fake name
         role: user
+    Master:
+      type: object
+      properties:
+        id:
+          type: string
+        masterKey:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: 32bac534954b54139806c112
+        masterKey: MASTER_KEY
+        name: Device name
+        description: Master description
     Device:
       type: object
       properties:
