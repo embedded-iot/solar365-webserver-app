@@ -3,12 +3,16 @@ const { objectId } = require('./custom.validation');
 
 const createDeviceLog = {
   body: Joi.object().keys({
+    masterKey: Joi.string().required(),
+    deviceId: Joi.string().required(),
     deviceLogData: Joi.array().required(),
   }),
 };
 
 const getDeviceLogs = {
   query: Joi.object().keys({
+    masterKey: Joi.string(),
+    deviceId: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -27,6 +31,8 @@ const updateDeviceLog = {
   }),
   body: Joi.object()
     .keys({
+      deviceId: Joi.string().required(),
+      masterKey: Joi.string().required(),
       deviceLogData: Joi.array().required(),
     })
     .min(1),

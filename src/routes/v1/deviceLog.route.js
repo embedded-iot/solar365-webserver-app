@@ -43,11 +43,15 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - masterKey
+ *                - deviceId
  *                - deviceLogData
  *              properties:
  *                deviceLogData:
  *                   type: array
  *              example:
+ *                masterKey: Master key
+ *                deviceId: "1"
  *                deviceLogData: [{
  *		          		"data_name":	"Nominal Power",
  *		          		"data_value":	"--",
@@ -311,6 +315,16 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
+ *        - in: query
+ *          name: deviceId
+ *          schema:
+ *            type: string
+ *          description: Device Id
+ *        - in: query
  *          name: limit
  *          schema:
  *            type: integer
@@ -405,11 +419,15 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - masterKey
+ *                - deviceId
  *                - deviceLogData
  *              properties:
  *                deviceLogData:
  *                   type: array
  *              example:
+ *                masterKey: Master key
+ *                deviceId: "1"
  *                deviceLogData: [{
  *		          		"data_name":	"Nominal Power",
  *		          		"data_value":	"--",

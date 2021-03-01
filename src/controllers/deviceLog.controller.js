@@ -2,16 +2,47 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceLogService } = require('../services');
+const { deviceLogService, masterService, deviceService } = require('../services');
 
 const createDeviceLog = catchAsync(async (req, res) => {
-  const deviceLog = await deviceLogService.createDeviceLog(req.body);
+  const { masterKey, deviceId, ...body } = req.body;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  if (!device) {
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+  }
+  const deviceLogBody = {
+    ...body,
+    master: master._id,
+    device: device._id,
+  };
+  const deviceLog = await deviceLogService.createDeviceLog(deviceLogBody);
   res.status(httpStatus.CREATED).send(deviceLog);
 });
 
 const getDeviceLogs = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['deviceLogId']);
+  const filter = {};
+  const { masterKey, deviceId } = pick(req.query, ['masterKey', 'deviceId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  if (masterKey) {
+    const master = await masterService.getMasterByOption({ masterKey });
+    if (!master) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+    }
+    filter.master = master._id;
+  }
+
+  if (deviceId) {
+    const device = await deviceService.getDeviceByOption({ deviceId });
+    if (!device) {
+      throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
+    }
+    filter.device = device._id;
+  }
+
   const result = await deviceLogService.queryDeviceLogs(filter, options);
   res.send(result);
 });
@@ -25,7 +56,16 @@ const getDeviceLog = catchAsync(async (req, res) => {
 });
 
 const updateDeviceLog = catchAsync(async (req, res) => {
-  const deviceLog = await deviceLogService.updateDeviceLogById(req.params.deviceLogId, req.body);
+  const { masterKey, deviceId, ...body } = req.body;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  if (!device) {
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+  }
+  const deviceLog = await deviceLogService.updateDeviceLogById(req.params.deviceLogId, body);
   res.send(deviceLog);
 });
 

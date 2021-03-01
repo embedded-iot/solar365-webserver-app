@@ -41,6 +41,15 @@ const getDeviceById = async (id) => {
 };
 
 /**
+ * Get device by Option
+ * @param {Object} option
+ * @returns {Promise<Device>}
+ */
+const getDeviceByOption = async (option) => {
+  return Device.findOne(option);
+};
+
+/**
  * Get device by name
  * @param {string} name
  * @returns {Promise<Device>}
@@ -88,6 +97,7 @@ module.exports = {
   createDevice,
   queryDevices,
   getDeviceById,
+  getDeviceByOption,
   getDeviceByName,
   updateDeviceById,
   deleteDeviceById,

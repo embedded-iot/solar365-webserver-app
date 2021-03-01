@@ -3,11 +3,16 @@ const { toJSON, paginate } = require('./plugins');
 
 const deviceLogSchema = mongoose.Schema(
   {
-    // device: {
-    //   type: mongoose.SchemaTypes.ObjectId,
-    //   ref: 'Device',
-    //   required: true,
-    // },
+    master: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Master',
+      required: true,
+    },
+    device: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Device',
+      required: true,
+    },
     deviceLogData: {
       type: Array,
       required: true,
