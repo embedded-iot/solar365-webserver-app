@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(deviceValidation.createDevice), deviceController.createDevice)
+  .post(auth(), validate(deviceValidation.createDevice), deviceController.createDevice)
   .get(auth(), validate(deviceValidation.getDevices), deviceController.getDevices);
 
 router
@@ -43,6 +43,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - masterKey
  *                - name
  *                - deviceData
  *              properties:
@@ -52,6 +53,7 @@ module.exports = router;
  *                deviceData:
  *                   type: object
  *              example:
+ *                masterKey: Master key
  *                name: Device name
  *                description: Device description
  *                deviceData: {
@@ -91,6 +93,11 @@ module.exports = router;
  *      security:
  *        - bearerAuth: []
  *      parameters:
+ *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
  *        - in: query
  *          name: name
  *          schema:
@@ -196,6 +203,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - masterKey
  *                - name
  *                - deviceData
  *              properties:
@@ -205,6 +213,7 @@ module.exports = router;
  *                deviceData:
  *                   type: object
  *              example:
+ *                masterKey: Master key
  *                name: Device name
  *                description: Device description
  *                deviceData: {

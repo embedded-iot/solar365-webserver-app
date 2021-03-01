@@ -10,6 +10,8 @@ const ApiError = require('../utils/ApiError');
 const createDevice = async (deviceBody) => {
   if (await Device.isDeviceNameTaken(deviceBody.name)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Device name already taken');
+  } else if (await Device.isDeviceNameTaken(deviceBody.deviceId)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Device id already taken');
   }
   const device = await Device.create(deviceBody);
   return device;
@@ -57,6 +59,8 @@ const updateDeviceById = async (deviceId, updateBody) => {
   const device = await getDeviceById(deviceId);
   if (!device) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
+  } else if (await Device.isDeviceNameTaken(updateBody.deviceId)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Device id already taken');
   }
   if (updateBody.name && (await Device.isDeviceNameTaken(updateBody.name, deviceId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Device name already taken');

@@ -2,15 +2,32 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceService } = require('../services');
+const { deviceService, masterService } = require('../services');
 
 const createDevice = catchAsync(async (req, res) => {
-  const device = await deviceService.createDevice(req.body);
+  const { masterKey, ...body } = req.body;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const deviceBody = {
+    ...body,
+    deviceId: body.deviceData.dev_id,
+    master: master._id,
+  };
+  const device = await deviceService.createDevice(deviceBody);
   res.status(httpStatus.CREATED).send(device);
 });
 
 const getDevices = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name']);
+  const { masterKey, ...filter } = pick(req.query, ['masterKey', 'name']);
+  if (masterKey) {
+    const master = await masterService.getMasterByOption({ masterKey });
+    if (!master) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+    }
+    filter.master = master._id;
+  }
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await deviceService.queryDevices(filter, options);
   res.send(result);
@@ -25,7 +42,17 @@ const getDevice = catchAsync(async (req, res) => {
 });
 
 const updateDevice = catchAsync(async (req, res) => {
-  const device = await deviceService.updateDeviceById(req.params.deviceId, req.body);
+  const { masterKey, ...body } = req.body;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const deviceBody = {
+    ...body,
+    deviceId: body.deviceData.dev_id,
+    master: master._id,
+  };
+  const device = await deviceService.updateDeviceById(req.params.deviceId, deviceBody);
   res.send(device);
 });
 
