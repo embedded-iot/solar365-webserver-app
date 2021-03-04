@@ -27,7 +27,8 @@ const createDevice = async (deviceBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryDevices = async (filter, options) => {
-  const devices = await Device.paginate(filter, options);
+  const devices = await Device.paginate(filter, { ...options, populate: 'master' });
+  // devices.populate([{ path: 'master' }]).exec();
   return devices;
 };
 
@@ -37,7 +38,7 @@ const queryDevices = async (filter, options) => {
  * @returns {Promise<Device>}
  */
 const getDeviceById = async (id) => {
-  return Device.findById(id);
+  return Device.findById(id).populate('master').exec();
 };
 
 /**
@@ -46,7 +47,7 @@ const getDeviceById = async (id) => {
  * @returns {Promise<Device>}
  */
 const getDeviceByOption = async (option) => {
-  return Device.findOne(option);
+  return Device.findOne(option).populate('master').exec();
 };
 
 /**
@@ -55,7 +56,7 @@ const getDeviceByOption = async (option) => {
  * @returns {Promise<Device>}
  */
 const getDeviceByName = async (name) => {
-  return Device.findOne({ name });
+  return Device.findOne({ name }).populate('master').exec();
 };
 
 /**
