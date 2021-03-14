@@ -8,7 +8,8 @@ const swaggerDef = {
     description:
       '-- New features in V3 doc<br/>' +
       '+ Add new router <strong>/deviceLogs/latest</strong>: Get last device log<br/>' +
-      '+ Update router <strong>/deviceLogs/</strong>: add new param <strong>from|to</strong><br/><br/>' +
+      '+ Update router <strong>/deviceLogs/</strong>: add new param <strong>from|to</strong><br/>' +
+      '+ Add two new model <strong>Fault and Statistic</strong><br/><br/>' +
       '-- New features in V2 doc<br/>' +
       '+ Add new model <strong>Master</strong>: Master is COM100<br/>' +
       '+ Update <strong>Device</strong> model: add new param <strong>masterKey</strong><br/>' +
