@@ -5,3 +5,5 @@ module.exports.userService = require('./user.service');
 module.exports.masterService = require('./master.service');
 module.exports.deviceService = require('./device.service');
 module.exports.deviceLogService = require('./deviceLog.service');
+module.exports.faultService = require('./fault.service');
+module.exports.statisticService = require('./statistic.service');

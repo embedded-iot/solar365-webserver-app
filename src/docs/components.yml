@@ -319,6 +319,53 @@ components:
           "data_value": "--",
           "data_unit": ""
         } ]
+    Fault:
+      type: object
+      properties:
+        id:
+          type: string
+        faultData:
+          type: array
+      example:
+        id: 45bac534954b54139806c112
+        faultData: []
+    Statistic:
+      type: object
+      properties:
+        id:
+          type: string
+        faultData:
+          type: array
+      example:
+        id: 45bac534954b54139806c112
+        faultData: [
+          {
+            "today_energy": "--",
+            "today_energy_unit": "kWh",
+            "total_energy": "--",
+            "total_energy_unit": "kWh",
+            "curr_power": "--",
+            "curr_power_unit": "kW",
+            "curr_reactive": "--",
+            "curr_reactive_unit": "kvar",
+            "rated_power": "--",
+            "rated_power_unit": "kW",
+            "rated_reactive": "--",
+            "rated_reactive_unit": "kvar",
+            "adjust_power_uplimit": "--",
+            "adjust_power_uplimit_unit": "kW",
+            "adjust_reactive_uplimit": "--",
+            "adjust_reactive_uplimit_unit": "kvar",
+            "adjust_reactive_lowlimit": "--",
+            "adjust_reactive_lowlimit_unit": "kvar"
+          },
+          {
+            "online_num": "0",
+            "online_num_unit": "",
+            "offline_num": "1",
+            "offline_num_unit": ""
+          }
+        ]
     Token:
       type: object
       properties:
