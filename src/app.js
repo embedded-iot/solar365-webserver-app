@@ -37,7 +37,12 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
-const allowlist = ['http://connector.com.vn', 'https://connector.com.vn', 'http://solar365.herokuapp.com', 'https://solar365.herokuapp.com'];
+const allowlist = [
+  'http://connector.com.vn',
+  'https://connector.com.vn',
+  'http://solar365.herokuapp.com',
+  'https://solar365.herokuapp.com',
+];
 
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;

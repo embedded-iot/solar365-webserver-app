@@ -13,6 +13,8 @@ const getDeviceLogs = {
   query: Joi.object().keys({
     masterKey: Joi.string(),
     deviceId: Joi.string(),
+    from: Joi.string(),
+    to: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

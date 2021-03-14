@@ -11,6 +11,8 @@ router
   .post(validate(deviceLogValidation.createDeviceLog), deviceLogController.createDeviceLog)
   .get(auth(), validate(deviceLogValidation.getDeviceLogs), deviceLogController.getDeviceLogs);
 
+router.route('/latest').get(auth(), deviceLogController.getLatestDeviceLog);
+
 router
   .route('/:deviceLogId')
   .get(auth(), validate(deviceLogValidation.getDeviceLog), deviceLogController.getDeviceLog)
@@ -324,6 +326,16 @@ module.exports = router;
  *          schema:
  *            type: string
  *          description: Device Id
+ *        - in: query
+ *          name: from
+ *          schema:
+ *            type: string
+ *          description: Start datetime. ex. 2021-03-15 00:00:00
+ *        - in: query
+ *          name: to
+ *          schema:
+ *            type: string
+ *          description: End datetime
  *        - in: query
  *          name: limit
  *          schema:
@@ -705,6 +717,31 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /deviceLogs/latest:
+ *    get:
+ *      summary: Get latest device log
+ *      description: Get latest device log
+ *      tags: [DeviceLogs]
+ *      security:
+ *        - bearerAuth: []
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/DeviceLog'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

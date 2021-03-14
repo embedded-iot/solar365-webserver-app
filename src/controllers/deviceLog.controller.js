@@ -25,7 +25,7 @@ const createDeviceLog = catchAsync(async (req, res) => {
 
 const getDeviceLogs = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, deviceId } = pick(req.query, ['masterKey', 'deviceId']);
+  const { masterKey, deviceId, from, to } = pick(req.query, ['masterKey', 'deviceId', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   if (masterKey) {
     const master = await masterService.getMasterByOption({ masterKey });
@@ -41,6 +41,13 @@ const getDeviceLogs = catchAsync(async (req, res) => {
       throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
     }
     filter.device = device._id;
+  }
+
+  if (from) {
+    filter.updatedAt = {
+      $gt: new Date(from),
+      $lt: new Date(to || new Date()),
+    };
   }
 
   const result = await deviceLogService.queryDeviceLogs(filter, options);
@@ -74,10 +81,20 @@ const deleteDeviceLog = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getLatestDeviceLog = catchAsync(async (req, res) => {
+  const result = await deviceLogService.queryDeviceLogs({}, { sortBy: 'updatedAt:desc', limit: 1 });
+  const deviceLog = result.results.length ? result.results[0] : null;
+  if (!deviceLog) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'DeviceLog not found');
+  }
+  res.send(deviceLog);
+});
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
   getDeviceLog,
   updateDeviceLog,
   deleteDeviceLog,
+  getLatestDeviceLog,
 };
