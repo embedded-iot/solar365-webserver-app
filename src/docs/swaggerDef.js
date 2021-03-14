@@ -6,11 +6,14 @@ const swaggerDef = {
   info: {
     title: 'Solar 365 API documentation',
     description:
-      'New features in V2 doc<br/>' +
+      '-- New features in V3 doc<br/>' +
+      '+ Add new router <strong>/deviceLogs/latest</strong>: Get last device log<br/>' +
+      '+ Update router <strong>/deviceLogs/</strong>: add new param <strong>from|to</strong><br/><br/>' +
+      '-- New features in V2 doc<br/>' +
       '+ Add new model <strong>Master</strong>: Master is COM100<br/>' +
       '+ Update <strong>Device</strong> model: add new param <strong>masterKey</strong><br/>' +
       '+ Update <strong>Device Log</strong> model: add new param <strong>masterKey</strong> and <strong>deviceId</strong><br/>' +
-      '=> Reference: 1 User => n Master => n Device => n Device Log',
+      '=> Reference: 1 User => n Master => n Device => n Device Log<br/>',
     version,
     license: {
       name: 'MIT',
