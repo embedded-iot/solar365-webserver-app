@@ -11,7 +11,9 @@ router
   .post(validate(statisticValidation.createStatistic), statisticController.createStatistic)
   .get(auth(), validate(statisticValidation.getStatistics), statisticController.getStatistics);
 
-router.route('/latest').get(auth(), statisticController.getLatestStatistic);
+router
+  .route('/latest')
+  .get(auth(), validate(statisticValidation.getLatestStatistic), statisticController.getLatestStatistic);
 
 router
   .route('/:statisticId')
@@ -263,6 +265,12 @@ module.exports = router;
  *      tags: [Statistics]
  *      security:
  *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
  *      responses:
  *        "200":
  *          description: OK

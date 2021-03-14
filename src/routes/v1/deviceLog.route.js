@@ -11,7 +11,9 @@ router
   .post(validate(deviceLogValidation.createDeviceLog), deviceLogController.createDeviceLog)
   .get(auth(), validate(deviceLogValidation.getDeviceLogs), deviceLogController.getDeviceLogs);
 
-router.route('/latest').get(auth(), deviceLogController.getLatestDeviceLog);
+router
+  .route('/latest')
+  .get(auth(), validate(deviceLogValidation.getLatestDeviceLog), deviceLogController.getLatestDeviceLog);
 
 router
   .route('/:deviceLogId')
@@ -735,6 +737,17 @@ module.exports = router;
  *      tags: [DeviceLogs]
  *      security:
  *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
+ *        - in: query
+ *          name: deviceId
+ *          schema:
+ *            type: string
+ *          description: Device Id
  *      responses:
  *        "200":
  *          description: OK

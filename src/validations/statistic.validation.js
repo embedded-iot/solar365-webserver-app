@@ -43,10 +43,17 @@ const deleteStatistic = {
   }),
 };
 
+const getLatestStatistic = {
+  query: Joi.object().keys({
+    masterKey: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createStatistic,
   getStatistics,
   getStatistic,
   updateStatistic,
   deleteStatistic,
+  getLatestStatistic,
 };

@@ -46,10 +46,18 @@ const deleteDeviceLog = {
   }),
 };
 
+const getLatestDeviceLog = {
+  query: Joi.object().keys({
+    masterKey: Joi.string().required(),
+    deviceId: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
   getDeviceLog,
   updateDeviceLog,
   deleteDeviceLog,
+  getLatestDeviceLog,
 };

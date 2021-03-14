@@ -82,7 +82,24 @@ const deleteDeviceLog = catchAsync(async (req, res) => {
 });
 
 const getLatestDeviceLog = catchAsync(async (req, res) => {
-  const result = await deviceLogService.queryDeviceLogs({}, { sortBy: 'updatedAt:desc', limit: 1 });
+  const filter = {};
+  const { masterKey, deviceId } = pick(req.query, ['masterKey', 'deviceId']);
+  if (masterKey) {
+    const master = await masterService.getMasterByOption({ masterKey });
+    if (!master) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+    }
+    filter.master = master._id;
+  }
+
+  if (deviceId) {
+    const device = await deviceService.getDeviceByOption({ deviceId });
+    if (!device) {
+      throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
+    }
+    filter.device = device._id;
+  }
+  const result = await deviceLogService.queryDeviceLogs(filter, { sortBy: 'updatedAt:desc', limit: 1 });
   const deviceLog = result.results.length ? result.results[0] : null;
   if (!deviceLog) {
     throw new ApiError(httpStatus.NOT_FOUND, 'DeviceLog not found');

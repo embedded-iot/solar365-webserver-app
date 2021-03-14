@@ -66,7 +66,17 @@ const deleteStatistic = catchAsync(async (req, res) => {
 });
 
 const getLatestStatistic = catchAsync(async (req, res) => {
-  const result = await statisticService.queryStatistics({}, { sortBy: 'updatedAt:desc', limit: 1 });
+  const filter = {};
+  const { masterKey } = pick(req.query, ['masterKey']);
+  if (masterKey) {
+    const master = await masterService.getMasterByOption({ masterKey });
+    if (!master) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+    }
+    filter.master = master._id;
+  }
+
+  const result = await statisticService.queryStatistics(filter, { sortBy: 'updatedAt:desc', limit: 1 });
   const statistic = result.results.length ? result.results[0] : null;
   if (!statistic) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
