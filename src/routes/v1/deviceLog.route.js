@@ -16,6 +16,10 @@ router
   .get(auth(), validate(deviceLogValidation.getLatestDeviceLog), deviceLogController.getLatestDeviceLog);
 
 router
+  .route('/statistic')
+  .get(auth(), validate(deviceLogValidation.getStatisticDeviceLogs), deviceLogController.getStatisticDeviceLogs);
+
+router
   .route('/:deviceLogId')
   .get(auth(), validate(deviceLogValidation.getDeviceLog), deviceLogController.getDeviceLog)
   .patch(auth(), validate(deviceLogValidation.updateDeviceLog), deviceLogController.updateDeviceLog)
@@ -725,6 +729,93 @@ module.exports = router;
  *          $ref: '#/components/responses/Forbidden'
  *        "404":
  *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /deviceLogs/statistic:
+ *    get:
+ *      summary: Get all statistic deviceLogs
+ *      description: _
+ *      tags: [DeviceLogs]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
+ *        - in: query
+ *          name: deviceId
+ *          schema:
+ *            type: string
+ *          description: Device Id
+ *        - in: query
+ *          name: from
+ *          schema:
+ *            type: string
+ *          description: Start datetime. ex. 2021-03-15 00:00:00
+ *        - in: query
+ *          name: to
+ *          schema:
+ *            type: string
+ *          description: End datetime
+ *        - in: query
+ *          name: dataName
+ *          schema:
+ *            type: string
+ *          description: The statistic data name. ex. dataName='Nominal Power'
+ *        - in: query
+ *          name: limit
+ *          schema:
+ *            type: integer
+ *            minimum: 1
+ *          default: 10
+ *          description: Maximum number of deviceLogs
+ *        - in: query
+ *          name: page
+ *          schema:
+ *            type: integer
+ *            minimum: 1
+ *            default: 1
+ *          description: Page number
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  dataName:
+ *                    type: string
+ *                    example: 'Nominal Power'
+ *                  results:
+ *                    type: array
+ *                    example: [
+ *                      {
+ *                        date: '',
+ *                        value: ''
+ *                      }
+ *                    ]
+ *                  page:
+ *                    type: integer
+ *                    example: 1
+ *                  limit:
+ *                    type: integer
+ *                    example: 10
+ *                  totalPages:
+ *                    type: integer
+ *                    example: 1
+ *                  totalResults:
+ *                    type: integer
+ *                    example: 1
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
  */
 
 /**
