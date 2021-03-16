@@ -6,6 +6,8 @@ const swaggerDef = {
   info: {
     title: 'Solar 365 API documentation',
     description:
+      '-- New features in V4 doc<br/>' +
+      '+ Add new router <strong>/deviceLogs/statistic</strong>: Get statistic device log by data name<br/>' +
       '-- New features in V3 doc<br/>' +
       '+ Add new router <strong>/deviceLogs/latest</strong>: Get last device log<br/>' +
       '+ Update router <strong>/deviceLogs/</strong>: add new param <strong>from|to</strong><br/>' +
