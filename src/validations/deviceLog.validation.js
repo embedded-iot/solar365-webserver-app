@@ -53,6 +53,19 @@ const getLatestDeviceLog = {
   }),
 };
 
+const getStatisticDeviceLogs = {
+  query: Joi.object().keys({
+    masterKey: Joi.string().required(),
+    deviceId: Joi.string().required(),
+    from: Joi.string().required(),
+    to: Joi.string(),
+    dataName: Joi.string().required(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
@@ -60,4 +73,5 @@ module.exports = {
   updateDeviceLog,
   deleteDeviceLog,
   getLatestDeviceLog,
+  getStatisticDeviceLogs,
 };
