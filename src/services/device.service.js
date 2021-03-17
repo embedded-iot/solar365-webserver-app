@@ -69,7 +69,7 @@ const updateDeviceById = async (deviceId, updateBody) => {
   const device = await getDeviceById(deviceId);
   if (!device) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
-  } else if (await Device.isDeviceNameTaken(updateBody.deviceId)) {
+  } else if (await Device.isDeviceIdTaken(updateBody.deviceId, deviceId)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Device id already taken');
   }
   if (updateBody.name && (await Device.isDeviceNameTaken(updateBody.name, deviceId))) {
