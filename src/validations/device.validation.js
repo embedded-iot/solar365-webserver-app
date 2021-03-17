@@ -48,10 +48,18 @@ const deleteDevice = {
   }),
 };
 
+const syncRealDevices = {
+  body: Joi.object().keys({
+    masterKey: Joi.string().required(),
+    list: Joi.array().required(),
+  }),
+};
+
 module.exports = {
   createDevice,
   getDevices,
   getDevice,
   updateDevice,
   deleteDevice,
+  syncRealDevices,
 };
