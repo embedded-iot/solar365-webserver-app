@@ -11,6 +11,8 @@ router
   .post(auth(), validate(deviceValidation.createDevice), deviceController.createDevice)
   .get(auth(), validate(deviceValidation.getDevices), deviceController.getDevices);
 
+router.route('/syncRealDevices').post(validate(deviceValidation.syncRealDevices), deviceController.syncRealDevices);
+
 router
   .route('/:deviceId')
   .get(auth(), validate(deviceValidation.getDevice), deviceController.getDevice)
@@ -143,6 +145,70 @@ module.exports = router;
  *                  totalPages:
  *                    type: integer
  *                    example: 1
+ *                  totalResults:
+ *                    type: integer
+ *                    example: 1
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /devices/syncRealDevices:
+ *    get:
+ *      summary: Sync real devices
+ *      description: [Device only]
+ *      tags: [Devices]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - masterKey
+ *                - list
+ *              properties:
+ *                name:
+ *                  type: string
+ *                  description: must be unique
+ *                deviceData:
+ *                   type: object
+ *              example:
+ *                masterKey: Master key
+ *                list: [
+ *                  {
+ *                    "id": 1,
+ *                    "dev_id": 4,
+ *                    "dev_code": 61003,
+ *                    "dev_type": 25,
+ *                    "dev_sn": "11212",
+ *                    "dev_name": "SUN2000(36~50)(COM3-001)",
+ *                    "dev_model": "SUN2000(36~50)",
+ *                    "port_name": "COM3",
+ *                    "phys_addr": "1",
+ *                    "logc_addr": "1",
+ *                    "link_status": 0,
+ *                    "init_status": 0,
+ *                    "dev_special": "0",
+ *                    "list": []
+ *                  }
+ *                ]
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  results:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/Device'
  *                  totalResults:
  *                    type: integer
  *                    example: 1
