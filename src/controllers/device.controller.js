@@ -61,10 +61,41 @@ const deleteDevice = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const syncRealDevices = catchAsync(async (req, res) => {
+  const { masterKey, list } = req.body;
+  const master = await masterService.getMasterByOption({ masterKey });
+  const results = [];
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    const deviceData = list[0];
+    const existingDevice = await deviceService.getDeviceByOption({ master: master._id, deviceId: deviceData.dev_id });
+    if (!existingDevice) {
+      const deviceBody = {
+        master: master._id,
+        deviceId: deviceData.dev_id,
+        name: `${deviceData.dev_name} ${deviceData.dev_id}`,
+        deviceData,
+      };
+      const device = await deviceService.createDevice(deviceBody);
+      results.push(device);
+    } else {
+      existingDevice.deviceData = deviceData;
+      const device = await deviceService.updateDeviceById(existingDevice._id, existingDevice);
+      results.push(device);
+    }
+  }
+
+  res.status(httpStatus.CREATED).send({ results, totalResults: results.length });
+});
+
 module.exports = {
   createDevice,
   getDevices,
   getDevice,
   updateDevice,
   deleteDevice,
+  syncRealDevices,
 };
