@@ -53,7 +53,7 @@ deviceSchema.statics.isDeviceNameTaken = async function (name, excludeDeviceId) 
  * @param {ObjectId} [excludeDeviceId] - The name of the device to be excluded
  * @returns {Promise<boolean>}
  */
-deviceSchema.statics.isDeviceNameTaken = async function (deviceId, excludeDeviceId) {
+deviceSchema.statics.isDeviceIdTaken = async function (deviceId, excludeDeviceId) {
   const user = await this.findOne({ deviceId, _id: { $ne: excludeDeviceId } });
   return !!user;
 };
