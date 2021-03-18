@@ -11,7 +11,7 @@ const createFault = {
 const getFaults = {
   query: Joi.object().keys({
     masterKey: Joi.string(),
-    from: Joi.string(),
+    from: Joi.number(),
     to: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
