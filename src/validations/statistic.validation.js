@@ -12,7 +12,7 @@ const getStatistics = {
   query: Joi.object().keys({
     masterKey: Joi.string(),
     from: Joi.number(),
-    to: Joi.string(),
+    to: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
