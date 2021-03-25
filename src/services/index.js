@@ -7,3 +7,4 @@ module.exports.deviceService = require('./device.service');
 module.exports.deviceLogService = require('./deviceLog.service');
 module.exports.faultService = require('./fault.service');
 module.exports.statisticService = require('./statistic.service');
+module.exports.activityLogService = require('./activityLog.service');

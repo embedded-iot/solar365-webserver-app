@@ -366,6 +366,28 @@ components:
             "offline_num_unit": ""
           }
         ]
+    ActivityLog:
+      type: object
+      properties:
+        id:
+          type: string
+        master:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        activityLogData:
+          type: object
+      example:
+        id: 45bac534954b54139806c112
+        master: 45bac534954b54139806c113
+        category: Master
+        type: Success
+        description: Master not found
+        activityLogData: {}
     Token:
       type: object
       properties:
