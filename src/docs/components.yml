@@ -325,20 +325,20 @@ components:
         id:
           type: string
         faultData:
-          type: array
+          type: object
       example:
         id: 45bac534954b54139806c112
-        faultData: []
+        faultData: {}
     Statistic:
       type: object
       properties:
         id:
           type: string
-        faultData:
+        statisticData:
           type: array
       example:
         id: 45bac534954b54139806c112
-        faultData: [
+        statisticData: [
           {
             "today_energy": "--",
             "today_energy_unit": "kWh",

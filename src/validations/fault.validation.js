@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 const createFault = {
   body: Joi.object().keys({
     masterKey: Joi.string().required(),
-    faultData: Joi.array().required(),
+    faultData: Joi.object().required(),
   }),
 };
 
@@ -32,7 +32,7 @@ const updateFault = {
   body: Joi.object()
     .keys({
       masterKey: Joi.string().required(),
-      faultData: Joi.array().required(),
+      faultData: Joi.object().required(),
     })
     .min(1),
 };

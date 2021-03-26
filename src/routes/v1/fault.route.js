@@ -47,10 +47,10 @@ module.exports = router;
  *                - faultData
  *              properties:
  *                faultData:
- *                   type: array
+ *                   type: object
  *              example:
  *                masterKey: Master key
- *                faultData: []
+ *                faultData: {}
  *      responses:
  *        "201":
  *          description: Created
@@ -182,10 +182,10 @@ module.exports = router;
  *                - faultData
  *              properties:
  *                faultData:
- *                   type: array
+ *                   type: object
  *              example:
  *                masterKey: Master key
- *                faultData: []
+ *                faultData: {}
  *      responses:
  *        "200":
  *          description: OK

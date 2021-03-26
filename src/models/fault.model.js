@@ -9,7 +9,7 @@ const faultSchema = mongoose.Schema(
       required: true,
     },
     faultData: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
