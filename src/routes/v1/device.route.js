@@ -158,7 +158,7 @@ module.exports = router;
  * @swagger
  * path:
  *  /devices/syncRealDevices:
- *    get:
+ *    post:
  *      summary: Sync real devices
  *      description: [Device only]
  *      tags: [Devices]
