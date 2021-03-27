@@ -15,7 +15,9 @@ const deviceLogSchema = mongoose.Schema(
     },
     deviceLogData: {
       type: Array,
-      required: true,
+    },
+    deviceLogIOData: {
+      type: Array,
     },
   },
   {

@@ -5,7 +5,8 @@ const createDeviceLog = {
   body: Joi.object().keys({
     masterKey: Joi.string().required(),
     deviceId: Joi.string().required(),
-    deviceLogData: Joi.array().required(),
+    deviceLogData: Joi.array(),
+    deviceLogIOData: Joi.array(),
   }),
 };
 
@@ -35,7 +36,8 @@ const updateDeviceLog = {
     .keys({
       deviceId: Joi.string().required(),
       masterKey: Joi.string().required(),
-      deviceLogData: Joi.array().required(),
+      deviceLogData: Joi.array(),
+      deviceLogIOData: Joi.array(),
     })
     .min(1),
 };
