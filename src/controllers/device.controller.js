@@ -68,7 +68,8 @@ const syncRealDevices = catchAsync(async (req, res) => {
   if (!master) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
   }
-
+  /* eslint-disable no-plusplus */
+  /* eslint-disable no-await-in-loop */
   for (let i = 0; i < list.length; i++) {
     const deviceData = list[0];
     const existingDevice = await deviceService.getDeviceByOption({ master: master._id, deviceId: deviceData.dev_id });
@@ -87,7 +88,8 @@ const syncRealDevices = catchAsync(async (req, res) => {
       results.push(device);
     }
   }
-
+  /* eslint-enable no-plusplus */
+  /* eslint-enable no-await-in-loop */
   res.status(httpStatus.CREATED).send({ results, totalResults: results.length });
 });
 
