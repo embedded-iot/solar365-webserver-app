@@ -1,0 +1,78 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1313_5db7694d-00ab-4474-86f0-51bd186651dd","service":"real","dev_id":"1"}
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"real",
+		"list":	[{
+				"data_name":	"Total Yield",
+				"data_value":	"29101.9",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Daily Yield",
+				"data_value":	"352.6",
+				"data_unit":	"kWh"
+			}, {
+				"data_name":	"Device Status",
+				"data_value":	"Standby",
+				"data_unit":	""
+			}, {
+				"data_name":	"Parallel Ground Impedance",
+				"data_value":	"20000",
+				"data_unit":	"kΩ"
+			}, {
+				"data_name":	"Interior Temperature",
+				"data_value":	"0.0",
+				"data_unit":	"℃"
+			}, {
+				"data_name":	"Pdc",
+				"data_value":	"0.000",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Apparent Power",
+				"data_value":	"0.000",
+				"data_unit":	"kVA"
+			}, {
+				"data_name":	"Active Power",
+				"data_value":	"0.000",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Reactive Power",
+				"data_value":	"0.000",
+				"data_unit":	"kvar"
+			}, {
+				"data_name":	"PF",
+				"data_value":	"0.000",
+				"data_unit":	""
+			}, {
+				"data_name":	"Grid Frequency",
+				"data_value":	"0.00",
+				"data_unit":	"Hz"
+			}, {
+				"data_name":	"Phase A Voltage",
+				"data_value":	"0.0",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase B Voltage",
+				"data_value":	"0.0",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase C Voltage",
+				"data_value":	"0.0",
+				"data_unit":	"V"
+			}, {
+				"data_name":	"Phase A Current",
+				"data_value":	"0.0",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Phase B Current",
+				"data_value":	"0.0",
+				"data_unit":	"A"
+			}, {
+				"data_name":	"Phase C Current",
+				"data_value":	"0.0",
+				"data_unit":	"A"
+			}],
+		"count":	17
+	}
+}

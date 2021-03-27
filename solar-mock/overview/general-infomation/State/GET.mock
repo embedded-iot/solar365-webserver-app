@@ -1,0 +1,18 @@
+{"lang":"en_us","token":"1320_fb747ca3-0136-459a-80c1-83ef79838902","service":"state"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"state",
+		"total_fault":	"0",
+		"total_alarm":	"0",
+		"wireless_conn_sts":	"0",
+		"wifi_conn_sts":	"0",
+		"eth_conn_sts":	"1",
+		"eth2_conn_sts":	"0",
+		"wireless_cmd":	"170",
+		"wifi_cmd":	"170",
+		"cloud_conn_sts":	"1"
+	}
+}

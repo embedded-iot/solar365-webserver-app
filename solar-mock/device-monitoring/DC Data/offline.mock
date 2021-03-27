@@ -1,0 +1,173 @@
+send ws://192.168.1.227/ws/home/overview {"lang":"en_us","token":"1320_fb747ca3-0136-459a-80c1-83ef79838902","service":"direct","dev_id":"5"}
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"service":	"direct",
+		"list":	[{
+				"name":	"MPPT1",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT2",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT3",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT4",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT5",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT6",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT7",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT8",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"MPPT9",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 1",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 2",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 3",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 4",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 5",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 6",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 7",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 8",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 9",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 10",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 11",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 12",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 13",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 14",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 15",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 16",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 17",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}, {
+				"name":	"String 18",
+				"voltage":	"--",
+				"voltage_unit":	"V",
+				"current":	"--",
+				"current_unit":	"A"
+			}],
+		"count":	27
+	}
+}

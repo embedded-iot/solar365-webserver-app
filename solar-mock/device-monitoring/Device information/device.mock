@@ -1,0 +1,47 @@
+http://192.168.1.2/device/getInfo?time=1616857594655&page=1&limit=100&dev_id=5&token=1320_fb747ca3-0136-459a-80c1-83ef79838902&lang=en_us
+
+{
+	"result_code":	1,
+	"result_msg":	"success",
+	"result_data":	{
+		"list":	[{
+				"data_name":	"Device S/N",
+				"data_value":	"A2011185095",
+				"data_unit":	""
+			}, {
+				"data_name":	"Device Model",
+				"data_value":	"SG110CX",
+				"data_unit":	""
+			}, {
+				"data_name":	"Rated Active Power",
+				"data_value":	"100.0",
+				"data_unit":	"kW"
+			}, {
+				"data_name":	"Rated Reactive Power",
+				"data_value":	"66.0",
+				"data_unit":	"kvar"
+			}, {
+				"data_name":	"ARM Software Version",
+				"data_value":	"AMBER-S_01011.01.13",
+				"data_unit":	""
+			}, {
+				"data_name":	"MDSP Software Version",
+				"data_value":	"AMBER-S_03011.01.11",
+				"data_unit":	""
+			}, {
+				"data_name":	"SDSP Software Version",
+				"data_value":	"AMBER-S_04011.01.01",
+				"data_unit":	""
+			}, {
+				"data_name":	"PVD Software Version",
+				"data_value":	"AMBER-S_05011.01.07",
+				"data_unit":	""
+			}, {
+				"data_name":	"CPLD Software Version",
+				"data_value":	"AMBER-S_08011.01.01",
+				"data_unit":	""
+			}],
+		"count":	9
+	}
+}
+
