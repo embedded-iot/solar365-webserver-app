@@ -3,6 +3,24 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { faultService, masterService } = require('../services');
+const faultMapper = require('../i18n/faultMapper');
+const i18n = require('../i18n');
+
+const transformFault = (faultObj) => {
+  // prettier-ignore
+  const selectedFaultMapper = faultMapper.find(
+    (mapper) => faultObj.faultData && mapper.fault_code === faultObj.faultData.fault_code
+  );
+  return {
+    ...faultObj,
+    faultData: {
+      ...faultObj.faultData,
+      fault_name_i18n: i18n[selectedFaultMapper.fault_name_i18nKey.toString()],
+      fault_reason_i18n: i18n[selectedFaultMapper.fault_reason_i18nKey.toString()],
+      fault_suggest_i18n: i18n[selectedFaultMapper.fault_suggest_i18nKey.toString()],
+    },
+  };
+};
 
 const createFault = catchAsync(async (req, res) => {
   const { masterKey, ...body } = req.body;
@@ -16,7 +34,7 @@ const createFault = catchAsync(async (req, res) => {
     master: master._id,
   };
   const fault = await faultService.createFault(faultBody);
-  res.status(httpStatus.CREATED).send(fault);
+  res.status(httpStatus.CREATED).send(transformFault(fault.toJSON()));
 });
 
 const getFaults = catchAsync(async (req, res) => {
@@ -39,6 +57,7 @@ const getFaults = catchAsync(async (req, res) => {
   }
 
   const result = await faultService.queryFaults(filter, options);
+  result.results = result.results.map((fault) => transformFault(fault.toJSON()));
   res.send(result);
 });
 
@@ -47,7 +66,7 @@ const getFault = catchAsync(async (req, res) => {
   if (!fault) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Fault not found');
   }
-  res.send(fault);
+  res.send(transformFault(fault.toJSON()));
 });
 
 const updateFault = catchAsync(async (req, res) => {
@@ -57,7 +76,7 @@ const updateFault = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
   }
   const fault = await faultService.updateFaultById(req.params.faultId, body);
-  res.send(fault);
+  res.send(transformFault(fault.toJSON()));
 });
 
 const deleteFault = catchAsync(async (req, res) => {
