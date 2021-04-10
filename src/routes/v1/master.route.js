@@ -12,6 +12,11 @@ router
   .get(auth(), validate(masterValidation.getMasters), masterController.getMasters);
 
 router
+  .route('/:masterKey/settings')
+  .get(validate(masterValidation.getMasterSettings), masterController.getMasterSettings)
+  .patch(auth('manageMasters'), validate(masterValidation.updateMasterSettings), masterController.updateMasterSettings);
+
+router
   .route('/:masterId')
   .get(auth(), validate(masterValidation.getMaster), masterController.getMaster)
   .patch(auth(), validate(masterValidation.updateMaster), masterController.updateMaster)
@@ -227,6 +232,88 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /masters/{masterKey}/settings:
+ *    get:
+ *      summary: Get a master settings
+ *      description: Get master settings by Master Key
+ *      tags: [Masters]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: masterKey
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Master Key
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 example: {
+ *                   intervalRefresh: 120000,
+ *                   price: 2000
+ *                 }
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ *
+ *    patch:
+ *      summary: Update a master settings
+ *      description: Update master by Master Key
+ *      tags: [Masters]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: masterKey
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Master Key
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - settings
+ *              properties:
+ *                settings:
+ *                  type: object
+ *                  description: settings object
+ *              example:
+ *                settings: {
+ *                  intervalRefresh: 12000,
+ *                  price: 2000
+ *                }
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 example: {
+ *                   intervalRefresh: 120000,
+ *                   price: 2000
+ *                 }
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

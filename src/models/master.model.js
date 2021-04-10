@@ -24,6 +24,9 @@ const masterSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    settings: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

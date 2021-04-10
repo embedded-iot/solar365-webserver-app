@@ -45,10 +45,29 @@ const deleteMaster = {
   }),
 };
 
+const getMasterSettings = {
+  params: Joi.object().keys({
+    masterKey: Joi.string().required(),
+  }),
+};
+
+const updateMasterSettings = {
+  params: Joi.object().keys({
+    masterKey: Joi.string().required(),
+  }),
+  body: Joi.object()
+    .keys({
+      settings: Joi.object().required(),
+    })
+    .min(1),
+};
+
 module.exports = {
   createMaster,
   getMasters,
   getMaster,
   updateMaster,
   deleteMaster,
+  getMasterSettings,
+  updateMasterSettings,
 };

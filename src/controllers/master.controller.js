@@ -4,6 +4,11 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { masterService, deviceService } = require('../services');
 
+const defaultSettings = {
+  intervalRefresh: 12000,
+  price: 2000,
+};
+
 const transformMaster = async (master) => {
   const devicesCount = await deviceService.getDevicesCount({ master: master.id });
   return {
@@ -76,10 +81,39 @@ const deleteMaster = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getMasterSettings = catchAsync(async (req, res) => {
+  const { masterKey } = req.params;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const settings = {
+    ...defaultSettings,
+    ...master.settings,
+  };
+  res.send(settings);
+});
+
+const updateMasterSettings = catchAsync(async (req, res) => {
+  const { masterKey } = req.params;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  master.settings = {
+    ...defaultSettings,
+    ...req.body.settings,
+  };
+  master.save();
+  res.send();
+});
+
 module.exports = {
   createMaster,
   getMasters,
   getMaster,
   updateMaster,
   deleteMaster,
+  getMasterSettings,
+  updateMasterSettings,
 };
