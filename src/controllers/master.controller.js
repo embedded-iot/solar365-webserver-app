@@ -2,7 +2,15 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { masterService } = require('../services');
+const { masterService, deviceService } = require('../services');
+
+const transformMaster = async (master) => {
+  const devicesCount = await deviceService.getDevicesCount({ master: master.id });
+  return {
+    ...master,
+    devicesCount,
+  };
+};
 
 const createMaster = catchAsync(async (req, res) => {
   const masterBody = {
@@ -21,6 +29,15 @@ const getMasters = catchAsync(async (req, res) => {
   };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await masterService.queryMasters(filterByUserReq, options);
+  const results = [];
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < result.results.length; index++) {
+    const master = result.results[index];
+    // eslint-disable-next-line no-await-in-loop
+    const transformedMaster = await transformMaster(master.toJSON());
+    results.push(transformedMaster);
+  }
+  result.results = results;
   res.send(result);
 });
 
@@ -33,7 +50,8 @@ const getMaster = catchAsync(async (req, res) => {
   if (!master) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
   }
-  res.send(master);
+  const transformedMaster = await transformMaster(master.toJSON());
+  res.send(transformedMaster);
 });
 
 const updateMaster = catchAsync(async (req, res) => {

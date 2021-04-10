@@ -94,6 +94,15 @@ const deleteDeviceById = async (deviceId) => {
   return device;
 };
 
+/**
+ * Get devices count by option
+ * @param {Object} option
+ * @returns {Number}
+ */
+const getDevicesCount = async (option) => {
+  return Device.countDocuments(option);
+};
+
 module.exports = {
   createDevice,
   queryDevices,
@@ -102,4 +111,5 @@ module.exports = {
   getDeviceByName,
   updateDeviceById,
   deleteDeviceById,
+  getDevicesCount,
 };
