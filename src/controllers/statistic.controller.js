@@ -19,6 +19,29 @@ const createStatistic = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(statistic);
 });
 
+const transformStatistic = (statistic = {}) => {
+  if (statistic.statisticData && statistic.statisticData.length === 3) {
+    const runTimeStatistics = statistic.statisticData[2];
+    runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
+      let deviceStatus = '';
+      if (deviceStatistic.dev_state === '65534') {
+        deviceStatus = 'Offline';
+      } else if (deviceStatistic.dev_state === '5120') {
+        deviceStatus = 'Standby';
+      } else if (deviceStatistic.dev_state === '0' && deviceStatistic.curr_power > 0) {
+        deviceStatus = 'Run';
+      } else {
+        deviceStatus = 'Shutdown';
+      }
+      return {
+        ...deviceStatistic,
+        deviceStatus,
+      };
+    });
+  }
+  return statistic;
+};
+
 const getStatistics = catchAsync(async (req, res) => {
   const filter = {};
   const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
@@ -39,6 +62,7 @@ const getStatistics = catchAsync(async (req, res) => {
   }
 
   const result = await statisticService.queryStatistics(filter, options);
+  result.results = result.results.map((statistic) => transformStatistic(statistic));
   res.send(result);
 });
 
@@ -47,7 +71,7 @@ const getStatistic = catchAsync(async (req, res) => {
   if (!statistic) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
   }
-  res.send(statistic);
+  res.send(transformStatistic(statistic.toJSON()));
 });
 
 const updateStatistic = catchAsync(async (req, res) => {
@@ -81,7 +105,7 @@ const getLatestStatistic = catchAsync(async (req, res) => {
   if (!statistic) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
   }
-  res.send(statistic);
+  res.send(transformStatistic(statistic.toJSON()));
 });
 
 module.exports = {
