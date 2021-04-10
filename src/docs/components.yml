@@ -72,9 +72,12 @@ components:
           type: string
         deviceLogData:
           type: array
+        deviceLogIOData:
+          type: array
       example:
         id: 45bac534954b54139806c112
-        deviceLogData: [{
+        deviceLogData: [
+          {
           "data_name": "Nominal Power",
           "data_value": "--",
           "data_unit": ""
@@ -318,7 +321,197 @@ components:
           "data_name": "Alarm information 16",
           "data_value": "--",
           "data_unit": ""
-        } ]
+        }]
+        deviceLogIOData: [
+        {
+          "name": "MPPT1",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "17.8",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT2",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "16.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT3",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "16.4",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT4",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "18.2",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT5",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "16.5",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT6",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "16.4",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT7",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "18.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT8",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "16.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT9",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "16.1",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 1",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "9.07",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 2",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "8.65",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 3",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "8.27",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 4",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "8.07",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 5",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "8.48",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 6",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "8.16",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 7",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "9.26",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 8",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "8.89",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 9",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "8.37",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 10",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "8.10",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 11",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "8.06",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 12",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "8.15",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 13",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "9.36",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 14",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "9.08",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 15",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "8.11",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 16",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "8.21",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 17",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "8.20",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 18",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "8.05",
+          "current_unit": "A"
+        }]
     Fault:
       type: object
       properties:

@@ -54,8 +54,11 @@ module.exports = router;
  *                - masterKey
  *                - deviceId
  *                - deviceLogData
+ *                - deviceLogIOData
  *              properties:
  *                deviceLogData:
+ *                   type: array
+ *                deviceLogIOData:
  *                   type: array
  *              example:
  *                masterKey: Master key
