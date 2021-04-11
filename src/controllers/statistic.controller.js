@@ -2,7 +2,33 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { statisticService, masterService } = require('../services');
+const { statisticService, masterService, deviceService } = require('../services');
+
+const transformStatisticBody = async (statistic = {}) => {
+  if (statistic.statisticData && statistic.statisticData.length === 3) {
+    const runTimeStatistics = statistic.statisticData[2];
+    const devices = await deviceService.queryDevices({}, { limit: 100 });
+    runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
+      let deviceStatus = '';
+      if (deviceStatistic.dev_state === '65534') {
+        deviceStatus = 'Offline';
+      } else if (deviceStatistic.dev_state === '5120') {
+        deviceStatus = 'Standby';
+      } else if (deviceStatistic.dev_state === '0' && deviceStatistic.curr_power > 0) {
+        deviceStatus = 'Run';
+      } else {
+        deviceStatus = 'Shutdown';
+      }
+      const selectedDevice = devices.results.find((device) => device.deviceData.dev_sn === deviceStatistic.deviceStatistic);
+      return {
+        ...deviceStatistic,
+        deviceStatus,
+        dev_id: selectedDevice.dev_id,
+      };
+    });
+  }
+  return statistic;
+};
 
 const createStatistic = catchAsync(async (req, res) => {
   const { masterKey, ...body } = req.body;
@@ -15,7 +41,8 @@ const createStatistic = catchAsync(async (req, res) => {
     ...body,
     master: master._id,
   };
-  const statistic = await statisticService.createStatistic(statisticBody);
+  const transfromedStatisticBody = await transformStatisticBody(statisticBody);
+  const statistic = await statisticService.createStatistic(transfromedStatisticBody);
   res.status(httpStatus.CREATED).send(statistic);
 });
 
