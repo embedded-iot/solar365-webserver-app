@@ -7,7 +7,7 @@ const { statisticService, masterService, deviceService } = require('../services'
 const transformStatisticBody = async (statistic = {}) => {
   if (statistic.statisticData && statistic.statisticData.length === 3) {
     const runTimeStatistics = statistic.statisticData[2];
-    const devices = await deviceService.queryDevices({}, { limit: 100 });
+    const resultDevices = await deviceService.queryDevices({}, { limit: 100 });
     runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
       let deviceStatus = '';
       if (deviceStatistic.dev_state === '65534') {
@@ -19,11 +19,11 @@ const transformStatisticBody = async (statistic = {}) => {
       } else {
         deviceStatus = 'Shutdown';
       }
-      const selectedDevice = devices.results.find((device) => device.deviceData.dev_sn === deviceStatistic.deviceStatistic);
+      const selectedDevice = resultDevices.results.find((device) => device.deviceData.dev_name === deviceStatistic.dev_name);
       return {
         ...deviceStatistic,
         deviceStatus,
-        dev_id: selectedDevice.dev_id,
+        dev_id: (selectedDevice && selectedDevice.deviceData && selectedDevice.deviceData.dev_id) || '',
       };
     });
   }
@@ -41,33 +41,10 @@ const createStatistic = catchAsync(async (req, res) => {
     ...body,
     master: master._id,
   };
-  const transfromedStatisticBody = await transformStatisticBody(statisticBody);
-  const statistic = await statisticService.createStatistic(transfromedStatisticBody);
+  const transformedStatisticBody = await transformStatisticBody(statisticBody);
+  const statistic = await statisticService.createStatistic(transformedStatisticBody);
   res.status(httpStatus.CREATED).send(statistic);
 });
-
-const transformStatistic = (statistic = {}) => {
-  if (statistic.statisticData && statistic.statisticData.length === 3) {
-    const runTimeStatistics = statistic.statisticData[2];
-    runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
-      let deviceStatus = '';
-      if (deviceStatistic.dev_state === '65534') {
-        deviceStatus = 'Offline';
-      } else if (deviceStatistic.dev_state === '5120') {
-        deviceStatus = 'Standby';
-      } else if (deviceStatistic.dev_state === '0' && deviceStatistic.curr_power > 0) {
-        deviceStatus = 'Run';
-      } else {
-        deviceStatus = 'Shutdown';
-      }
-      return {
-        ...deviceStatistic,
-        deviceStatus,
-      };
-    });
-  }
-  return statistic;
-};
 
 const getStatistics = catchAsync(async (req, res) => {
   const filter = {};
@@ -89,7 +66,6 @@ const getStatistics = catchAsync(async (req, res) => {
   }
 
   const result = await statisticService.queryStatistics(filter, options);
-  result.results = result.results.map((statistic) => transformStatistic(statistic));
   res.send(result);
 });
 
@@ -98,7 +74,7 @@ const getStatistic = catchAsync(async (req, res) => {
   if (!statistic) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
   }
-  res.send(transformStatistic(statistic.toJSON()));
+  res.send(statistic);
 });
 
 const updateStatistic = catchAsync(async (req, res) => {
@@ -132,7 +108,7 @@ const getLatestStatistic = catchAsync(async (req, res) => {
   if (!statistic) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
   }
-  res.send(transformStatistic(statistic.toJSON()));
+  res.send(statistic);
 });
 
 module.exports = {
