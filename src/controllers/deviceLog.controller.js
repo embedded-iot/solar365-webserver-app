@@ -138,7 +138,7 @@ const getStatisticDeviceLogs = catchAsync(async (req, res) => {
   result.results = result.results.map((deviceLog) => {
     const filteredDeviceLog = deviceLog.deviceLogData.find((deviceLogData) => deviceLogData.data_name === dataName) || {};
     const filteredDeviceLogIO =
-      (Object.keys(filteredDeviceLog).length &&
+      (!Object.keys(filteredDeviceLog).length &&
         deviceLog.deviceLogIOData.find((deviceLogIOData) => deviceLogIOData.name === dataName)) ||
       {};
     return {
