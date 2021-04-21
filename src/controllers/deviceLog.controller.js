@@ -136,10 +136,15 @@ const getStatisticDeviceLogs = catchAsync(async (req, res) => {
 
   const result = await deviceLogService.queryDeviceLogs(filter, options);
   result.results = result.results.map((deviceLog) => {
-    const filteredDeviceLog = deviceLog.deviceLogData.find((deviceLogData) => deviceLogData.data_name === dataName);
+    const filteredDeviceLog = deviceLog.deviceLogData.find((deviceLogData) => deviceLogData.data_name === dataName) || {};
+    const filteredDeviceLogIO =
+      (Object.keys(filteredDeviceLog).length &&
+        deviceLog.deviceLogIOData.find((deviceLogIOData) => deviceLogIOData.name === dataName)) ||
+      {};
     return {
       date: deviceLog.updatedAt,
-      value: (filteredDeviceLog && filteredDeviceLog.data_value) || '',
+      ...filteredDeviceLog,
+      ...filteredDeviceLogIO,
     };
   });
   result.dataName = dataName;
