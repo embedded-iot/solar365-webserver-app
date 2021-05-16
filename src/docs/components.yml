@@ -517,10 +517,22 @@ components:
       properties:
         id:
           type: string
+        category:
+          type: string
+        type:
+          type: string
+        event:
+          type: string
+        description:
+          type: string
         faultData:
           type: object
       example:
         id: 45bac534954b54139806c112
+        category: LoggerFault
+        type: Error
+        event: Devices
+        description: This is description
         faultData: {}
     Statistic:
       type: object

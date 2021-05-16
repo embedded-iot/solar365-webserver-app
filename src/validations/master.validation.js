@@ -62,6 +62,19 @@ const updateMasterSettings = {
     .min(1),
 };
 
+const getMasterStatus = {
+  params: Joi.object().keys({
+    masterKey: Joi.string().required(),
+  }),
+};
+
+const getDevicesStatus = {
+  params: Joi.object().keys({
+    masterKey: Joi.string().required(),
+    deviceId: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createMaster,
   getMasters,
@@ -70,4 +83,6 @@ module.exports = {
   deleteMaster,
   getMasterSettings,
   updateMasterSettings,
+  getMasterStatus,
+  getDevicesStatus,
 };

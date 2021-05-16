@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { faultService, masterService } = require('../services');
+const { faultService, masterService, deviceService } = require('../services');
 const faultMapper = require('../i18n/faultMapper');
 const i18n = require('../i18n');
 
@@ -10,31 +10,36 @@ const transformFault = (faultObj) => {
   // prettier-ignore
   const selectedFaultMapper = faultMapper.find(
     (mapper) => faultObj.faultData && mapper.fault_code === faultObj.faultData.fault_code
-  );
+  ) || {};
   return {
     ...faultObj,
     faultData: {
       ...faultObj.faultData,
-      fault_name_i18n: i18n[selectedFaultMapper.fault_name_i18nKey.toString()],
-      fault_reason_i18n: i18n[selectedFaultMapper.fault_reason_i18nKey.toString()],
-      fault_suggest_i18n: i18n[selectedFaultMapper.fault_suggest_i18nKey.toString()],
+      fault_name_i18n: i18n[selectedFaultMapper.fault_name_i18nKey],
+      fault_reason_i18n: i18n[selectedFaultMapper.fault_reason_i18nKey],
+      fault_suggest_i18n: i18n[selectedFaultMapper.fault_suggest_i18nKey],
     },
   };
 };
 
 const createFault = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
+  const { masterKey, deviceId, ...body } = req.body;
   const master = await masterService.getMasterByOption({ masterKey });
   if (!master) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  if (!device) {
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
   }
 
   const faultBody = {
     ...body,
     master: master._id,
+    device: device._id,
   };
   const fault = await faultService.createFault(faultBody);
-  res.status(httpStatus.CREATED).send(transformFault(fault.toJSON()));
+  res.status(httpStatus.CREATED).send(fault);
 });
 
 const getFaults = catchAsync(async (req, res) => {
@@ -70,13 +75,22 @@ const getFault = catchAsync(async (req, res) => {
 });
 
 const updateFault = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
+  const { masterKey, deviceId, ...body } = req.body;
   const master = await masterService.getMasterByOption({ masterKey });
   if (!master) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
   }
-  const fault = await faultService.updateFaultById(req.params.faultId, body);
-  res.send(transformFault(fault.toJSON()));
+  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  if (!device) {
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+  }
+  const faultBody = {
+    ...body,
+    master: master._id,
+    device: device._id,
+  };
+  const fault = await faultService.updateFaultById(req.params.faultId, faultBody);
+  res.send(fault);
 });
 
 const deleteFault = catchAsync(async (req, res) => {

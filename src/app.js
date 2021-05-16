@@ -38,8 +38,8 @@ app.use(mongoSanitize());
 app.use(compression());
 
 const allowlist = [
-  'http://connector.com.vn',
-  'https://connector.com.vn',
+  'http://solar365.com.vn',
+  'https://solar365.com.vn',
   'http://solar365.herokuapp.com',
   'https://solar365.herokuapp.com',
 ];

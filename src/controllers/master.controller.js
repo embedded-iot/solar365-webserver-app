@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { masterService, deviceService } = require('../services');
+const { masterService, deviceService, statisticService, faultService } = require('../services');
 
 const defaultSettings = {
   intervalRefresh: 12000,
@@ -108,6 +108,60 @@ const updateMasterSettings = catchAsync(async (req, res) => {
   res.send();
 });
 
+const getMasterStatus = catchAsync(async (req, res) => {
+  const { masterKey } = req.params;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const latestStatisticResponse = await statisticService.getLatestStatistic({ master: master._id });
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  const latestFaultsResponse = await faultService.getLatestFaults({
+    master: master._id,
+    updatedAt: {
+      $gt: yesterday,
+      $lt: today,
+    },
+  });
+  const result = {
+    statisticData: latestStatisticResponse.statisticData,
+    faultData: latestFaultsResponse.results,
+  };
+  res.send(result);
+});
+
+const getDevicesStatus = catchAsync(async (req, res) => {
+  const { masterKey, deviceId } = req.params;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  const device = await deviceService.getDeviceByOption({
+    _id: deviceId,
+    master: master._id,
+  });
+  if (!device) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
+  }
+
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  const latestFaultsResponse = await faultService.getLatestFaults({
+    device: device._id,
+    updatedAt: {
+      $gt: yesterday,
+      $lt: today,
+    },
+  });
+  const result = {
+    faultData: latestFaultsResponse.results,
+  };
+  res.send(result);
+});
+
 module.exports = {
   createMaster,
   getMasters,
@@ -116,4 +170,6 @@ module.exports = {
   deleteMaster,
   getMasterSettings,
   updateMasterSettings,
+  getMasterStatus,
+  getDevicesStatus,
 };

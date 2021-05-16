@@ -6,6 +6,10 @@ const swaggerDef = {
   info: {
     title: 'Solar 365 API documentation',
     description:
+      '-- New features in V7 doc<br/>' +
+      "+ Update model <strong>Fault</strong> with new fields <strong>category ('LoggerFault', 'Solar365Fault'), type ('Error', 'Warning'), event ('Devices', 'MPPT', 'String'), description</strong><br/>" +
+      '+ Add new router <strong>/masters/master-status/:masterKey</strong>: Get master status<br/>' +
+      '+ Add new router <strong>/masters/master-status/:masterKey/:deviceId</strong>: Get device status<br/><br/>' +
       '-- New features in V6 doc<br/>' +
       '+ Add new router <strong>/masters/:masterKey/settings</strong>: Get/Update master settings<br/>' +
       '+ Add the field <strong>deviceCount</strong> in <strong>Master</strong><br/>' +

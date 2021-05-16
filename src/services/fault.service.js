@@ -25,7 +25,7 @@ const createFault = async (faultBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryFaults = async (filter, options) => {
-  const faults = await Fault.paginate(filter, { ...options, populate: 'master' });
+  const faults = await Fault.paginate(filter, { ...options, populate: 'master,device' });
   return faults;
 };
 
@@ -35,7 +35,7 @@ const queryFaults = async (filter, options) => {
  * @returns {Promise<Fault>}
  */
 const getFaultById = async (id) => {
-  return Fault.findById(id).populate('master').exec();
+  return Fault.findById(id).populate('master').populate('device').exec();
 };
 
 /**
@@ -68,10 +68,21 @@ const deleteFaultById = async (faultId) => {
   return fault;
 };
 
+/**
+ * Get latest statistics
+ * @param {Object} filter
+ * @returns {Promise<Statistic>}
+ */
+const getLatestFaults = async (filter = {}) => {
+  const result = await queryFaults(filter, { sortBy: 'updatedAt:desc', limit: 100 });
+  return result;
+};
+
 module.exports = {
   createFault,
   queryFaults,
   getFaultById,
   updateFaultById,
   deleteFaultById,
+  getLatestFaults,
 };

@@ -103,11 +103,7 @@ const getLatestStatistic = catchAsync(async (req, res) => {
     filter.master = master._id;
   }
 
-  const result = await statisticService.queryStatistics(filter, { sortBy: 'updatedAt:desc', limit: 1 });
-  const statistic = result.results.length ? result.results[0] : null;
-  if (!statistic) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Statistic not found');
-  }
+  const statistic = await statisticService.getLatestStatistic(filter);
   res.send(statistic);
 });
 

@@ -44,12 +44,32 @@ module.exports = router;
  *              type: object
  *              required:
  *                - masterKey
- *                - faultData
+ *                - deviceId
+ *                - category
+ *                - type
+ *                - event
  *              properties:
+ *                masterKey:
+ *                   type: string
+ *                deviceId:
+ *                   type: string
+ *                category:
+ *                   type: string
+ *                type:
+ *                   type: string
+ *                event:
+ *                   type: string
+ *                description:
+ *                   type: string
  *                faultData:
  *                   type: object
  *              example:
  *                masterKey: Master key
+ *                deviceId: '1'
+ *                category: LoggerFault
+ *                type: Error
+ *                event: Devices
+ *                description: This is description
  *                faultData: {}
  *      responses:
  *        "201":
@@ -179,12 +199,30 @@ module.exports = router;
  *              type: object
  *              required:
  *                - masterKey
- *                - faultData
+ *                - deviceId
+ *                - category
+ *                - type
+ *                - event
  *              properties:
+ *                masterKey:
+ *                   type: string
+ *                deviceId:
+ *                   type: string
+ *                category:
+ *                   type: string
+ *                type:
+ *                   type: string
+ *                description:
+ *                   type: string
  *                faultData:
  *                   type: object
  *              example:
  *                masterKey: Master key
+ *                deviceId: '1'
+ *                category: LoggerFault
+ *                type: Error
+ *                event: Devices
+ *                description: This is description
  *                faultData: {}
  *      responses:
  *        "200":

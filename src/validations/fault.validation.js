@@ -4,7 +4,12 @@ const { objectId } = require('./custom.validation');
 const createFault = {
   body: Joi.object().keys({
     masterKey: Joi.string().required(),
-    faultData: Joi.object().required(),
+    deviceId: Joi.string().required(),
+    category: Joi.string().required(),
+    type: Joi.string().required(),
+    event: Joi.string().required(),
+    description: Joi.string(),
+    faultData: Joi.object(),
   }),
 };
 
@@ -32,6 +37,11 @@ const updateFault = {
   body: Joi.object()
     .keys({
       masterKey: Joi.string().required(),
+      deviceId: Joi.string().required(),
+      category: Joi.string().required(),
+      type: Joi.string().required(),
+      event: Joi.string().required(),
+      description: Joi.string(),
       faultData: Joi.object().required(),
     })
     .min(1),

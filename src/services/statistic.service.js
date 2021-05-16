@@ -68,10 +68,22 @@ const deleteStatisticById = async (statisticId) => {
   return statistic;
 };
 
+/**
+ * Get latest statistic
+ * @param {Object} filter
+ * @returns {Promise<Statistic>}
+ */
+const getLatestStatistic = async (filter = {}) => {
+  const result = await queryStatistics(filter, { sortBy: 'updatedAt:desc', limit: 1 });
+  const statistic = result.results.length ? result.results[0] : {};
+  return statistic;
+};
+
 module.exports = {
   createStatistic,
   queryStatistics,
   getStatisticById,
   updateStatisticById,
   deleteStatisticById,
+  getLatestStatistic,
 };

@@ -11,6 +11,12 @@ router
   .post(auth(), validate(masterValidation.createMaster), masterController.createMaster)
   .get(auth(), validate(masterValidation.getMasters), masterController.getMasters);
 
+router.route('/master-status/:masterKey').get(validate(masterValidation.getMasterStatus), masterController.getMasterStatus);
+
+router
+  .route('/master-status/:masterKey/:deviceId')
+  .get(validate(masterValidation.getDevicesStatus), masterController.getDevicesStatus);
+
 router
   .route('/:masterKey/settings')
   .get(validate(masterValidation.getMasterSettings), masterController.getMasterSettings)
@@ -313,6 +319,81 @@ module.exports = router;
  *                 example: {
  *                   intervalRefresh: 120000,
  *                   price: 2000
+ *                 }
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /masters/master-status/{masterKey}:
+ *    get:
+ *      summary: Get master status
+ *      description: Get master status by Master Key
+ *      tags: [Masters]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: masterKey
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Master Key
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 example: {
+ *                   statisticData: [],
+ *                   faultData: []
+ *                 }
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /masters/master-status/{masterKey}/{deviceId}:
+ *    get:
+ *      summary: Get device status
+ *      description: Get device status by Master Key and Device ID
+ *      tags: [Masters]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: masterKey
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Master Key
+ *        - in: path
+ *          name: deviceId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Device ID
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 example: {
+ *                   faultData: []
  *                 }
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
