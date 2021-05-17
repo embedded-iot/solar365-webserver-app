@@ -133,7 +133,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
   const latestStatisticResponse = await statisticService.getLatestStatistic({ master: master._id });
   const today = new Date();
   const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
+  yesterday.setDate(today.getDate() - 10);
   const latestFaultsResponse = await faultService.getLatestFaults({
     master: master._id,
     updatedAt: {
@@ -164,7 +164,7 @@ const getDevicesStatus = catchAsync(async (req, res) => {
 
   const today = new Date();
   const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
+  yesterday.setDate(today.getDate() - 10);
   const latestFaultsResponse = await faultService.getLatestFaults({
     device: device._id,
     updatedAt: {
