@@ -108,12 +108,28 @@ const updateMasterSettings = catchAsync(async (req, res) => {
   res.send();
 });
 
+const transformStatisticBody = async (statistic = {}) => {
+  if (statistic.statisticData && statistic.statisticData.length === 3) {
+    const runTimeStatistics = statistic.statisticData[2];
+    const resultDevices = await deviceService.queryDevices({}, { limit: 100 });
+    runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
+      const selectedDevice = resultDevices.results.find((device) => device.deviceData.dev_id === deviceStatistic.dev_id);
+      return {
+        ...deviceStatistic,
+        deviceId: (selectedDevice && selectedDevice.id) || null,
+      };
+    });
+  }
+  return statistic;
+};
+
 const getMasterStatus = catchAsync(async (req, res) => {
   const { masterKey } = req.params;
   const master = await masterService.getMasterByOption({ masterKey });
   if (!master) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
   }
+
   const latestStatisticResponse = await statisticService.getLatestStatistic({ master: master._id });
   const today = new Date();
   const yesterday = new Date();
@@ -126,7 +142,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
     },
   });
   const result = {
-    statisticData: latestStatisticResponse.statisticData,
+    statisticData: (await transformStatisticBody(latestStatisticResponse)).statisticData,
     faultData: latestFaultsResponse.results,
   };
   res.send(result);
