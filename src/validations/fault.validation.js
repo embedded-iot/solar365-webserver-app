@@ -8,6 +8,7 @@ const createFault = {
     category: Joi.string().required(),
     type: Joi.string().required(),
     event: Joi.string().required(),
+    position: Joi.string().required(),
     description: Joi.string(),
     faultData: Joi.object(),
   }),
@@ -41,6 +42,7 @@ const updateFault = {
       category: Joi.string().required(),
       type: Joi.string().required(),
       event: Joi.string().required(),
+      position: Joi.string().required(),
       description: Joi.string(),
       faultData: Joi.object().required(),
     })

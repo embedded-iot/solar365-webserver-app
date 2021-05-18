@@ -48,6 +48,7 @@ module.exports = router;
  *                - category
  *                - type
  *                - event
+ *                - position
  *              properties:
  *                masterKey:
  *                   type: string
@@ -58,6 +59,8 @@ module.exports = router;
  *                type:
  *                   type: string
  *                event:
+ *                   type: string
+ *                position:
  *                   type: string
  *                description:
  *                   type: string
@@ -203,6 +206,7 @@ module.exports = router;
  *                - category
  *                - type
  *                - event
+ *                - position
  *              properties:
  *                masterKey:
  *                   type: string
@@ -211,6 +215,8 @@ module.exports = router;
  *                category:
  *                   type: string
  *                type:
+ *                   type: string
+ *                position:
  *                   type: string
  *                description:
  *                   type: string

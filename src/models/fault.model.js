@@ -32,6 +32,10 @@ const faultSchema = mongoose.Schema(
       enum: events,
       required: true,
     },
+    position: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
     },

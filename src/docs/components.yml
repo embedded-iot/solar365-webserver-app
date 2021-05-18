@@ -523,6 +523,8 @@ components:
           type: string
         event:
           type: string
+        position:
+          type: string
         description:
           type: string
         faultData:
@@ -532,6 +534,7 @@ components:
         category: LoggerFault
         type: Error
         event: Devices
+        position: SG110CX(COM2-023)
         description: This is description
         faultData: {}
     Statistic:

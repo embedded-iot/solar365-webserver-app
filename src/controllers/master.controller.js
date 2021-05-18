@@ -173,7 +173,15 @@ const getDevicesStatus = catchAsync(async (req, res) => {
     },
   });
   const result = {
-    faultData: latestFaultsResponse.results,
+    from: yesterday,
+    to: today,
+    faultData: latestFaultsResponse.results.map((item) => {
+      // eslint-disable-next-line no-shadow
+      const { master, device, ...fault } = item.toJSON();
+      return {
+        ...fault,
+      };
+    }),
   };
   res.send(result);
 });
