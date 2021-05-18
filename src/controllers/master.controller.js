@@ -141,9 +141,37 @@ const getMasterStatus = catchAsync(async (req, res) => {
       $lt: today,
     },
   });
+  const faultList = latestFaultsResponse.results.map((item) => {
+    // eslint-disable-next-line no-shadow
+    const { master, device, ...fault } = item.toJSON();
+    return {
+      ...fault,
+      deviceId: (device && device.id) || '',
+    };
+  });
+
+  const faultData = [];
+  const existingDeviceIDs = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < faultList.length; i++) {
+    const fault = faultList[i];
+    const existID = existingDeviceIDs.indexOf(fault.deviceId);
+    if (existID === -1) {
+      faultData.push({
+        deviceId: fault.deviceId,
+        faults: [fault],
+      });
+      existingDeviceIDs.push(fault.deviceId);
+    } else {
+      faultData[existID].faults.push(fault);
+    }
+  }
+
   const result = {
+    from: yesterday,
+    to: today,
     statisticData: (await transformStatisticBody(latestStatisticResponse)).statisticData,
-    faultData: latestFaultsResponse.results,
+    faultData,
   };
   res.send(result);
 });
