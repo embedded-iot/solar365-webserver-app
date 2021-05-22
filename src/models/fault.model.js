@@ -33,7 +33,7 @@ const faultSchema = mongoose.Schema(
       required: true,
     },
     position: {
-      type: String,
+      type: Number,
       required: true,
     },
     description: {

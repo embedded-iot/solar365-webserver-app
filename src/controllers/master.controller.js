@@ -108,15 +108,18 @@ const updateMasterSettings = catchAsync(async (req, res) => {
   res.send();
 });
 
-const transformStatisticBody = async (statistic = {}) => {
+const transformStatisticBodyWithFaultData = async (statistic = {}, faultData = []) => {
   if (statistic.statisticData && statistic.statisticData.length === 3) {
     const runTimeStatistics = statistic.statisticData[2];
     const resultDevices = await deviceService.queryDevices({}, { limit: 100 });
     runTimeStatistics.list = runTimeStatistics.list.map((deviceStatistic) => {
       const selectedDevice = resultDevices.results.find((device) => device.deviceData.dev_id === deviceStatistic.dev_id);
+      const deviceId = (selectedDevice && selectedDevice.id) || null;
+      const faultObj = faultData.find((fault) => fault.deviceId === deviceId);
       return {
         ...deviceStatistic,
-        deviceId: (selectedDevice && selectedDevice.id) || null,
+        deviceId,
+        faults: (faultObj && faultObj.faults) || [],
       };
     });
   }
@@ -170,8 +173,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
   const result = {
     from: yesterday,
     to: today,
-    statisticData: (await transformStatisticBody(latestStatisticResponse)).statisticData,
-    faultData,
+    statisticData: (await transformStatisticBodyWithFaultData(latestStatisticResponse, faultData)).statisticData,
   };
   res.send(result);
 });

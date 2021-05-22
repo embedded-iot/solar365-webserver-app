@@ -61,7 +61,7 @@ module.exports = router;
  *                event:
  *                   type: string
  *                position:
- *                   type: string
+ *                   type: number
  *                description:
  *                   type: string
  *                faultData:
@@ -217,7 +217,7 @@ module.exports = router;
  *                type:
  *                   type: string
  *                position:
- *                   type: string
+ *                   type: number
  *                description:
  *                   type: string
  *                faultData:
