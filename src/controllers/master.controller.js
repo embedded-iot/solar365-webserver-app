@@ -146,7 +146,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
   });
   const faultList = latestFaultsResponse.results.map((item) => {
     // eslint-disable-next-line no-shadow
-    const { master, device, ...fault } = item.toJSON();
+    const { master, device, faultData, ...fault } = item.toJSON();
     return {
       ...fault,
       deviceId: (device && device.id) || '',
@@ -207,7 +207,7 @@ const getDevicesStatus = catchAsync(async (req, res) => {
     to: today,
     faultData: latestFaultsResponse.results.map((item) => {
       // eslint-disable-next-line no-shadow
-      const { master, device, ...fault } = item.toJSON();
+      const { master, device, faultData, ...fault } = item.toJSON();
       return {
         ...fault,
       };
