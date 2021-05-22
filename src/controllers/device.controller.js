@@ -19,14 +19,6 @@ const createDevice = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(device);
 });
 
-const transformDevice = (device = {}) => {
-  const connected = (device.deviceData && device.deviceData.init_status === device.deviceData.link_status) || false;
-  return {
-    ...device,
-    connected,
-  };
-};
-
 const getDevices = catchAsync(async (req, res) => {
   const { masterKey, ...filter } = pick(req.query, ['masterKey', 'name']);
   if (masterKey) {
@@ -38,7 +30,6 @@ const getDevices = catchAsync(async (req, res) => {
   }
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await deviceService.queryDevices(filter, options);
-  result.results = result.results.map((device) => transformDevice(device.toJSON()));
   res.send(result);
 });
 
@@ -47,7 +38,7 @@ const getDevice = catchAsync(async (req, res) => {
   if (!device) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
   }
-  res.send(transformDevice(device.toJSON()));
+  res.send(device);
 });
 
 const updateDevice = catchAsync(async (req, res) => {
