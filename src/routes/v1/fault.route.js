@@ -11,6 +11,8 @@ router
   .post(validate(faultValidation.createFault), faultController.createFault)
   .get(auth(), validate(faultValidation.getFaults), faultController.getFaults);
 
+router.route('/latest').get(auth(), validate(faultValidation.getLatestFault), faultController.getLatestFault);
+
 router
   .route('/:faultId')
   .get(auth(), validate(faultValidation.getFault), faultController.getFault)
@@ -262,6 +264,37 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /faults/latest:
+ *    get:
+ *      summary: Get latest fault
+ *      description: Get latest fault
+ *      tags: [Faults]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: masterKey
+ *          schema:
+ *            type: string
+ *          description: Master key
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/Fault'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

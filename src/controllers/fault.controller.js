@@ -3,22 +3,10 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { faultService, masterService, deviceService } = require('../services');
-const faultMapper = require('../i18n/faultMapper');
-const i18n = require('../i18n');
 
-const transformFault = (faultObj) => {
-  // prettier-ignore
-  const selectedFaultMapper = faultMapper.find(
-    (mapper) => faultObj.faultData && mapper.fault_code === faultObj.faultData.fault_code
-  ) || {};
+const transformFault = ({ master, device, faultData, ...fault }) => {
   return {
-    ...faultObj,
-    faultData: {
-      ...faultObj.faultData,
-      fault_name_i18n: i18n[selectedFaultMapper.fault_name_i18nKey],
-      fault_reason_i18n: i18n[selectedFaultMapper.fault_reason_i18nKey],
-      fault_suggest_i18n: i18n[selectedFaultMapper.fault_suggest_i18nKey],
-    },
+    ...fault,
   };
 };
 
@@ -98,10 +86,30 @@ const deleteFault = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getLatestFault = catchAsync(async (req, res) => {
+  const filter = {};
+  const { masterKey } = pick(req.query, ['masterKey']);
+  if (masterKey) {
+    const master = await masterService.getMasterByOption({ masterKey });
+    if (!master) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+    }
+    filter.master = master._id;
+  }
+
+  const result = await faultService.queryFaults(filter, { sortBy: 'updatedAt:desc', limit: 1 });
+  const fault = result.results.length ? result.results[0].toJSON() : {};
+  if (!fault) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'ActivityLog not found');
+  }
+  res.send(transformFault(fault));
+});
+
 module.exports = {
   createFault,
   getFaults,
   getFault,
   updateFault,
   deleteFault,
+  getLatestFault,
 };

@@ -55,10 +55,17 @@ const deleteFault = {
   }),
 };
 
+const getLatestFault = {
+  query: Joi.object().keys({
+    masterKey: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createFault,
   getFaults,
   getFault,
   updateFault,
   deleteFault,
+  getLatestFault,
 };
