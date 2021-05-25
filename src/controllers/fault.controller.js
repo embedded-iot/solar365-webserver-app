@@ -7,6 +7,7 @@ const { faultService, masterService, deviceService } = require('../services');
 const transformFault = ({ master, device, faultData, ...fault }) => {
   return {
     ...fault,
+    faultData,
     masterName: (master && master.name) || '',
     deviceName: (device && device.name) || '',
   };

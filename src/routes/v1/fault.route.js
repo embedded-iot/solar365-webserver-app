@@ -66,6 +66,10 @@ module.exports = router;
  *                   type: number
  *                description:
  *                   type: string
+ *                reason:
+ *                   type: string
+ *                suggest:
+ *                   type: string
  *                faultData:
  *                   type: object
  *              example:
@@ -74,7 +78,10 @@ module.exports = router;
  *                category: LoggerFault
  *                type: Error
  *                event: Devices
+ *                position: 2
  *                description: This is description
+ *                reason: This is reason
+ *                suggest: This is suggest
  *                faultData: {}
  *      responses:
  *        "201":
@@ -222,6 +229,10 @@ module.exports = router;
  *                   type: number
  *                description:
  *                   type: string
+ *                reason:
+ *                   type: string
+ *                suggest:
+ *                   type: string
  *                faultData:
  *                   type: object
  *              example:
@@ -230,7 +241,10 @@ module.exports = router;
  *                category: LoggerFault
  *                type: Error
  *                event: Devices
+ *                position: 1
  *                description: This is description
+ *                reason: This is reason
+ *                suggest: This is suggest
  *                faultData: {}
  *      responses:
  *        "200":

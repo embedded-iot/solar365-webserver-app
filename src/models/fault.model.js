@@ -39,6 +39,12 @@ const faultSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    reason: {
+      type: String,
+    },
+    suggest: {
+      type: String,
+    },
     faultData: {
       type: Object,
     },
