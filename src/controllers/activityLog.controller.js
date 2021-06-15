@@ -4,6 +4,13 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { activityLogService, masterService } = require('../services');
 
+const transformActivityLog = (activityLog) => {
+  const { master, ...log } = activityLog;
+  return {
+    ...log,
+  };
+};
+
 const createActivityLog = catchAsync(async (req, res) => {
   const { masterKey, ...body } = req.body;
   const master = await masterService.getMasterByOption({ masterKey });
@@ -23,6 +30,7 @@ const getActivityLogs = catchAsync(async (req, res) => {
   const filter = {};
   const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.sortBy = 'updatedAt:desc';
   if (masterKey) {
     const master = await masterService.getMasterByOption({ masterKey });
     if (!master) {
@@ -39,6 +47,7 @@ const getActivityLogs = catchAsync(async (req, res) => {
   }
 
   const result = await activityLogService.queryActivityLogs(filter, options);
+  result.results = result.results.map((activityLog) => transformActivityLog(activityLog.toJSON()));
   res.send(result);
 });
 

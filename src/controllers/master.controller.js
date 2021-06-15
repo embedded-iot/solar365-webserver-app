@@ -2,7 +2,8 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { masterService, deviceService, statisticService, faultService } = require('../services');
+const DateService = require('../utils/date.service');
+const { masterService, deviceService, statisticService, faultService, activityLogService } = require('../services');
 
 const defaultSettings = {
   intervalRefresh: 12000,
@@ -14,6 +15,7 @@ const transformMaster = async (master) => {
   return {
     ...master,
     devicesCount,
+    status: (master.settings && master.settings.status) || false,
   };
 };
 
@@ -216,6 +218,48 @@ const getDevicesStatus = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const updateMasterStatus = catchAsync(async (req, res) => {
+  const { masterKey } = req.params;
+  const master = await masterService.getMasterByOption({ masterKey });
+  if (!master) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  }
+  master.settings = {
+    ...(master.settings || defaultSettings),
+    status: req.body.status,
+    lastUpdatedStatusTime: new Date(),
+  };
+  master.save();
+  res.send();
+});
+
+const autoUpdateMasterStatus = async () => {
+  const result = await masterService.queryMasters({}, { limit: 100 });
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < result.results.length; i++) {
+    const master = result.results[i];
+    if (
+      !master.settings ||
+      !master.settings.lastUpdatedStatusTime ||
+      DateService.getMinutesBetweenDates(new Date(master.settings.lastUpdatedStatusTime), new Date()) > 5 // 5 minutes
+    ) {
+      master.settings = {
+        ...(master.settings || defaultSettings),
+        status: false,
+        lastUpdatedStatusTime: new Date(),
+      };
+      master.save();
+      // eslint-disable-next-line no-await-in-loop
+      await activityLogService.createActivityLog({
+        category: 'Master',
+        type: 'Error',
+        description: 'Master offline',
+        master: master._id,
+      });
+    }
+  }
+};
+
 module.exports = {
   createMaster,
   getMasters,
@@ -226,4 +270,6 @@ module.exports = {
   updateMasterSettings,
   getMasterStatus,
   getDevicesStatus,
+  updateMasterStatus,
+  autoUpdateMasterStatus,
 };

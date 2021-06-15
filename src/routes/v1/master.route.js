@@ -17,6 +17,8 @@ router
   .route('/master-status/:masterKey/:deviceId')
   .get(validate(masterValidation.getDevicesStatus), masterController.getDevicesStatus);
 
+router.route('/:masterKey/status').patch(validate(masterValidation.updateMasterStatus), masterController.updateMasterStatus);
+
 router
   .route('/:masterKey/settings')
   .get(validate(masterValidation.getMasterSettings), masterController.getMasterSettings)
@@ -238,6 +240,52 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /masters/{masterKey}/status:
+ *    patch:
+ *      summary: Update a master status
+ *      description: Update master status by Master Key
+ *      tags: [Masters]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: masterKey
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Master Key
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - status
+ *              properties:
+ *                status:
+ *                  type: bool
+ *                  description: status bool
+ *              example:
+ *                status: true
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/Master'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":
