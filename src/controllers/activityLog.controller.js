@@ -30,7 +30,7 @@ const getActivityLogs = catchAsync(async (req, res) => {
   const filter = {};
   const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  options.sortBy = 'updatedAt:desc';
+  options.sortBy = options.sortBy || 'updatedAt:desc';
   if (masterKey) {
     const master = await masterService.getMasterByOption({ masterKey });
     if (!master) {

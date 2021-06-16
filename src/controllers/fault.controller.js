@@ -3,6 +3,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { faultService, masterService, deviceService } = require('../services');
+const config = require('../config/config');
 
 const transformFault = ({ master, device, faultData, ...fault }) => {
   return {
@@ -37,6 +38,7 @@ const getFaults = catchAsync(async (req, res) => {
   const filter = {};
   const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.sortBy = options.sortBy || 'updatedAt:desc';
   if (masterKey) {
     const master = await masterService.getMasterByOption({ masterKey });
     if (!master) {
@@ -100,8 +102,16 @@ const getLatestFault = catchAsync(async (req, res) => {
     filter.master = master._id;
   }
 
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setMinutes(today.getMinutes() - config.latestUploadedDataMinutes);
+  filter.updatedAt = {
+    $gt: yesterday,
+    $lt: today,
+  };
+
   const result = await faultService.queryFaults(filter, { sortBy: 'updatedAt:desc', limit: 1 });
-  const fault = result.results.length ? result.results[0].toJSON() : {};
+  const fault = result.results.length ? result.results[0].toJSON() : null;
   if (!fault) {
     throw new ApiError(httpStatus.NOT_FOUND, 'ActivityLog not found');
   }

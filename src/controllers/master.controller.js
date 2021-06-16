@@ -4,6 +4,7 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const DateService = require('../utils/date.service');
 const { masterService, deviceService, statisticService, faultService, activityLogService } = require('../services');
+const config = require('../config/config');
 
 const defaultSettings = {
   intervalRefresh: 12000,
@@ -138,7 +139,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
   const latestStatisticResponse = await statisticService.getLatestStatistic({ master: master._id });
   const today = new Date();
   const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 10);
+  yesterday.setMinutes(today.getMinutes() - config.latestUploadedDataMinutes);
   const latestFaultsResponse = await faultService.getLatestFaults({
     master: master._id,
     updatedAt: {
@@ -196,7 +197,7 @@ const getDevicesStatus = catchAsync(async (req, res) => {
 
   const today = new Date();
   const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 10);
+  yesterday.setMinutes(today.getMinutes() - config.latestUploadedDataMinutes);
   const latestFaultsResponse = await faultService.getLatestFaults({
     device: device._id,
     updatedAt: {
