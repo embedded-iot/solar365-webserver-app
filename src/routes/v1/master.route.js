@@ -252,7 +252,7 @@ module.exports = router;
  * @swagger
  * path:
  *  /masters/{masterKey}/status:
- *    patch:
+ *    post:
  *      summary: Update a master status
  *      description: Update master status by Master Key
  *      tags: [Masters]
