@@ -17,7 +17,7 @@ router
   .route('/master-status/:masterKey/:deviceId')
   .get(validate(masterValidation.getDevicesStatus), masterController.getDevicesStatus);
 
-router.route('/:masterKey/status').patch(validate(masterValidation.updateMasterStatus), masterController.updateMasterStatus);
+router.route('/:masterKey/status').post(validate(masterValidation.updateMasterStatus), masterController.updateMasterStatus);
 
 router
   .route('/:masterKey/settings')
