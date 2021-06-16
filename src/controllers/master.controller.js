@@ -254,7 +254,7 @@ const autoUpdateMasterStatus = async () => {
       await activityLogService.createActivityLog({
         category: 'Master',
         type: 'Error',
-        description: 'Master offline',
+        description: 'Thiết bị đang ngoại tuyến',
         master: master._id,
       });
     }
