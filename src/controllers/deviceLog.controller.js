@@ -151,6 +151,11 @@ const getStatisticDeviceLogs = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const clearData = async (filter) => {
+  // eslint-disable-next-line no-return-await
+  return await deviceLogService.deleteDeviceLogByFilter(filter);
+};
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
@@ -159,4 +164,5 @@ module.exports = {
   deleteDeviceLog,
   getLatestDeviceLog,
   getStatisticDeviceLogs,
+  clearData,
 };

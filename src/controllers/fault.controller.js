@@ -108,6 +108,11 @@ const getLatestFault = catchAsync(async (req, res) => {
   res.send(transformFault(fault));
 });
 
+const clearData = async (filter) => {
+  // eslint-disable-next-line no-return-await
+  return await faultService.deleteStatisticsByFilter(filter);
+};
+
 module.exports = {
   createFault,
   getFaults,
@@ -115,4 +120,5 @@ module.exports = {
   updateFault,
   deleteFault,
   getLatestFault,
+  clearData,
 };

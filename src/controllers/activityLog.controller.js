@@ -93,6 +93,11 @@ const getLatestActivityLog = catchAsync(async (req, res) => {
   res.send(activityLog);
 });
 
+const clearData = async (filter) => {
+  // eslint-disable-next-line no-return-await
+  return await activityLogService.deleteActivityLogByFilter(filter);
+};
+
 module.exports = {
   createActivityLog,
   getActivityLogs,
@@ -100,4 +105,5 @@ module.exports = {
   updateActivityLog,
   deleteActivityLog,
   getLatestActivityLog,
+  clearData,
 };

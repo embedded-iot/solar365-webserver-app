@@ -80,6 +80,16 @@ const deleteDeviceLogById = async (deviceLogId) => {
   return deviceLog;
 };
 
+/**
+ * Delete deviceLog by filter
+ * @param {object} filter
+ * @returns {}
+ */
+const deleteDeviceLogByFilter = async (filter) => {
+  const response = await DeviceLog.deleteMany(filter);
+  return response;
+};
+
 module.exports = {
   createDeviceLog,
   queryDeviceLogs,
@@ -87,4 +97,5 @@ module.exports = {
   getDeviceLogByDeviceID,
   updateDeviceLogById,
   deleteDeviceLogById,
+  deleteDeviceLogByFilter,
 };

@@ -69,13 +69,23 @@ const deleteFaultById = async (faultId) => {
 };
 
 /**
- * Get latest statistics
+ * Get latest fault
  * @param {Object} filter
  * @returns {Promise<Statistic>}
  */
 const getLatestFaults = async (filter = {}) => {
   const result = await queryFaults(filter, { sortBy: 'updatedAt:desc', limit: 100 });
   return result;
+};
+
+/**
+ * Delete faults by filter
+ * @param {object} filter
+ * @returns {}
+ */
+const deleteFaultsByFilter = async (filter) => {
+  const response = await Fault.deleteMany(filter);
+  return response;
 };
 
 module.exports = {
@@ -85,4 +95,5 @@ module.exports = {
   updateFaultById,
   deleteFaultById,
   getLatestFaults,
+  deleteFaultsByFilter,
 };

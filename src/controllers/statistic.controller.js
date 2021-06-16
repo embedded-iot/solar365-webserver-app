@@ -107,6 +107,11 @@ const getLatestStatistic = catchAsync(async (req, res) => {
   res.send(statistic);
 });
 
+const clearData = async (filter) => {
+  // eslint-disable-next-line no-return-await
+  return await statisticService.deleteStatisticsByFilter(filter);
+};
+
 module.exports = {
   createStatistic,
   getStatistics,
@@ -114,4 +119,5 @@ module.exports = {
   updateStatistic,
   deleteStatistic,
   getLatestStatistic,
+  clearData,
 };

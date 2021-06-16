@@ -68,10 +68,21 @@ const deleteActivityLogById = async (activityLogId) => {
   return activityLog;
 };
 
+/**
+ * Delete activityLog by filter
+ * @param {object} filter
+ * @returns {}
+ */
+const deleteActivityLogByFilter = async (filter) => {
+  const response = await ActivityLog.deleteMany(filter);
+  return response;
+};
+
 module.exports = {
   createActivityLog,
   queryActivityLogs,
   getActivityLogById,
   updateActivityLogById,
   deleteActivityLogById,
+  deleteActivityLogByFilter,
 };

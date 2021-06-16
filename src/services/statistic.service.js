@@ -79,6 +79,16 @@ const getLatestStatistic = async (filter = {}) => {
   return statistic;
 };
 
+/**
+ * Delete statistics by filter
+ * @param {object} filter
+ * @returns {Promise<ActivityLog>}
+ */
+const deleteStatisticsByFilter = async (filter) => {
+  const response = await Statistic.deleteMany(filter);
+  return response;
+};
+
 module.exports = {
   createStatistic,
   queryStatistics,
@@ -86,4 +96,5 @@ module.exports = {
   updateStatisticById,
   deleteStatisticById,
   getLatestStatistic,
+  deleteStatisticsByFilter,
 };
