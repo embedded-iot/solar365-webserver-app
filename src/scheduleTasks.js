@@ -8,7 +8,7 @@ const start = async () => {
     await masterController.autoUpdateMasterStatus();
   });
   // every 1 hour
-  cron.schedule('* */1 * * *', async () => {
+  cron.schedule('0 * * * *', async () => {
     const today = new Date();
     const yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
