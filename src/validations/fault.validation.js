@@ -10,6 +10,8 @@ const createFault = {
     event: Joi.string().required(),
     position: Joi.number().required(),
     description: Joi.string(),
+    reason: Joi.string(),
+    suggest: Joi.string(),
     faultData: Joi.object(),
   }),
 };
@@ -44,6 +46,8 @@ const updateFault = {
       event: Joi.string().required(),
       position: Joi.number().required(),
       description: Joi.string(),
+      reason: Joi.string(),
+      suggest: Joi.string(),
       faultData: Joi.object().required(),
     })
     .min(1),
