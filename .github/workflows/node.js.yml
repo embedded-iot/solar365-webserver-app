@@ -33,3 +33,8 @@ jobs:
         key: ${{secrets.GOOGLE_CLOUD_SSH_KEY}}
         host: ${{secrets.GOOGLE_CLOUD_IP}}
         username: ${{secrets.GOOGLE_CLOUD_USERNAME}}
+        script: |
+          cd /solar365/nodejs/solar365-webserver-app
+          git pull
+          yarn install
+          yarn start
