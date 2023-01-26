@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: yarn install
     - name: SSH Remote Commands
-      uses: appleboy/ssh-action@v0.1.2
+      uses: appleboy/ssh-action@v0.1.7
       with:
         key: ${{secrets.GOOGLE_CLOUD_SSH_KEY}}
         host: ${{secrets.GOOGLE_CLOUD_IP}}
