@@ -33,5 +33,3 @@ jobs:
         key: ${{secrets.GOOGLE_CLOUD_SSH_KEY}}
         host: ${{secrets.GOOGLE_CLOUD_IP}}
         username: ${{secrets.GOOGLE_CLOUD_USERNAME}}
-        script: |
-          ls
