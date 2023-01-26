@@ -34,8 +34,4 @@ jobs:
         host: ${{secrets.GOOGLE_CLOUD_IP}}
         username: ${{secrets.GOOGLE_CLOUD_USERNAME}}
         script: |
-          pm2 delete all
-          cd /solar365/nodejs/solar365-webserver-app
-          git pull
-          yarn install
-          pm2 start yarn -- start
+          ls
