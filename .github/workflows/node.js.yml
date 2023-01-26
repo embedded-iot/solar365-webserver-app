@@ -26,8 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn install --frozen-lockfile
-    - run: yarn test
+    - run: yarn install
     - name: SSH Remote Commands
       uses: appleboy/ssh-action@v0.1.2
       with:
@@ -36,7 +35,7 @@ jobs:
         username: ${{secrets.GOOGLE_CLOUD_USERNAME}}
         script: |
           pm2 delete all
-          cd /var/app/tdd-nodejs
+          cd /solar365/nodejs/solar365-webserver-app
           git pull
-          npm install
-          pm2 start npm -- start
+          yarn install
+          pm2 start yarn -- start

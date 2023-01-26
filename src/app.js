@@ -37,8 +37,32 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
+const allowlist = [
+  'http://solar365.com.vn',
+  'https://solar365.com.vn',
+  'http://solar365.herokuapp.com',
+  'https://solar365.herokuapp.com',
+];
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+
+  const isDomainAllowed = allowlist.indexOf(req.header('Origin')) !== -1;
+
+  if (isDomainAllowed) {
+    corsOptions = {
+      origin: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      credentials: true,
+    };
+  } else {
+    corsOptions = { origin: false };
+  }
+  callback(null, corsOptions);
+};
+
 // enable cors
-app.use(cors());
+app.use(cors(corsOptionsDelegate));
 app.options('*', cors());
 
 // jwt authentication

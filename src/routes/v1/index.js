@@ -1,6 +1,12 @@
 const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
+const masterRoute = require('./master.route');
+const deviceRoute = require('./device.route');
+const deviceLogRoute = require('./deviceLog.route');
+const faultRoute = require('./fault.route');
+const statisticRoute = require('./statistic.route');
+const activityLogRoute = require('./activityLog.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -14,6 +20,34 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/masters',
+    route: masterRoute,
+  },
+  {
+    path: '/devices',
+    route: deviceRoute,
+  },
+  {
+    path: '/deviceLogs',
+    route: deviceLogRoute,
+  },
+  {
+    path: '/faults',
+    route: faultRoute,
+  },
+  {
+    path: '/statistics',
+    route: statisticRoute,
+  },
+  {
+    path: '/activityLogs',
+    route: activityLogRoute,
+  },
+  {
+    path: '/docs',
+    route: docsRoute,
   },
 ];
 

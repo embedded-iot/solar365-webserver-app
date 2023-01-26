@@ -18,7 +18,590 @@ components:
         email: fake@example.com
         name: fake name
         role: user
-
+    Master:
+      type: object
+      properties:
+        id:
+          type: string
+        masterKey:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: 32bac534954b54139806c112
+        masterKey: MASTER_KEY
+        name: Device name
+        description: Master description
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        deviceData:
+          type: object
+      example:
+        id: 32bac534954b54139806c112
+        name: Device name
+        description: Device description
+        deviceData: {
+          "id": 1,
+          "dev_id": 1,
+          "dev_code": 61003,
+          "dev_type": 25,
+          "dev_sn": "",
+          "dev_name": "SUN2000(36~50)(COM3-001)",
+          "dev_model": "SUN2000(36~50)",
+          "port_name": "COM3",
+          "phys_addr": "1",
+          "logc_addr": "1",
+          "link_status": 0,
+          "init_status": 0,
+          "dev_special": "0",
+          "list": [ ]
+        }
+    DeviceLog:
+      type: object
+      properties:
+        id:
+          type: string
+        deviceLogData:
+          type: array
+        deviceLogIOData:
+          type: array
+      example:
+        id: 45bac534954b54139806c112
+        deviceLogData: [
+          {
+          "data_name": "Nominal Power",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "System Time",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "CO2 Reduction",
+          "data_value": "--",
+          "data_unit": "kg"
+        }, {
+          "data_name": "PV1 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV1 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "PV2 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV2 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "PV3 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV3 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "PV4 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV4 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "PV5 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV5 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "PV6 Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "PV6 Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "A-B Line Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "B-C Line Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "C-A Line Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Phase A Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Phase B Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Phase C Voltage",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Phase A Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "Phase B Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "Phase C Current",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "Grid Frequency",
+          "data_value": "--",
+          "data_unit": "Hz"
+        }, {
+          "data_name": "PF",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Inverter Efficiency",
+          "data_value": "--",
+          "data_unit": "%"
+        }, {
+          "data_name": "Interior Temperature",
+          "data_value": "--",
+          "data_unit": "℃"
+        }, {
+          "data_name": "Inverter State 1",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Active Power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "Reactive Power",
+          "data_value": "--",
+          "data_unit": "kvar"
+        }, {
+          "data_name": "Total DC Input Power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "Hourly Yield",
+          "data_value": "--",
+          "data_unit": "kWh"
+        }, {
+          "data_name": "Daily Yield",
+          "data_value": "--",
+          "data_unit": "kWh"
+        }, {
+          "data_name": "Monthly Yield",
+          "data_value": "--",
+          "data_unit": "kWh"
+        }, {
+          "data_name": "Annual Yield",
+          "data_value": "--",
+          "data_unit": "kWh"
+        }, {
+          "data_name": "Total Yield",
+          "data_value": "--",
+          "data_unit": "kWh"
+        }, {
+          "data_name": "Upv-7",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Ipv-7",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "Upv-8",
+          "data_value": "--",
+          "data_unit": "V"
+        }, {
+          "data_name": "Ipv-8",
+          "data_value": "--",
+          "data_unit": "A"
+        }, {
+          "data_name": "Blocking Status",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "ZVTR Protection",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "LVRT Protection",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Islanding Protection",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Insulation Resistance",
+          "data_value": "--",
+          "data_unit": "MΩ"
+        }, {
+          "data_name": "MPPT 1 total input power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "MPPT 2 total input power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "MPPT 3 total input power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "MPPT 4 total input power",
+          "data_value": "--",
+          "data_unit": "kW"
+        }, {
+          "data_name": "Alarm information 0",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 1",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 2",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 3",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 4",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 5",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 6",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 7",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 8",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 9",
+          "data_value": "--",
+          "data_unit": ""
+        }, {
+          "data_name": "Alarm information 16",
+          "data_value": "--",
+          "data_unit": ""
+        }]
+        deviceLogIOData: [
+        {
+          "name": "MPPT1",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "17.8",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT2",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "16.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT3",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "16.4",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT4",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "18.2",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT5",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "16.5",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT6",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "16.4",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT7",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "18.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT8",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "16.3",
+          "current_unit": "A"
+        },
+        {
+          "name": "MPPT9",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "16.1",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 1",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "9.07",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 2",
+          "voltage": "557.9",
+          "voltage_unit": "V",
+          "current": "8.65",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 3",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "8.27",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 4",
+          "voltage": "647.3",
+          "voltage_unit": "V",
+          "current": "8.07",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 5",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "8.48",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 6",
+          "voltage": "813.2",
+          "voltage_unit": "V",
+          "current": "8.16",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 7",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "9.26",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 8",
+          "voltage": "556.3",
+          "voltage_unit": "V",
+          "current": "8.89",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 9",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "8.37",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 10",
+          "voltage": "637.6",
+          "voltage_unit": "V",
+          "current": "8.10",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 11",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "8.06",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 12",
+          "voltage": "797.1",
+          "voltage_unit": "V",
+          "current": "8.15",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 13",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "9.36",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 14",
+          "voltage": "546.3",
+          "voltage_unit": "V",
+          "current": "9.08",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 15",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "8.11",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 16",
+          "voltage": "637.0",
+          "voltage_unit": "V",
+          "current": "8.21",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 17",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "8.20",
+          "current_unit": "A"
+        },
+        {
+          "name": "String 18",
+          "voltage": "813.6",
+          "voltage_unit": "V",
+          "current": "8.05",
+          "current_unit": "A"
+        }]
+    Fault:
+      type: object
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+        event:
+          type: string
+        position:
+          type: number
+        description:
+          type: string
+        reason:
+          type: string
+        suggest:
+          type: string
+        faultData:
+          type: object
+      example:
+        id: 45bac534954b54139806c112
+        category: LoggerFault
+        type: Error
+        event: Devices
+        position: 1
+        description: This is description
+        reason: This is reason
+        suggest: This is suggest
+        faultData: {}
+    Statistic:
+      type: object
+      properties:
+        id:
+          type: string
+        statisticData:
+          type: array
+      example:
+        id: 45bac534954b54139806c112
+        statisticData: [
+          {
+            "today_energy": "--",
+            "today_energy_unit": "kWh",
+            "total_energy": "--",
+            "total_energy_unit": "kWh",
+            "curr_power": "--",
+            "curr_power_unit": "kW",
+            "curr_reactive": "--",
+            "curr_reactive_unit": "kvar",
+            "rated_power": "--",
+            "rated_power_unit": "kW",
+            "rated_reactive": "--",
+            "rated_reactive_unit": "kvar",
+            "adjust_power_uplimit": "--",
+            "adjust_power_uplimit_unit": "kW",
+            "adjust_reactive_uplimit": "--",
+            "adjust_reactive_uplimit_unit": "kvar",
+            "adjust_reactive_lowlimit": "--",
+            "adjust_reactive_lowlimit_unit": "kvar"
+          },
+          {
+            "online_num": "0",
+            "online_num_unit": "",
+            "offline_num": "1",
+            "offline_num_unit": ""
+          }
+        ]
+    ActivityLog:
+      type: object
+      properties:
+        id:
+          type: string
+        master:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        activityLogData:
+          type: object
+      example:
+        id: 45bac534954b54139806c112
+        master: 45bac534954b54139806c113
+        category: Master
+        type: Success
+        description: Master not found
+        activityLogData: {}
     Token:
       type: object
       properties:
@@ -48,6 +631,15 @@ components:
           type: string
 
   responses:
+    DuplicateName:
+      description: Name already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Name already taken
     DuplicateEmail:
       description: Email already taken
       content:

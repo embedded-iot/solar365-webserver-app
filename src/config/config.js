@@ -54,4 +54,5 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
+  latestUploadedDataMinutes: envVars.LATEST_UPLOADED_DATA_MINUTES,
 };
