@@ -38,4 +38,4 @@ jobs:
           cd ~/solar365/nodejs/solar365-webserver-app/
           git pull
           npm install
-          pm2 start npm -- start
+          npm start
