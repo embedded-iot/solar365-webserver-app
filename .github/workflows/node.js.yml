@@ -35,7 +35,7 @@ jobs:
         username: ${{secrets.GOOGLE_CLOUD_USERNAME}}
         script: |
           pm2 delete all
-          cd ~/solar365/nodejs/solar365-webserver-app/
+          cd ~/www/nodejs/solar365-webserver-app/
           git pull
           npm install
           pm2 start ecosystem.config.json --no-daemon
