@@ -41,7 +41,7 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `http://localhost:${config.port}/v1`,
+      url: `${config.env === 'production' ? config.domain.url : `http://localhost:${config.port}`}/api`,
     },
   ],
 };
