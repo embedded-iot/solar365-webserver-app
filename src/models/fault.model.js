@@ -7,9 +7,9 @@ const types = ['Error', 'Warning'];
 
 const faultSchema = mongoose.Schema(
   {
-    master: {
+    gateway: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Master',
+      ref: 'Gateway',
       required: true,
     },
     device: {

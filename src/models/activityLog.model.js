@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const categories = ['General', 'Master', 'Devices', 'DeviceLogs', 'Fault'];
+const categories = ['General', 'Gateway', 'Devices', 'DeviceLogs', 'Fault'];
 const types = ['Success', 'Error', 'Warning'];
 
 const activityLogSchema = mongoose.Schema(
   {
-    master: {
+    gateway: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Master',
+      ref: 'Gateway',
       required: true,
     },
     category: {

@@ -2,32 +2,32 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { faultService, masterService, deviceService } = require('../services');
+const { faultService, gatewayService, deviceService } = require('../services');
 const config = require('../config/config');
 
-const transformFault = ({ master, device, faultData, ...fault }) => {
+const transformFault = ({ gateway, device, faultData, ...fault }) => {
   return {
     ...fault,
     faultData,
-    masterName: (master && master.name) || '',
+    gatewayName: (gateway && gateway.name) || '',
     deviceName: (device && device.name) || '',
   };
 };
 
 const createFault = catchAsync(async (req, res) => {
-  const { masterKey, deviceId, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  const device = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId });
   if (!device) {
-    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${gatewayId}`);
   }
 
   const faultBody = {
     ...body,
-    master: master._id,
+    gateway: gateway._id,
     device: device._id,
   };
   const fault = await faultService.createFault(faultBody);
@@ -36,15 +36,15 @@ const createFault = catchAsync(async (req, res) => {
 
 const getFaults = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
+  const { gatewayId, from, to } = pick(req.query, ['gatewayId', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   options.sortBy = options.sortBy || 'updatedAt:desc';
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (from) {
@@ -68,18 +68,18 @@ const getFault = catchAsync(async (req, res) => {
 });
 
 const updateFault = catchAsync(async (req, res) => {
-  const { masterKey, deviceId, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  const device = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId });
   if (!device) {
-    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${gatewayId}`);
   }
   const faultBody = {
     ...body,
-    master: master._id,
+    gateway: gateway._id,
     device: device._id,
   };
   const fault = await faultService.updateFaultById(req.params.faultId, faultBody);
@@ -93,13 +93,13 @@ const deleteFault = catchAsync(async (req, res) => {
 
 const getLatestFault = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey } = pick(req.query, ['masterKey']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId } = pick(req.query, ['gatewayId']);
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   const today = new Date();

@@ -1,7 +1,7 @@
 const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
-const masterRoute = require('./master.route');
+const gatewayRoute = require('./gateway.route');
 const deviceRoute = require('./device.route');
 const deviceLogRoute = require('./deviceLog.route');
 const faultRoute = require('./fault.route');
@@ -22,8 +22,8 @@ const defaultRoutes = [
     route: userRoute,
   },
   {
-    path: '/masters',
-    route: masterRoute,
+    path: '/gateways',
+    route: gatewayRoute,
   },
   {
     path: '/devices',

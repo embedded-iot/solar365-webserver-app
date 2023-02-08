@@ -2,7 +2,7 @@ const roles = ['user', 'admin'];
 
 const roleRights = new Map();
 roleRights.set(roles[0], []);
-roleRights.set(roles[1], ['getUsers', 'manageUsers', 'manageMasters']);
+roleRights.set(roles[1], ['getUsers', 'manageUsers', 'manageGateways']);
 
 module.exports = {
   roles,

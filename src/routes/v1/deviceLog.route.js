@@ -51,7 +51,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - deviceId
  *                - deviceLogData
  *                - deviceLogIOData
@@ -61,7 +61,7 @@ module.exports = router;
  *                deviceLogIOData:
  *                   type: array
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                deviceId: "1"
  *                deviceLogData: [{
  *		          		"data_name":	"Nominal Power",
@@ -326,10 +326,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: deviceId
  *          schema:
@@ -440,14 +440,14 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - deviceId
  *                - deviceLogData
  *              properties:
  *                deviceLogData:
  *                   type: array
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                deviceId: "1"
  *                deviceLogData: [{
  *		          		"data_name":	"Nominal Power",
@@ -746,10 +746,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: deviceId
  *          schema:
@@ -833,10 +833,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: deviceId
  *          schema:

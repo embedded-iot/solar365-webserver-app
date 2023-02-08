@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { statisticService, masterService, deviceService } = require('../services');
+const { statisticService, gatewayService, deviceService } = require('../services');
 
 const transformStatisticBody = async (statistic = {}) => {
   if (statistic.statisticData && statistic.statisticData.length === 3) {
@@ -31,15 +31,15 @@ const transformStatisticBody = async (statistic = {}) => {
 };
 
 const createStatistic = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
 
   const statisticBody = {
     ...body,
-    master: master._id,
+    gateway: gateway._id,
   };
   const transformedStatisticBody = await transformStatisticBody(statisticBody);
   const statistic = await statisticService.createStatistic(transformedStatisticBody);
@@ -48,14 +48,14 @@ const createStatistic = catchAsync(async (req, res) => {
 
 const getStatistics = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
+  const { gatewayId, from, to } = pick(req.query, ['gatewayId', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (from) {
@@ -78,10 +78,10 @@ const getStatistic = catchAsync(async (req, res) => {
 });
 
 const updateStatistic = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   const statistic = await statisticService.updateStatisticById(req.params.statisticId, body);
   res.send(statistic);
@@ -94,13 +94,13 @@ const deleteStatistic = catchAsync(async (req, res) => {
 
 const getLatestStatistic = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey } = pick(req.query, ['masterKey']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId } = pick(req.query, ['gatewayId']);
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   const statistic = await statisticService.getLatestStatistic(filter);

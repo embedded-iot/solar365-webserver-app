@@ -3,14 +3,14 @@ const { objectId } = require('./custom.validation');
 
 const createStatistic = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     statisticData: Joi.array().required(),
   }),
 };
 
 const getStatistics = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     from: Joi.number(),
     to: Joi.number(),
     sortBy: Joi.string(),
@@ -31,7 +31,7 @@ const updateStatistic = {
   }),
   body: Joi.object()
     .keys({
-      masterKey: Joi.string().required(),
+      gatewayId: Joi.string().required(),
       statisticData: Joi.array().required(),
     })
     .min(1),
@@ -45,7 +45,7 @@ const deleteStatistic = {
 
 const getLatestStatistic = {
   query: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
 };
 

@@ -3,7 +3,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const DateService = require('../utils/date.service');
-const { masterService, deviceService, statisticService, faultService, activityLogService } = require('../services');
+const { gatewayService, deviceService, statisticService, faultService, activityLogService } = require('../services');
 const config = require('../config/config');
 
 const defaultSettings = {
@@ -11,103 +11,103 @@ const defaultSettings = {
   price: 2000,
 };
 
-const transformMaster = async (master) => {
-  const devicesCount = await deviceService.getDevicesCount({ master: master.id });
+const transformGateway = async (gateway) => {
+  const devicesCount = await deviceService.getDevicesCount({ gateway: gateway.id });
   return {
-    ...master,
+    ...gateway,
     devicesCount,
-    status: (master.settings && master.settings.status) || false,
+    status: (gateway.settings && gateway.settings.status) || false,
   };
 };
 
-const createMaster = catchAsync(async (req, res) => {
-  const masterBody = {
+const createGateway = catchAsync(async (req, res) => {
+  const gatewayBody = {
     ...req.body,
     user: req.user._id,
   };
-  const master = await masterService.createMaster(masterBody);
-  res.status(httpStatus.CREATED).send(master);
+  const gateway = await gatewayService.createGateway(gatewayBody);
+  res.status(httpStatus.CREATED).send(gateway);
 });
 
-const getMasters = catchAsync(async (req, res) => {
+const getGateways = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name']);
   const filterByUserReq = {
     ...filter,
     user: req.user._id,
   };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await masterService.queryMasters(filterByUserReq, options);
+  const result = await gatewayService.queryGateways(filterByUserReq, options);
   const results = [];
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < result.results.length; index++) {
-    const master = result.results[index];
+    const gateway = result.results[index];
     // eslint-disable-next-line no-await-in-loop
-    const transformedMaster = await transformMaster(master.toJSON());
-    results.push(transformedMaster);
+    const transformedGateway = await transformGateway(gateway.toJSON());
+    results.push(transformedGateway);
   }
   result.results = results;
   res.send(result);
 });
 
-const getMaster = catchAsync(async (req, res) => {
+const getGateway = catchAsync(async (req, res) => {
   const option = {
-    _id: req.params.masterId,
+    _id: req.params.gatewayId,
     user: req.user._id,
   };
-  const master = await masterService.getMasterByOption(option);
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const gateway = await gatewayService.getGatewayByOption(option);
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const transformedMaster = await transformMaster(master.toJSON());
-  res.send(transformedMaster);
+  const transformedGateway = await transformGateway(gateway.toJSON());
+  res.send(transformedGateway);
 });
 
-const updateMaster = catchAsync(async (req, res) => {
+const updateGateway = catchAsync(async (req, res) => {
   const option = {
-    _id: req.params.masterId,
+    _id: req.params.gatewayId,
     user: req.user._id,
   };
-  const masterBody = {
+  const gatewayBody = {
     ...req.body,
     user: req.user._id,
   };
-  const master = await masterService.updateMasterByOption(option, masterBody);
-  res.send(master);
+  const gateway = await gatewayService.updateGatewayByOption(option, gatewayBody);
+  res.send(gateway);
 });
 
-const deleteMaster = catchAsync(async (req, res) => {
+const deleteGateway = catchAsync(async (req, res) => {
   const option = {
-    _id: req.params.masterId,
+    _id: req.params.gatewayId,
     user: req.user._id,
   };
-  await masterService.deleteMasterByOption(option);
+  await gatewayService.deleteGatewayByOption(option);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getMasterSettings = catchAsync(async (req, res) => {
-  const { masterKey } = req.params;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+const getGatewaySettings = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   const settings = {
     ...defaultSettings,
-    ...master.settings,
+    ...gateway.settings,
   };
   res.send(settings);
 });
 
-const updateMasterSettings = catchAsync(async (req, res) => {
-  const { masterKey } = req.params;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+const updateGatewaySettings = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  master.settings = {
+  gateway.settings = {
     ...defaultSettings,
     ...req.body.settings,
   };
-  master.save();
+  gateway.save();
   res.send();
 });
 
@@ -129,19 +129,19 @@ const transformStatisticBodyWithFaultData = async (statistic = {}, faultData = [
   return statistic;
 };
 
-const getMasterStatus = catchAsync(async (req, res) => {
-  const { masterKey } = req.params;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+const getGatewayStatus = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
 
-  const latestStatisticResponse = await statisticService.getLatestStatistic({ master: master._id });
+  const latestStatisticResponse = await statisticService.getLatestStatistic({ gateway: gateway._id });
   const today = new Date();
   const yesterday = new Date();
   yesterday.setMinutes(today.getMinutes() - config.latestUploadedDataMinutes);
   const latestFaultsResponse = await faultService.getLatestFaults({
-    master: master._id,
+    gateway: gateway._id,
     updatedAt: {
       $gt: yesterday,
       $lt: today,
@@ -149,7 +149,7 @@ const getMasterStatus = catchAsync(async (req, res) => {
   });
   const faultList = latestFaultsResponse.results.map((item) => {
     // eslint-disable-next-line no-shadow
-    const { master, device, faultData, ...fault } = item.toJSON();
+    const { gateway, device, faultData, ...fault } = item.toJSON();
     return {
       ...fault,
       deviceId: (device && device.id) || '',
@@ -182,14 +182,14 @@ const getMasterStatus = catchAsync(async (req, res) => {
 });
 
 const getDevicesStatus = catchAsync(async (req, res) => {
-  const { masterKey, deviceId } = req.params;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   const device = await deviceService.getDeviceByOption({
     _id: deviceId,
-    master: master._id,
+    gateway: gateway._id,
   });
   if (!device) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
@@ -210,7 +210,7 @@ const getDevicesStatus = catchAsync(async (req, res) => {
     to: today,
     faultData: latestFaultsResponse.results.map((item) => {
       // eslint-disable-next-line no-shadow
-      const { master, device, faultData, ...fault } = item.toJSON();
+      const { gateway, device, faultData, ...fault } = item.toJSON();
       return {
         ...fault,
       };
@@ -219,58 +219,58 @@ const getDevicesStatus = catchAsync(async (req, res) => {
   res.send(result);
 });
 
-const updateMasterStatus = catchAsync(async (req, res) => {
-  const { masterKey } = req.params;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+const updateGatewayStatus = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  master.settings = {
-    ...(master.settings || defaultSettings),
+  gateway.settings = {
+    ...(gateway.settings || defaultSettings),
     status: req.body.status,
     lastUpdatedStatusTime: new Date(),
   };
-  master.save();
+  gateway.save();
   res.send();
 });
 
-const autoUpdateMasterStatus = async () => {
-  const result = await masterService.queryMasters({}, { limit: 100 });
+const autoUpdateGatewayStatus = async () => {
+  const result = await gatewayService.queryGateways({}, { limit: 100 });
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < result.results.length; i++) {
-    const master = result.results[i];
+    const gateway = result.results[i];
     if (
-      !master.settings ||
-      !master.settings.lastUpdatedStatusTime ||
-      DateService.getMinutesBetweenDates(new Date(master.settings.lastUpdatedStatusTime), new Date()) > 5 // 5 minutes
+      !gateway.settings ||
+      !gateway.settings.lastUpdatedStatusTime ||
+      DateService.getMinutesBetweenDates(new Date(gateway.settings.lastUpdatedStatusTime), new Date()) > 5 // 5 minutes
     ) {
-      master.settings = {
-        ...(master.settings || defaultSettings),
+      gateway.settings = {
+        ...(gateway.settings || defaultSettings),
         status: false,
         lastUpdatedStatusTime: new Date(),
       };
-      master.save();
+      gateway.save();
       // eslint-disable-next-line no-await-in-loop
       await activityLogService.createActivityLog({
-        category: 'Master',
+        category: 'Gateway',
         type: 'Error',
         description: 'Thiết bị đang ngoại tuyến',
-        master: master._id,
+        gateway: gateway._id,
       });
     }
   }
 };
 
 module.exports = {
-  createMaster,
-  getMasters,
-  getMaster,
-  updateMaster,
-  deleteMaster,
-  getMasterSettings,
-  updateMasterSettings,
-  getMasterStatus,
+  createGateway,
+  getGateways,
+  getGateway,
+  updateGateway,
+  deleteGateway,
+  getGatewaySettings,
+  updateGatewaySettings,
+  getGatewayStatus,
   getDevicesStatus,
-  updateMasterStatus,
-  autoUpdateMasterStatus,
+  updateGatewayStatus,
+  autoUpdateGatewayStatus,
 };

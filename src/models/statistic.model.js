@@ -3,9 +3,9 @@ const { toJSON, paginate } = require('./plugins');
 
 const statisticSchema = mongoose.Schema(
   {
-    master: {
+    gateway: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Master',
+      ref: 'Gateway',
       required: true,
     },
     statisticData: {

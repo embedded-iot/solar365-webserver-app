@@ -25,7 +25,7 @@ const createActivityLog = async (activityLogBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryActivityLogs = async (filter, options) => {
-  const activityLogs = await ActivityLog.paginate(filter, { ...options, populate: 'master' });
+  const activityLogs = await ActivityLog.paginate(filter, { ...options, populate: 'gateway' });
   return activityLogs;
 };
 
@@ -35,7 +35,7 @@ const queryActivityLogs = async (filter, options) => {
  * @returns {Promise<ActivityLog>}
  */
 const getActivityLogById = async (id) => {
-  return ActivityLog.findById(id).populate('master').exec();
+  return ActivityLog.findById(id).populate('gateway').exec();
 };
 
 /**

@@ -1,11 +1,11 @@
 const cron = require('node-cron');
-const { masterController, activityLogController, deviceLogController,
+const { gatewayController, activityLogController, deviceLogController,
   statisticController, faultController } = require('./controllers');
 
 const start = async () => {
   // every 5 minutes
   cron.schedule('*/5 * * * *', async () => {
-    await masterController.autoUpdateMasterStatus();
+    await gatewayController.autoUpdateGatewayStatus();
   });
   // every 1 hour
   cron.schedule('0 * * * *', async () => {

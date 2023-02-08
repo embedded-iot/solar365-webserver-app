@@ -2,21 +2,21 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceLogService, masterService, deviceService } = require('../services');
+const { deviceLogService, gatewayService, deviceService } = require('../services');
 
 const createDeviceLog = catchAsync(async (req, res) => {
-  const { masterKey, deviceId, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  const device = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId });
   if (!device) {
-    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${gatewayId}`);
   }
   const deviceLogBody = {
     ...body,
-    master: master._id,
+    gateway: gateway._id,
     device: device._id,
   };
   const deviceLog = await deviceLogService.createDeviceLog(deviceLogBody);
@@ -25,14 +25,14 @@ const createDeviceLog = catchAsync(async (req, res) => {
 
 const getDeviceLogs = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, deviceId, from, to } = pick(req.query, ['masterKey', 'deviceId', 'from', 'to']);
+  const { gatewayId, deviceId, from, to } = pick(req.query, ['gatewayId', 'deviceId', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (deviceId) {
@@ -63,14 +63,14 @@ const getDeviceLog = catchAsync(async (req, res) => {
 });
 
 const updateDeviceLog = catchAsync(async (req, res) => {
-  const { masterKey, deviceId, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const device = await deviceService.getDeviceByOption({ master: master._id, deviceId });
+  const device = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId });
   if (!device) {
-    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${masterKey}`);
+    throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${gatewayId}`);
   }
   const deviceLog = await deviceLogService.updateDeviceLogById(req.params.deviceLogId, body);
   res.send(deviceLog);
@@ -83,13 +83,13 @@ const deleteDeviceLog = catchAsync(async (req, res) => {
 
 const getLatestDeviceLog = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, deviceId } = pick(req.query, ['masterKey', 'deviceId']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, deviceId } = pick(req.query, ['gatewayId', 'deviceId']);
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (deviceId) {
@@ -109,14 +109,14 @@ const getLatestDeviceLog = catchAsync(async (req, res) => {
 
 const getStatisticDeviceLogs = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, deviceId, from, to, dataName } = pick(req.query, ['masterKey', 'deviceId', 'from', 'to', 'dataName']);
+  const { gatewayId, deviceId, from, to, dataName } = pick(req.query, ['gatewayId', 'deviceId', 'from', 'to', 'dataName']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (deviceId) {

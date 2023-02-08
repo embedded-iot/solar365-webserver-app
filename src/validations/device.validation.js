@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createDevice = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string(),
     deviceData: Joi.object().required(),
@@ -12,7 +12,7 @@ const createDevice = {
 
 const getDevices = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     name: Joi.string(),
     description: Joi.string(),
     deviceData: Joi.object(),
@@ -34,7 +34,7 @@ const updateDevice = {
   }),
   body: Joi.object()
     .keys({
-      masterKey: Joi.string(),
+      gatewayId: Joi.string(),
       name: Joi.string().required(),
       description: Joi.string(),
       deviceData: Joi.object().required(),
@@ -50,7 +50,7 @@ const deleteDevice = {
 
 const syncRealDevices = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     list: Joi.array().required(),
   }),
 };

@@ -45,14 +45,14 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - deviceId
  *                - category
  *                - type
  *                - event
  *                - position
  *              properties:
- *                masterKey:
+ *                gatewayId:
  *                   type: string
  *                deviceId:
  *                   type: string
@@ -73,7 +73,7 @@ module.exports = router;
  *                faultData:
  *                   type: object
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                deviceId: '1'
  *                category: LoggerFault
  *                type: Error
@@ -101,10 +101,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: from
  *          schema:
@@ -210,14 +210,14 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - deviceId
  *                - category
  *                - type
  *                - event
  *                - position
  *              properties:
- *                masterKey:
+ *                gatewayId:
  *                   type: string
  *                deviceId:
  *                   type: string
@@ -236,7 +236,7 @@ module.exports = router;
  *                faultData:
  *                   type: object
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                deviceId: '1'
  *                category: LoggerFault
  *                type: Error
@@ -298,10 +298,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *      responses:
  *        "200":
  *          description: OK

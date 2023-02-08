@@ -47,11 +47,11 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - category
  *                - type
  *              properties:
- *                masterKey:
+ *                gatewayId:
  *                   type: string
  *                category:
  *                   type: string
@@ -62,10 +62,10 @@ module.exports = router;
  *                activityLogData:
  *                   type: object
  *              example:
- *                masterKey: Master key
- *                category: Master
+ *                gatewayId: Gateway id
+ *                category: Gateway
  *                type: Success
- *                description: Master not found
+ *                description: Gateway not found
  *                activityLogData: {}
  *      responses:
  *        "201":
@@ -85,10 +85,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: from
  *          schema:
@@ -194,11 +194,11 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - category
  *                - type
  *              properties:
- *                masterKey:
+ *                gatewayId:
  *                   type: string
  *                category:
  *                   type: string
@@ -209,10 +209,10 @@ module.exports = router;
  *                activityLogData:
  *                   type: object
  *              example:
- *                masterKey: Master key
- *                category: Master
+ *                gatewayId: Gateway id
+ *                category: Gateway
  *                type: Success
- *                description: Master not found
+ *                description: Gateway not found
  *                activityLogData: {}
  *      responses:
  *        "200":
@@ -266,10 +266,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *      responses:
  *        "200":
  *          description: OK

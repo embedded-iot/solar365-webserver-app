@@ -3,9 +3,9 @@ const { toJSON, paginate } = require('./plugins');
 
 const deviceLogSchema = mongoose.Schema(
   {
-    master: {
+    gateway: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Master',
+      ref: 'Gateway',
       required: true,
     },
     device: {

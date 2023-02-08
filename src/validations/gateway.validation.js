@@ -1,17 +1,17 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
-const createMaster = {
+const createGateway = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string(),
   }),
 };
 
-const getMasters = {
+const getGateways = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     name: Joi.string(),
     description: Joi.string(),
     sortBy: Joi.string(),
@@ -20,40 +20,40 @@ const getMasters = {
   }),
 };
 
-const getMaster = {
+const getGateway = {
   params: Joi.object().keys({
-    masterId: Joi.string().custom(objectId),
+    gatewayId: Joi.string().custom(objectId),
   }),
 };
 
-const updateMaster = {
+const updateGateway = {
   params: Joi.object().keys({
-    masterId: Joi.required().custom(objectId),
+    gatewayId: Joi.required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
-      masterKey: Joi.string(),
+      gatewayId: Joi.string(),
       name: Joi.string().required(),
       description: Joi.string(),
     })
     .min(1),
 };
 
-const deleteMaster = {
+const deleteGateway = {
   params: Joi.object().keys({
-    masterId: Joi.string().custom(objectId),
+    gatewayId: Joi.string().custom(objectId),
   }),
 };
 
-const getMasterSettings = {
+const getGatewaySettings = {
   params: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
 };
 
-const updateMasterSettings = {
+const updateGatewaySettings = {
   params: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
   body: Joi.object()
     .keys({
@@ -62,22 +62,22 @@ const updateMasterSettings = {
     .min(1),
 };
 
-const getMasterStatus = {
+const getGatewayStatus = {
   params: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
 };
 
 const getDevicesStatus = {
   params: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     deviceId: Joi.string().required(),
   }),
 };
 
-const updateMasterStatus = {
+const updateGatewayStatus = {
   params: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
   body: Joi.object()
     .keys({
@@ -87,14 +87,14 @@ const updateMasterStatus = {
 };
 
 module.exports = {
-  createMaster,
-  getMasters,
-  getMaster,
-  updateMaster,
-  deleteMaster,
-  getMasterSettings,
-  updateMasterSettings,
-  getMasterStatus,
+  createGateway,
+  getGateways,
+  getGateway,
+  updateGateway,
+  deleteGateway,
+  getGatewaySettings,
+  updateGatewaySettings,
+  getGatewayStatus,
   getDevicesStatus,
-  updateMasterStatus,
+  updateGatewayStatus,
 };

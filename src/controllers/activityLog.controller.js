@@ -2,25 +2,25 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { activityLogService, masterService } = require('../services');
+const { activityLogService, gatewayService } = require('../services');
 
 const transformActivityLog = (activityLog) => {
-  const { master, ...log } = activityLog;
+  const { gateway, ...log } = activityLog;
   return {
     ...log,
   };
 };
 
 const createActivityLog = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
 
   const activityLogBody = {
     ...body,
-    master: master._id,
+    gateway: gateway._id,
   };
   const activityLog = await activityLogService.createActivityLog(activityLogBody);
   res.status(httpStatus.CREATED).send(activityLog);
@@ -28,15 +28,15 @@ const createActivityLog = catchAsync(async (req, res) => {
 
 const getActivityLogs = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey, from, to } = pick(req.query, ['masterKey', 'from', 'to']);
+  const { gatewayId, from, to } = pick(req.query, ['gatewayId', 'from', 'to']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   options.sortBy = options.sortBy || 'updatedAt:desc';
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   if (from) {
@@ -60,10 +60,10 @@ const getActivityLog = catchAsync(async (req, res) => {
 });
 
 const updateActivityLog = catchAsync(async (req, res) => {
-  const { masterKey, ...body } = req.body;
-  const master = await masterService.getMasterByOption({ masterKey });
-  if (!master) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId, ...body } = req.body;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   const activityLog = await activityLogService.updateActivityLogById(req.params.activityLogId, body);
   res.send(activityLog);
@@ -76,13 +76,13 @@ const deleteActivityLog = catchAsync(async (req, res) => {
 
 const getLatestActivityLog = catchAsync(async (req, res) => {
   const filter = {};
-  const { masterKey } = pick(req.query, ['masterKey']);
-  if (masterKey) {
-    const master = await masterService.getMasterByOption({ masterKey });
-    if (!master) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Master not found');
+  const { gatewayId } = pick(req.query, ['gatewayId']);
+  if (gatewayId) {
+    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+    if (!gateway) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
     }
-    filter.master = master._id;
+    filter.gateway = gateway._id;
   }
 
   const result = await activityLogService.queryActivityLogs(filter, { sortBy: 'updatedAt:desc', limit: 1 });

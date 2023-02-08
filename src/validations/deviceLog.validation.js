@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createDeviceLog = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     deviceId: Joi.string().required(),
     deviceLogData: Joi.array(),
     deviceLogIOData: Joi.array(),
@@ -12,7 +12,7 @@ const createDeviceLog = {
 
 const getDeviceLogs = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     deviceId: Joi.string(),
     from: Joi.number(),
     to: Joi.number(),
@@ -35,7 +35,7 @@ const updateDeviceLog = {
   body: Joi.object()
     .keys({
       deviceId: Joi.string().required(),
-      masterKey: Joi.string().required(),
+      gatewayId: Joi.string().required(),
       deviceLogData: Joi.array(),
       deviceLogIOData: Joi.array(),
     })
@@ -50,14 +50,14 @@ const deleteDeviceLog = {
 
 const getLatestDeviceLog = {
   query: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     deviceId: Joi.string().required(),
   }),
 };
 
 const getStatisticDeviceLogs = {
   query: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     deviceId: Joi.string().required(),
     from: Joi.number().required(),
     to: Joi.number(),

@@ -25,7 +25,7 @@ const createStatistic = async (statisticBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryStatistics = async (filter, options) => {
-  const statistics = await Statistic.paginate(filter, { ...options, populate: 'master' });
+  const statistics = await Statistic.paginate(filter, { ...options, populate: 'gateway' });
   return statistics;
 };
 
@@ -35,7 +35,7 @@ const queryStatistics = async (filter, options) => {
  * @returns {Promise<Statistic>}
  */
 const getStatisticById = async (id) => {
-  return Statistic.findById(id).populate('master').exec();
+  return Statistic.findById(id).populate('gateway').exec();
 };
 
 /**

@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createActivityLog = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     category: Joi.string().required(),
     type: Joi.string().required(),
     description: Joi.string(),
@@ -13,7 +13,7 @@ const createActivityLog = {
 
 const getActivityLogs = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     from: Joi.number(),
     to: Joi.number(),
     sortBy: Joi.string(),
@@ -34,7 +34,7 @@ const updateActivityLog = {
   }),
   body: Joi.object()
     .keys({
-      masterKey: Joi.string().required(),
+      gatewayId: Joi.string().required(),
       category: Joi.string().required(),
       type: Joi.string().required(),
       description: Joi.string(),
@@ -51,7 +51,7 @@ const deleteActivityLog = {
 
 const getLatestActivityLog = {
   query: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
 };
 

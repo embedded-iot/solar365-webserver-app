@@ -25,7 +25,7 @@ const createFault = async (faultBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryFaults = async (filter, options) => {
-  const faults = await Fault.paginate(filter, { ...options, populate: 'master,device' });
+  const faults = await Fault.paginate(filter, { ...options, populate: 'gateway,device' });
   return faults;
 };
 
@@ -35,7 +35,7 @@ const queryFaults = async (filter, options) => {
  * @returns {Promise<Fault>}
  */
 const getFaultById = async (id) => {
-  return Fault.findById(id).populate('master').populate('device').exec();
+  return Fault.findById(id).populate('gateway').populate('device').exec();
 };
 
 /**

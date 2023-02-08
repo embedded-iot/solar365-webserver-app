@@ -18,12 +18,12 @@ components:
         email: fake@example.com
         name: fake name
         role: user
-    Master:
+    Gateway:
       type: object
       properties:
         id:
           type: string
-        masterKey:
+        gatewayId:
           type: string
         name:
           type: string
@@ -31,9 +31,9 @@ components:
           type: string
       example:
         id: 32bac534954b54139806c112
-        masterKey: MASTER_KEY
+        gatewayId: GATEWAY_ID
         name: Device name
-        description: Master description
+        description: Gateway description
     Device:
       type: object
       properties:
@@ -585,7 +585,7 @@ components:
       properties:
         id:
           type: string
-        master:
+        gateway:
           type: string
         category:
           type: string
@@ -597,10 +597,10 @@ components:
           type: object
       example:
         id: 45bac534954b54139806c112
-        master: 45bac534954b54139806c113
-        category: Master
+        gateway: 45bac534954b54139806c113
+        category: Gateway
         type: Success
-        description: Master not found
+        description: Gateway not found
         activityLogData: {}
     Token:
       type: object

@@ -45,7 +45,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - name
  *                - deviceData
  *              properties:
@@ -55,7 +55,7 @@ module.exports = router;
  *                deviceData:
  *                   type: object
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                name: Device name
  *                description: Device description
  *                deviceData: {
@@ -96,10 +96,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: name
  *          schema:
@@ -169,7 +169,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - list
  *              properties:
  *                name:
@@ -178,7 +178,7 @@ module.exports = router;
  *                deviceData:
  *                   type: object
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                list: [
  *                  {
  *                    "id": 1,
@@ -269,7 +269,7 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - name
  *                - deviceData
  *              properties:
@@ -279,7 +279,7 @@ module.exports = router;
  *                deviceData:
  *                   type: object
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                name: Device name
  *                description: Device description
  *                deviceData: {

@@ -21,9 +21,9 @@ const deviceSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    master: {
+    gateway: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Master',
+      ref: 'Gateway',
       required: true,
     },
   },

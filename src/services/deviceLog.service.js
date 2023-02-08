@@ -25,7 +25,7 @@ const createDeviceLog = async (deviceLogBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryDeviceLogs = async (filter, options) => {
-  const deviceLogs = await DeviceLog.paginate(filter, { ...options, populate: 'master,device' });
+  const deviceLogs = await DeviceLog.paginate(filter, { ...options, populate: 'gateway,device' });
   return deviceLogs;
 };
 
@@ -35,7 +35,7 @@ const queryDeviceLogs = async (filter, options) => {
  * @returns {Promise<DeviceLog>}
  */
 const getDeviceLogById = async (id) => {
-  return DeviceLog.findById(id).populate('master').populate('device').exec();
+  return DeviceLog.findById(id).populate('gateway').populate('device').exec();
 };
 
 /**
@@ -44,7 +44,7 @@ const getDeviceLogById = async (id) => {
  * @returns {Promise<DeviceLog>}
  */
 const getDeviceLogByDeviceID = async (deviceId) => {
-  return DeviceLog.findOne({ deviceId }).populate('master').populate('device').exec();
+  return DeviceLog.findOne({ deviceId }).populate('gateway').populate('device').exec();
 };
 
 /**

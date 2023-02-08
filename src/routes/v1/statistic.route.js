@@ -47,13 +47,13 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - statisticData
  *              properties:
  *                statisticData:
  *                   type: array
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                statisticData: [{
  *                  "today_energy": "--",
  *                  "today_energy_unit": "kWh",
@@ -98,10 +98,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *        - in: query
  *          name: from
  *          schema:
@@ -207,13 +207,13 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - masterKey
+ *                - gatewayId
  *                - statisticData
  *              properties:
  *                statisticData:
  *                   type: array
  *              example:
- *                masterKey: Master key
+ *                gatewayId: Gateway id
  *                statisticData: []
  *      responses:
  *        "200":
@@ -267,10 +267,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: masterKey
+ *          name: gatewayId
  *          schema:
  *            type: string
- *          description: Master key
+ *          description: Gateway id
  *      responses:
  *        "200":
  *          description: OK

@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createFault = {
   body: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
     deviceId: Joi.string().required(),
     category: Joi.string().required(),
     type: Joi.string().required(),
@@ -18,7 +18,7 @@ const createFault = {
 
 const getFaults = {
   query: Joi.object().keys({
-    masterKey: Joi.string(),
+    gatewayId: Joi.string(),
     from: Joi.number(),
     to: Joi.number(),
     sortBy: Joi.string(),
@@ -39,7 +39,7 @@ const updateFault = {
   }),
   body: Joi.object()
     .keys({
-      masterKey: Joi.string().required(),
+      gatewayId: Joi.string().required(),
       deviceId: Joi.string().required(),
       category: Joi.string().required(),
       type: Joi.string().required(),
@@ -61,7 +61,7 @@ const deleteFault = {
 
 const getLatestFault = {
   query: Joi.object().keys({
-    masterKey: Joi.string().required(),
+    gatewayId: Joi.string().required(),
   }),
 };
 
