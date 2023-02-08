@@ -43,7 +43,7 @@ gatewaySchema.plugin(paginate);
  * @param {ObjectId} [excludeGatewayId] - The id of the gateway to be excluded
  * @returns {Promise<boolean>}
  */
-gatewaySchema.statics.isGatewayKeyTaken = async function (gatewayId, excludeGatewayId) {
+gatewaySchema.statics.isGatewayIdTaken = async function (gatewayId, excludeGatewayId) {
   const gateway = await this.findOne({ gatewayId, _id: { $ne: excludeGatewayId } });
   return !!gateway;
 };

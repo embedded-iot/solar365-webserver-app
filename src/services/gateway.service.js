@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Gateway>}
  */
 const createGateway = async (gatewayBody) => {
-  if (await Gateway.isGatewayKeyTaken(gatewayBody.gatewayId)) {
+  if (await Gateway.isGatewayIdTaken(gatewayBody.gatewayId)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Gateway id already taken');
   }
   const gateway = await Gateway.create(gatewayBody);
@@ -49,7 +49,7 @@ const updateGatewayByOption = async (option, updateBody) => {
   if (!gateway) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  if (updateBody.gatewayId && (await Gateway.isGatewayKeyTaken(updateBody.gatewayId, option._id))) {
+  if (updateBody.gatewayId && (await Gateway.isGatewayIdTaken(updateBody.gatewayId, option._id))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Gateway id already taken');
   }
   Object.assign(gateway, updateBody);
