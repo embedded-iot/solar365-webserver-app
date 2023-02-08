@@ -3,6 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createGateway = {
   body: Joi.object().keys({
+    projectId: Joi.string().required(),
     gatewayId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string(),
@@ -11,6 +12,7 @@ const createGateway = {
 
 const getGateways = {
   query: Joi.object().keys({
+    projectId: Joi.string(),
     gatewayId: Joi.string(),
     name: Joi.string(),
     description: Joi.string(),
@@ -32,7 +34,8 @@ const updateGateway = {
   }),
   body: Joi.object()
     .keys({
-      gatewayId: Joi.string(),
+      projectId: Joi.string().required(),
+      gatewayId: Joi.string().required(),
       name: Joi.string().required(),
       description: Joi.string(),
     })

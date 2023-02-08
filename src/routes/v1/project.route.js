@@ -42,17 +42,12 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - projectId
  *                - name
  *              properties:
- *                projectId:
- *                  type: string
- *                  description: must be unique
  *                name:
  *                  type: string
  *                  description: must be unique
  *              example:
- *                projectId: Project id
  *                name: Project name
  *                description: Project description
  *      responses:

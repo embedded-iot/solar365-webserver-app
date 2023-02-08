@@ -10,6 +10,7 @@ const createProject = {
 
 const getProjects = {
   query: Joi.object().keys({
+    userId: Joi.string(),
     name: Joi.string(),
     description: Joi.string(),
     sortBy: Joi.string(),
