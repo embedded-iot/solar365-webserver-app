@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
+const projectRoute = require('./project.route');
 const gatewayRoute = require('./gateway.route');
 const deviceRoute = require('./device.route');
 const deviceLogRoute = require('./deviceLog.route');
@@ -20,6 +21,10 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/project',
+    route: projectRoute,
   },
   {
     path: '/gateways',
@@ -45,10 +50,6 @@ const defaultRoutes = [
     path: '/activityLogs',
     route: activityLogRoute,
   },
-  {
-    path: '/docs',
-    route: docsRoute,
-  },
 ];
 
 const devRoutes = [
@@ -64,7 +65,7 @@ defaultRoutes.forEach((route) => {
 });
 
 /* istanbul ignore next */
-if (config.env === 'development') {
+if (true || config.env === 'development') {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });

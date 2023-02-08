@@ -19,9 +19,9 @@ const gatewaySchema = mongoose.Schema(
     description: {
       type: String,
     },
-    user: {
+    project: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
+      ref: 'Project',
       required: true,
     },
     settings: {

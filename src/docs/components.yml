@@ -18,6 +18,19 @@ components:
         email: fake@example.com
         name: fake name
         role: user
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: 32bac534954b54139806c112
+        name: Project name
+        description: Project description
     Gateway:
       type: object
       properties:
@@ -31,8 +44,8 @@ components:
           type: string
       example:
         id: 32bac534954b54139806c112
-        gatewayId: GATEWAY_ID
-        name: Device name
+        gatewayId: Gateway id
+        name: Gateway name
         description: Gateway description
     Device:
       type: object

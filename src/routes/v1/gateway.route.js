@@ -66,7 +66,7 @@ module.exports = router;
  *                  type: string
  *                  description: must be unique
  *              example:
- *                gatewayId: GATEWAY_ID
+ *                gatewayId: Gateway id
  *                name: Gateway name
  *                description: Gateway description
  *      responses:
@@ -205,7 +205,7 @@ module.exports = router;
  *                  type: string
  *                  description: must be unique
  *              example:
- *                gatewayId: GATEWAY_ID
+ *                gatewayId: Gateway id
  *                name: Gateway name
  *                description: Gateway description
  *      responses:
