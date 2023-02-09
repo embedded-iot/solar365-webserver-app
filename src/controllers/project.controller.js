@@ -4,12 +4,6 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { projectService } = require('../services');
 
-const transformProject = async (project) => {
-  return {
-    ...project,
-  };
-};
-
 const createProject = catchAsync(async (req, res) => {
   const projectBody = {
     ...req.body,
@@ -27,8 +21,7 @@ const getProjects = catchAsync(async (req, res) => {
   };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await projectService.queryProjects(filterByUserReq, options);
-  // eslint-disable-next-line no-return-await
-  res.send(result.results.map(async (project) => await transformProject(project.toJSON())));
+  res.send(result);
 });
 
 const getProject = catchAsync(async (req, res) => {
@@ -40,8 +33,7 @@ const getProject = catchAsync(async (req, res) => {
   if (!project) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Project not found');
   }
-  const transformedProject = await transformProject(project.toJSON());
-  res.send(transformedProject);
+  res.send(project);
 });
 
 const updateProject = catchAsync(async (req, res) => {

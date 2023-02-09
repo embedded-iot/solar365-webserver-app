@@ -1,5 +1,6 @@
 module.exports.authValidation = require('./auth.validation');
 module.exports.userValidation = require('./user.validation');
+module.exports.projectValidation = require('./project.validation');
 module.exports.gatewayValidation = require('./gateway.validation');
 module.exports.deviceValidation = require('./device.validation');
 module.exports.deviceLogValidation = require('./deviceLog.validation');

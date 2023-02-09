@@ -10,7 +10,7 @@ const { userOneAccessToken, adminAccessToken } = require('../fixtures/token.fixt
 setupTestDB();
 
 describe('User routes', () => {
-  describe('POST /v1/users', () => {
+  describe('POST /api/users', () => {
     let newUser;
 
     beforeEach(() => {
@@ -26,7 +26,7 @@ describe('User routes', () => {
       await insertUsers([admin]);
 
       const res = await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.CREATED);
@@ -45,7 +45,7 @@ describe('User routes', () => {
       newUser.role = 'admin';
 
       const res = await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.CREATED);
@@ -57,14 +57,14 @@ describe('User routes', () => {
     });
 
     test('should return 401 error is access token is missing', async () => {
-      await request(app).post('/v1/users').send(newUser).expect(httpStatus.UNAUTHORIZED);
+      await request(app).post('/api/users').send(newUser).expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 error if logged in user is not admin', async () => {
       await insertUsers([userOne]);
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(newUser)
         .expect(httpStatus.FORBIDDEN);
@@ -75,7 +75,7 @@ describe('User routes', () => {
       newUser.email = 'invalidEmail';
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
@@ -86,7 +86,7 @@ describe('User routes', () => {
       newUser.email = userOne.email;
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
@@ -97,7 +97,7 @@ describe('User routes', () => {
       newUser.password = 'passwo1';
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
@@ -108,7 +108,7 @@ describe('User routes', () => {
       newUser.password = 'password';
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
@@ -116,7 +116,7 @@ describe('User routes', () => {
       newUser.password = '1111111';
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
@@ -127,19 +127,19 @@ describe('User routes', () => {
       newUser.role = 'invalid';
 
       await request(app)
-        .post('/v1/users')
+        .post('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(newUser)
         .expect(httpStatus.BAD_REQUEST);
     });
   });
 
-  describe('GET /v1/users', () => {
+  describe('GET /api/users', () => {
     test('should return 200 and apply the default query options', async () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.OK);
@@ -163,14 +163,14 @@ describe('User routes', () => {
     test('should return 401 if access token is missing', async () => {
       await insertUsers([userOne, userTwo, admin]);
 
-      await request(app).get('/v1/users').send().expect(httpStatus.UNAUTHORIZED);
+      await request(app).get('/api/users').send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 if a non-admin is trying to access all users', async () => {
       await insertUsers([userOne, userTwo, admin]);
 
       await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.FORBIDDEN);
@@ -180,7 +180,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ name: userOne.name })
         .send()
@@ -201,7 +201,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ role: 'user' })
         .send()
@@ -223,7 +223,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ sortBy: 'role:desc' })
         .send()
@@ -246,7 +246,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ sortBy: 'role:asc' })
         .send()
@@ -269,7 +269,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ sortBy: 'role:desc,name:asc' })
         .send()
@@ -303,7 +303,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ limit: 2 })
         .send()
@@ -325,7 +325,7 @@ describe('User routes', () => {
       await insertUsers([userOne, userTwo, admin]);
 
       const res = await request(app)
-        .get('/v1/users')
+        .get('/api/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .query({ page: 2, limit: 2 })
         .send()
@@ -343,12 +343,12 @@ describe('User routes', () => {
     });
   });
 
-  describe('GET /v1/users/:userId', () => {
+  describe('GET /api/users/:userId', () => {
     test('should return 200 and the user object if data is ok', async () => {
       await insertUsers([userOne]);
 
       const res = await request(app)
-        .get(`/v1/users/${userOne._id}`)
+        .get(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.OK);
@@ -365,14 +365,14 @@ describe('User routes', () => {
     test('should return 401 error if access token is missing', async () => {
       await insertUsers([userOne]);
 
-      await request(app).get(`/v1/users/${userOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+      await request(app).get(`/api/users/${userOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 error if user is trying to get another user', async () => {
       await insertUsers([userOne, userTwo]);
 
       await request(app)
-        .get(`/v1/users/${userTwo._id}`)
+        .get(`/api/users/${userTwo._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.FORBIDDEN);
@@ -382,7 +382,7 @@ describe('User routes', () => {
       await insertUsers([userOne, admin]);
 
       await request(app)
-        .get(`/v1/users/${userOne._id}`)
+        .get(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.OK);
@@ -392,7 +392,7 @@ describe('User routes', () => {
       await insertUsers([admin]);
 
       await request(app)
-        .get('/v1/users/invalidId')
+        .get('/api/users/invalidId')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.BAD_REQUEST);
@@ -402,19 +402,19 @@ describe('User routes', () => {
       await insertUsers([admin]);
 
       await request(app)
-        .get(`/v1/users/${userOne._id}`)
+        .get(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.NOT_FOUND);
     });
   });
 
-  describe('DELETE /v1/users/:userId', () => {
+  describe('DELETE /api/users/:userId', () => {
     test('should return 204 if data is ok', async () => {
       await insertUsers([userOne]);
 
       await request(app)
-        .delete(`/v1/users/${userOne._id}`)
+        .delete(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.NO_CONTENT);
@@ -426,14 +426,14 @@ describe('User routes', () => {
     test('should return 401 error if access token is missing', async () => {
       await insertUsers([userOne]);
 
-      await request(app).delete(`/v1/users/${userOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+      await request(app).delete(`/api/users/${userOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 error if user is trying to delete another user', async () => {
       await insertUsers([userOne, userTwo]);
 
       await request(app)
-        .delete(`/v1/users/${userTwo._id}`)
+        .delete(`/api/users/${userTwo._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send()
         .expect(httpStatus.FORBIDDEN);
@@ -443,7 +443,7 @@ describe('User routes', () => {
       await insertUsers([userOne, admin]);
 
       await request(app)
-        .delete(`/v1/users/${userOne._id}`)
+        .delete(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.NO_CONTENT);
@@ -453,7 +453,7 @@ describe('User routes', () => {
       await insertUsers([admin]);
 
       await request(app)
-        .delete('/v1/users/invalidId')
+        .delete('/api/users/invalidId')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.BAD_REQUEST);
@@ -463,14 +463,14 @@ describe('User routes', () => {
       await insertUsers([admin]);
 
       await request(app)
-        .delete(`/v1/users/${userOne._id}`)
+        .delete(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.NOT_FOUND);
     });
   });
 
-  describe('PATCH /v1/users/:userId', () => {
+  describe('PATCH /api/users/:userId', () => {
     test('should return 200 and successfully update user if data is ok', async () => {
       await insertUsers([userOne]);
       const updateBody = {
@@ -480,7 +480,7 @@ describe('User routes', () => {
       };
 
       const res = await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
@@ -503,7 +503,7 @@ describe('User routes', () => {
       await insertUsers([userOne]);
       const updateBody = { name: faker.name.findName() };
 
-      await request(app).patch(`/v1/users/${userOne._id}`).send(updateBody).expect(httpStatus.UNAUTHORIZED);
+      await request(app).patch(`/api/users/${userOne._id}`).send(updateBody).expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return 403 if user is updating another user', async () => {
@@ -511,7 +511,7 @@ describe('User routes', () => {
       const updateBody = { name: faker.name.findName() };
 
       await request(app)
-        .patch(`/v1/users/${userTwo._id}`)
+        .patch(`/api/users/${userTwo._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.FORBIDDEN);
@@ -522,7 +522,7 @@ describe('User routes', () => {
       const updateBody = { name: faker.name.findName() };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
@@ -533,7 +533,7 @@ describe('User routes', () => {
       const updateBody = { name: faker.name.findName() };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.NOT_FOUND);
@@ -544,7 +544,7 @@ describe('User routes', () => {
       const updateBody = { name: faker.name.findName() };
 
       await request(app)
-        .patch(`/v1/users/invalidId`)
+        .patch(`/api/users/invalidId`)
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
@@ -555,7 +555,7 @@ describe('User routes', () => {
       const updateBody = { email: 'invalidEmail' };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
@@ -566,7 +566,7 @@ describe('User routes', () => {
       const updateBody = { email: userTwo.email };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
@@ -577,7 +577,7 @@ describe('User routes', () => {
       const updateBody = { email: userOne.email };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
@@ -588,7 +588,7 @@ describe('User routes', () => {
       const updateBody = { password: 'passwo1' };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
@@ -599,7 +599,7 @@ describe('User routes', () => {
       const updateBody = { password: 'password' };
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
@@ -607,7 +607,7 @@ describe('User routes', () => {
       updateBody.password = '11111111';
 
       await request(app)
-        .patch(`/v1/users/${userOne._id}`)
+        .patch(`/api/users/${userOne._id}`)
         .set('Authorization', `Bearer ${userOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);

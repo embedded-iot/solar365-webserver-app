@@ -12,7 +12,7 @@ const defaultSettings = {
 };
 
 const transformGateway = async (gateway) => {
-  const devicesCount = await deviceService.getDevicesCount({ gateway: gateway.id });
+  const devicesCount = deviceService.getDevicesCount({ gateway: gateway.id });
   return {
     ...gateway,
     devicesCount,

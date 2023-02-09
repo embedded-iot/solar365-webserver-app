@@ -23,7 +23,7 @@ const defaultRoutes = [
     route: userRoute,
   },
   {
-    path: '/project',
+    path: '/projects',
     route: projectRoute,
   },
   {
