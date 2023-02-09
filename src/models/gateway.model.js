@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const Device = require('./device.model');
 const DeviceLog = require('./deviceLog.model');
-const { status } = require('../config/constant');
+const { status } = require('../config/constants');
 
 const gatewaySchema = mongoose.Schema(
   {
