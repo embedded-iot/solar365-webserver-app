@@ -65,7 +65,7 @@ defaultRoutes.forEach((route) => {
 });
 
 /* istanbul ignore next */
-if (true || config.env === 'development') {
+if (config.env === 'production' || config.env === 'development') {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });

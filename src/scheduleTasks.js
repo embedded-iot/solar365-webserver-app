@@ -1,6 +1,11 @@
 const cron = require('node-cron');
-const { gatewayController, activityLogController, deviceLogController,
-  statisticController, faultController } = require('./controllers');
+const {
+  gatewayController,
+  activityLogController,
+  deviceLogController,
+  statisticController,
+  faultController,
+} = require('./controllers');
 
 const start = async () => {
   // every 5 minutes

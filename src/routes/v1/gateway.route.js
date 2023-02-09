@@ -11,13 +11,17 @@ router
   .post(auth(), validate(gatewayValidation.createGateway), gatewayController.createGateway)
   .get(auth(), validate(gatewayValidation.getGateways), gatewayController.getGateways);
 
-router.route('/gateway-status/:gatewayId').get(validate(gatewayValidation.getGatewayStatus), gatewayController.getGatewayStatus);
+router
+  .route('/gateway-status/:gatewayId')
+  .get(validate(gatewayValidation.getGatewayStatus), gatewayController.getGatewayStatus);
 
 router
   .route('/gateway-status/:gatewayId/:deviceId')
   .get(validate(gatewayValidation.getDevicesStatus), gatewayController.getDevicesStatus);
 
-router.route('/:gatewayId/status').post(validate(gatewayValidation.updateGatewayStatus), gatewayController.updateGatewayStatus);
+router
+  .route('/:gatewayId/status')
+  .post(validate(gatewayValidation.updateGatewayStatus), gatewayController.updateGatewayStatus);
 
 router
   .route('/:gatewayId/settings')

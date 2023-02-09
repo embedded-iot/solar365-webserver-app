@@ -37,9 +37,7 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
-const allowlist = [
-  config.domain.url
-];
+const allowlist = [config.domain.url];
 
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;

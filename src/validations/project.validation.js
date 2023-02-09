@@ -44,7 +44,6 @@ const deleteProject = {
   }),
 };
 
-
 module.exports = {
   createProject,
   getProjects,
