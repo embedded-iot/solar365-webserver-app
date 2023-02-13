@@ -7,7 +7,7 @@ const { gatewayService, deviceService, statisticService, faultService, activityL
 const config = require('../config/config');
 
 const defaultSettings = {
-  intervalRefresh: 12000,
+  refreshDataAfterTime: 12000,
   price: 2000,
 };
 
@@ -228,7 +228,7 @@ const updateGatewayStatus = catchAsync(async (req, res) => {
   gateway.settings = {
     ...(gateway.settings || defaultSettings),
     status: req.body.status,
-    lastUpdatedStatusTime: new Date(),
+    updatedStateAt: new Date(),
   };
   gateway.save();
   res.send();
@@ -241,13 +241,13 @@ const autoUpdateGatewayStatus = async () => {
     const gateway = result.results[i];
     if (
       !gateway.settings ||
-      !gateway.settings.lastUpdatedStatusTime ||
-      DateService.getMinutesBetweenDates(new Date(gateway.settings.lastUpdatedStatusTime), new Date()) > 5 // 5 minutes
+      !gateway.settings.updatedStateAt ||
+      DateService.getMinutesBetweenDates(new Date(gateway.settings.updatedStateAt), new Date()) > 5 // 5 minutes
     ) {
       gateway.settings = {
         ...(gateway.settings || defaultSettings),
         status: false,
-        lastUpdatedStatusTime: new Date(),
+        updatedStateAt: new Date(),
       };
       gateway.save();
       // eslint-disable-next-line no-await-in-loop

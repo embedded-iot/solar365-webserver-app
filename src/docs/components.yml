@@ -51,6 +51,13 @@ components:
         name: Project name
         description: Project description
         user: 32bac534954b54139806c112
+    GatewaySetting:
+      type: object
+      properties:
+        refreshDataAfterTime:
+          type: number
+      example:
+        refreshDataAfterTime: 12000
     Gateway:
       type: object
       properties:
@@ -62,11 +69,24 @@ components:
           type: string
         description:
           type: string
+        project:
+          type: string
+        state:
+          type: string
+          enum: [ONLINE, OFFLINE]
+        updatedStateAt:
+          type: string
+          format: date-time
+        settings:
+          type: object
       example:
         id: 32bac534954b54139806c112
         gatewayId: Gateway id
         name: Gateway name
-        description: Gateway description
+        project: 32bac534954b54139806c112
+        state: OFFLINE
+        updatedStateAt: 2023-02-13T14:51:45.018+00:00
+        settings: {}
     Device:
       type: object
       properties:

@@ -322,7 +322,7 @@ module.exports = router;
  *            application/json:
  *              schema:
  *                 example: {
- *                   intervalRefresh: 120000,
+ *                   refreshDataAfterTime: 120000,
  *                   price: 2000
  *                 }
  *        "401":
@@ -359,7 +359,7 @@ module.exports = router;
  *                  description: settings object
  *              example:
  *                settings: {
- *                  intervalRefresh: 12000,
+ *                  refreshDataAfterTime: 12000,
  *                  price: 2000
  *                }
  *      responses:
@@ -369,7 +369,7 @@ module.exports = router;
  *            application/json:
  *              schema:
  *                 example: {
- *                   intervalRefresh: 120000,
+ *                   refreshDataAfterTime: 120000,
  *                   price: 2000
  *                 }
  *        "401":

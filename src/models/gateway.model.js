@@ -30,14 +30,14 @@ const gatewaySchema = mongoose.Schema(
       enums: gatewayStates,
       default: STATE_VALUES.OFFLINE,
     },
-    lastUpdatedStatusTime: {
+    updatedStateAt: {
       type: Date,
       default: Date.now,
     },
     settings: {
-      type: Object,
-      description: {
-        type: String,
+      refreshDataAfterTime: {
+        type: Number,
+        default: 12000,
       },
     },
   },
