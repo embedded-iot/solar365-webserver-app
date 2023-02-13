@@ -2,14 +2,22 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-const { roles } = require('../config/roles');
+const { roles, ROLE_VALUES } = require('../config/roles');
+const { userStates, STATE_VALUES } = require('../config/constants');
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
+    },
+    fullName: {
+      type: String,
+    },
+    avatar: {
+      type: String,
     },
     email: {
       type: String,
@@ -22,6 +30,14 @@ const userSchema = mongoose.Schema(
           throw new Error('Invalid email');
         }
       },
+    },
+    phone: {
+      type: String,
+    },
+    state: {
+      type: String,
+      enum: userStates,
+      default: STATE_VALUES.ACTIVATED,
     },
     password: {
       type: String,
@@ -38,7 +54,11 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: roles,
-      default: 'user',
+      default: ROLE_VALUES.USER,
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now,
     },
   },
   {

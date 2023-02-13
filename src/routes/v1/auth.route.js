@@ -35,11 +35,11 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - name
+ *                - username
  *                - email
  *                - password
  *              properties:
- *                name:
+ *                username:
  *                  type: string
  *                email:
  *                  type: string
@@ -51,9 +51,9 @@ module.exports = router;
  *                  minLength: 8
  *                  description: At least one number and one letter
  *              example:
- *                name: fake name
- *                email: fake@example.com
- *                password: password1
+ *                username: username
+ *                email: user@gmail.com
+ *                password: user@123456
  *      responses:
  *        "201":
  *          description: Created
@@ -94,8 +94,8 @@ module.exports = router;
  *                  type: string
  *                  format: password
  *              example:
- *                email: fake@example.com
- *                password: password1
+ *                email: user@gmail.com
+ *                password: user@123456
  *      responses:
  *        "200":
  *          description: OK
@@ -198,7 +198,7 @@ module.exports = router;
  *                  type: string
  *                  format: email
  *              example:
- *                email: fake@example.com
+ *                email: user@gmail.com
  *      responses:
  *        "204":
  *          description: No content
@@ -235,7 +235,7 @@ module.exports = router;
  *                  minLength: 8
  *                  description: At least one number and one letter
  *              example:
- *                password: password1
+ *                password: user@123456
  *      responses:
  *        "204":
  *          description: No content

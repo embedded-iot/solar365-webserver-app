@@ -43,17 +43,25 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - name
+ *                - username
  *                - email
  *                - password
  *                - role
  *              properties:
  *                name:
  *                  type: string
+ *                fullName:
+ *                  type: string
+ *                avatar:
+ *                  type: string
  *                email:
  *                  type: string
  *                  format: email
  *                  description: must be unique
+ *                phone:
+ *                  type: string
+ *                state:
+ *                  type: string
  *                password:
  *                  type: string
  *                  format: password
@@ -61,12 +69,16 @@ module.exports = router;
  *                  description: At least one number and one letter
  *                role:
  *                   type: string
- *                   enum: [user, admin]
+ *                   enum: [USER, ADMIN]
  *              example:
- *                name: fake name
- *                email: fake@example.com
- *                password: password1
- *                role: user
+ *                username: username
+ *                fullName: Full name
+ *                avatar: ''
+ *                email: user@gmail.com
+ *                phone: 0123456789
+ *                state: ACTIVATED
+ *                password: user@123456
+ *                role: USER
  *      responses:
  *        "201":
  *          description: Created
@@ -210,9 +222,9 @@ module.exports = router;
  *                  minLength: 8
  *                  description: At least one number and one letter
  *              example:
- *                name: fake name
- *                email: fake@example.com
- *                password: password1
+ *                name: user
+ *                email: user@gmail.com
+ *                password: user@123456
  *      responses:
  *        "200":
  *          description: OK

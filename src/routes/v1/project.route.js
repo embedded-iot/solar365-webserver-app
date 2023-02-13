@@ -47,6 +47,8 @@ module.exports = router;
  *                name:
  *                  type: string
  *                  description: must be unique
+ *                description:
+ *                  type: string
  *              example:
  *                name: Project name
  *                description: Project description

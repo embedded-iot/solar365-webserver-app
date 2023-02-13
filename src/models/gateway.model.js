@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const Device = require('./device.model');
 const DeviceLog = require('./deviceLog.model');
-const { status } = require('../config/constants');
+const { gatewayStates, STATE_VALUES } = require('../config/constants');
 
 const gatewaySchema = mongoose.Schema(
   {
@@ -20,15 +20,19 @@ const gatewaySchema = mongoose.Schema(
     description: {
       type: String,
     },
-    status: {
-      type: String,
-      enums: status,
-      default: 'offline',
-    },
     project: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Project',
       required: true,
+    },
+    state: {
+      type: String,
+      enums: gatewayStates,
+      default: STATE_VALUES.OFFLINE,
+    },
+    lastUpdatedStatusTime: {
+      type: Date,
+      default: Date.now,
     },
     settings: {
       type: Object,

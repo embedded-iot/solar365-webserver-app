@@ -1,12 +1,17 @@
 const Joi = require('joi');
 const { password, objectId } = require('./custom.validation');
+const { ROLE_VALUES } = require('../config/roles');
 
 const createUser = {
   body: Joi.object().keys({
+    username: Joi.string().required(),
+    fullName: Joi.string(),
+    avatar: Joi.string(),
     email: Joi.string().required().email(),
+    phone: Joi.string(),
+    state: Joi.string(),
     password: Joi.string().required().custom(password),
-    name: Joi.string().required(),
-    role: Joi.string().required().valid('user', 'admin'),
+    role: Joi.string().required().valid(ROLE_VALUES.USER, ROLE_VALUES.USER),
   }),
 };
 
@@ -32,8 +37,14 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
+      username: Joi.string(),
+      fullName: Joi.string(),
+      avatar: Joi.string(),
       email: Joi.string().email(),
+      phone: Joi.string(),
+      state: Joi.string(),
       password: Joi.string().custom(password),
+      role: Joi.string().valid(ROLE_VALUES.USER, ROLE_VALUES.USER),
       name: Joi.string(),
     })
     .min(1),

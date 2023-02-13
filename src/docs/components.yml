@@ -5,19 +5,36 @@ components:
       properties:
         id:
           type: string
+        username:
+          type: string
+        fullName:
+          type: string
+        avatar:
+          type: string
         email:
           type: string
           format: email
-        name:
+        phone:
           type: string
+        state:
+          type: string
+          enum: [ACTIVATED, BLOCKED]
+        lastLogin:
+          type: string
+          format: date-time
         role:
           type: string
-          enum: [user, admin]
+          enum: [USER, ADMIN]
       example:
         id: 5ebac534954b54139806c112
-        email: fake@example.com
-        name: fake name
-        role: user
+        username: username
+        fullName: Full name
+        avatar: ''
+        email: user@gmail.com
+        phone: 0123456789
+        state: ACTIVATED
+        role: USER
+        lastLogin: null
     Project:
       type: object
       properties:
@@ -27,10 +44,13 @@ components:
           type: string
         description:
           type: string
+        user:
+          type: string
       example:
         id: 32bac534954b54139806c112
         name: Project name
         description: Project description
+        user: 32bac534954b54139806c112
     Gateway:
       type: object
       properties:
