@@ -1,25 +1,40 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const DeviceLog = require('./deviceLog.model');
+const { deviceTypes, DEVICE_TYPE_VALUES, STATE_VALUES, deviceStates } = require('../config/constants');
 
 const deviceSchema = mongoose.Schema(
   {
-    name: {
+    type: {
       type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    },
-    description: {
-      type: String,
-    },
-    deviceData: {
-      type: Object,
+      enum: deviceTypes,
+      default: DEVICE_TYPE_VALUES.INVERTER,
       required: true,
     },
     deviceId: {
-      type: String,
+      type: Number,
       required: true,
+      unique: true,
+    },
+    name: {
+      type: String,
+    },
+    ipAddress: {
+      type: String,
+    },
+    port: {
+      type: Number,
+    },
+    startDataAddress: {
+      type: Number,
+    },
+    endDataAddress: {
+      type: Number,
+    },
+    state: {
+      type: String,
+      enums: deviceStates,
+      default: STATE_VALUES.OFFLINE,
     },
     gateway: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -35,17 +50,6 @@ const deviceSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 deviceSchema.plugin(toJSON);
 deviceSchema.plugin(paginate);
-
-/**
- * Check if device name is taken
- * @param {string} name - The user's name
- * @param {ObjectId} [excludeDeviceId] - The name of the device to be excluded
- * @returns {Promise<boolean>}
- */
-deviceSchema.statics.isDeviceNameTaken = async function (name, excludeDeviceId) {
-  const user = await this.findOne({ name, _id: { $ne: excludeDeviceId } });
-  return !!user;
-};
 
 /**
  * Check if device Id is taken

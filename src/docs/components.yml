@@ -79,6 +79,8 @@ components:
           format: date-time
         settings:
           type: object
+        devicesCount:
+          type: number
       example:
         id: 32bac534954b54139806c112
         gatewayId: Gateway id
@@ -87,49 +89,57 @@ components:
         state: OFFLINE
         updatedStateAt: 2023-02-13T14:51:45.018+00:00
         settings: {}
+        devicesCount: 0
     Device:
       type: object
       properties:
         id:
           type: string
+        type:
+          type: string
+          enum: [LOGGER, INVERTER, SENSOR]
+        deviceId:
+          type: number
         name:
           type: string
-        description:
+        ipAddress:
           type: string
-        deviceData:
-          type: object
+        port:
+          type: number
+        startDataAddress:
+          type: number
+        endDataAddress:
+          type: number
+        state:
+          type: string
+          enum: [ONLINE, OFFLINE]
+        gateway:
+          type: string
       example:
         id: 32bac534954b54139806c112
+        type: INVERTER
+        deviceId: 1
         name: Device name
-        description: Device description
-        deviceData: {
-          "id": 1,
-          "dev_id": 1,
-          "dev_code": 61003,
-          "dev_type": 25,
-          "dev_sn": "",
-          "dev_name": "SUN2000(36~50)(COM3-001)",
-          "dev_model": "SUN2000(36~50)",
-          "port_name": "COM3",
-          "phys_addr": "1",
-          "logc_addr": "1",
-          "link_status": 0,
-          "init_status": 0,
-          "dev_special": "0",
-          "list": [ ]
-        }
+        ipAddress: 192.168.0.100
+        port: 502
+        startDataAddress: 8000
+        endDataAddress: 9000
+        state: OFFLINE
+        updatedStateAt: 2023-02-13T14:51:45.018+00:00
+        gateway: 32bac534954b54139806c112
     DeviceLog:
       type: object
       properties:
         id:
           type: string
-        deviceLogData:
-          type: array
-        deviceLogIOData:
+        device:
+          type: string
+        list:
           type: array
       example:
         id: 45bac534954b54139806c112
-        deviceLogData: [
+        device: 45bac534954b54139806c112
+        list: [
           {
           "data_name": "Nominal Power",
           "data_value": "--",

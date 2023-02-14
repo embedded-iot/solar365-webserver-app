@@ -100,7 +100,7 @@ const deleteDeviceById = async (deviceId) => {
  * @returns {Number}
  */
 const getDevicesCount = async (option) => {
-  return Device.countDocuments(option);
+  return await Device.countDocuments(option);
 };
 
 module.exports = {

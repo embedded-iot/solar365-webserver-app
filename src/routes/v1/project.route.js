@@ -74,10 +74,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: name
+ *          name: keyword
  *          schema:
  *            type: string
- *          description: Project name
+ *          description: Search by name, description...
  *        - in: query
  *          name: sortBy
  *          schema:

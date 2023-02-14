@@ -13,8 +13,7 @@ const createGateway = {
 const getGateways = {
   query: Joi.object().keys({
     projectId: Joi.string().custom(objectId),
-    gatewayId: Joi.string(),
-    name: Joi.string(),
+    keyword: Joi.string(),
     description: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
@@ -60,31 +59,7 @@ const updateGatewaySettings = {
   }),
   body: Joi.object()
     .keys({
-      settings: Joi.object().required(),
-    })
-    .min(1),
-};
-
-const getGatewayStatus = {
-  params: Joi.object().keys({
-    gatewayId: Joi.string().required(),
-  }),
-};
-
-const getDevicesStatus = {
-  params: Joi.object().keys({
-    gatewayId: Joi.string().required(),
-    deviceId: Joi.string().required(),
-  }),
-};
-
-const updateGatewayStatus = {
-  params: Joi.object().keys({
-    gatewayId: Joi.string().required(),
-  }),
-  body: Joi.object()
-    .keys({
-      status: Joi.boolean().required(),
+      refreshDataAfterTime: Joi.number().required(),
     })
     .min(1),
 };
@@ -97,7 +72,4 @@ module.exports = {
   deleteGateway,
   getGatewaySettings,
   updateGatewaySettings,
-  getGatewayStatus,
-  getDevicesStatus,
-  updateGatewayStatus,
 };

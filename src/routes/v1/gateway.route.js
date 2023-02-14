@@ -12,18 +12,6 @@ router
   .get(auth(), validate(gatewayValidation.getGateways), gatewayController.getGateways);
 
 router
-  .route('/gateway-status/:gatewayId')
-  .get(validate(gatewayValidation.getGatewayStatus), gatewayController.getGatewayStatus);
-
-router
-  .route('/gateway-status/:gatewayId/:deviceId')
-  .get(validate(gatewayValidation.getDevicesStatus), gatewayController.getDevicesStatus);
-
-router
-  .route('/:gatewayId/status')
-  .post(validate(gatewayValidation.updateGatewayStatus), gatewayController.updateGatewayStatus);
-
-router
   .route('/:gatewayId/settings')
   .get(validate(gatewayValidation.getGatewaySettings), gatewayController.getGatewaySettings)
   .patch(auth('manageGateways'), validate(gatewayValidation.updateGatewaySettings), gatewayController.updateGatewaySettings);
@@ -60,9 +48,12 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - projectId
  *                - gatewayId
  *                - name
  *              properties:
+ *                projectId:
+ *                  type: string
  *                gatewayId:
  *                  type: string
  *                  description: must be unique
@@ -70,6 +61,7 @@ module.exports = router;
  *                  type: string
  *                  description: must be unique
  *              example:
+ *                projectId: Project id
  *                gatewayId: Gateway id
  *                name: Gateway name
  *                description: Gateway description
@@ -95,10 +87,10 @@ module.exports = router;
  *        - bearerAuth: []
  *      parameters:
  *        - in: query
- *          name: name
+ *          name: keyword
  *          schema:
  *            type: string
- *          description: Gateway name
+ *          description: Search by name, description...
  *        - in: query
  *          name: sortBy
  *          schema:
@@ -199,9 +191,12 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
+ *                - projectId
  *                - gatewayId
  *                - name
  *              properties:
+ *                projectId:
+ *                  type: string
  *                gatewayId:
  *                  type: string
  *                  description: must be unique
@@ -209,6 +204,7 @@ module.exports = router;
  *                  type: string
  *                  description: must be unique
  *              example:
+ *                projectId: Project id
  *                gatewayId: Gateway id
  *                name: Gateway name
  *                description: Gateway description
@@ -255,59 +251,11 @@ module.exports = router;
 /**
  * @swagger
  * path:
- *  /gateways/{gatewayId}/status:
- *    post:
- *      summary: Update a gateway status
- *      description: Update gateway status by Gateway Id
- *      tags: [Gateways]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: path
- *          name: gatewayId
- *          required: true
- *          schema:
- *            type: string
- *          description: Gateway Id
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              required:
- *                - status
- *              properties:
- *                status:
- *                  type: bool
- *                  description: status bool
- *              example:
- *                status: true
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 $ref: '#/components/schemas/Gateway'
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
  *  /gateways/{gatewayId}/settings:
  *    get:
- *      summary: Get a gateway settings
+ *      summary: (Device) Get a gateway settings
  *      description: Get gateway settings by Gateway Id
  *      tags: [Gateways]
- *      security:
- *        - bearerAuth: []
  *      parameters:
  *        - in: path
  *          name: gatewayId
@@ -321,10 +269,7 @@ module.exports = router;
  *          content:
  *            application/json:
  *              schema:
- *                 example: {
- *                   refreshDataAfterTime: 120000,
- *                   price: 2000
- *                 }
+ *                 $ref: '#/components/schemas/GatewaySetting'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":
@@ -333,7 +278,7 @@ module.exports = router;
  *          $ref: '#/components/responses/NotFound'
  *
  *    patch:
- *      summary: Update a gateway settings
+ *      summary: (Admin) Update a gateway settings
  *      description: Update gateway by Gateway Id
  *      tags: [Gateways]
  *      security:
@@ -352,101 +297,19 @@ module.exports = router;
  *            schema:
  *              type: object
  *              required:
- *                - settings
+ *                - refreshDataAfterTime
  *              properties:
- *                settings:
- *                  type: object
- *                  description: settings object
+ *                refreshDataAfterTime:
+ *                  type: number
  *              example:
- *                settings: {
- *                  refreshDataAfterTime: 12000,
- *                  price: 2000
- *                }
+ *                refreshDataAfterTime: 12000
  *      responses:
  *        "200":
  *          description: OK
  *          content:
  *            application/json:
  *              schema:
- *                 example: {
- *                   refreshDataAfterTime: 120000,
- *                   price: 2000
- *                 }
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
- *  /gateways/gateway-status/{gatewayId}:
- *    get:
- *      summary: Get gateway status
- *      description: Get gateway status by Gateway Id
- *      tags: [Gateways]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: path
- *          name: gatewayId
- *          required: true
- *          schema:
- *            type: string
- *          description: Gateway Id
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 example: {
- *                   statisticData: [],
- *                   faultData: []
- *                 }
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
- *  /gateways/gateway-status/{gatewayId}/{deviceId}:
- *    get:
- *      summary: Get device status
- *      description: Get device status by Gateway Id and Device ID
- *      tags: [Gateways]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: path
- *          name: gatewayId
- *          required: true
- *          schema:
- *            type: string
- *          description: Gateway Id
- *        - in: path
- *          name: deviceId
- *          required: true
- *          schema:
- *            type: string
- *          description: Device ID
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 example: {
- *                   faultData: []
- *                 }
+ *                 $ref: '#/components/schemas/GatewaySetting'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

@@ -35,7 +35,8 @@ const queryGateways = async (filter, options) => {
  * @returns {Promise<Gateway>}
  */
 const getGatewayByOption = async (option) => {
-  return Gateway.findOne(option);
+  const gateway = await Gateway.findOne(option);;
+  return gateway;
 };
 
 /**
@@ -54,6 +55,18 @@ const updateGatewayByOption = async (option, updateBody) => {
   }
   Object.assign(gateway, updateBody);
   await gateway.save();
+  return gateway;
+};
+
+
+/**
+ * Update gateways by Option
+ * @param {{_id: *, user: *}} option
+ * @param {Object} updateBody
+ * @returns {Promise<Gateway>}
+ */
+const updateGatewaysByOption = async (option, updateBody) => {
+  const gateway = await Gateway.updateMany(option, updateBody);
   return gateway;
 };
 
@@ -76,5 +89,6 @@ module.exports = {
   queryGateways,
   getGatewayByOption,
   updateGatewayByOption,
+  updateGatewaysByOption,
   deleteGatewayByOption,
 };
