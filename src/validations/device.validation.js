@@ -1,21 +1,25 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
+const { DEVICE_TYPE_VALUES, STATE_VALUES } = require('../config/constants');
 
 const createDevice = {
   body: Joi.object().keys({
+    type: Joi.string().required().valid(DEVICE_TYPE_VALUES.LOGGER, DEVICE_TYPE_VALUES.INVERTER, DEVICE_TYPE_VALUES.SENSOR),
+    deviceId: Joi.number().required(),
+    name: Joi.string(),
+    ipAddress: Joi.string(),
+    port: Joi.number(),
+    startDataAddress: Joi.number(),
+    endDataAddress: Joi.number(),
+    state: Joi.string().valid(STATE_VALUES.OFFLINE, STATE_VALUES.ONLINE),
     gatewayId: Joi.string().required(),
-    name: Joi.string().required(),
-    description: Joi.string(),
-    deviceData: Joi.object().required(),
   }),
 };
 
 const getDevices = {
   query: Joi.object().keys({
     gatewayId: Joi.string(),
-    name: Joi.string(),
-    description: Joi.string(),
-    deviceData: Joi.object(),
+    keyword: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -34,10 +38,15 @@ const updateDevice = {
   }),
   body: Joi.object()
     .keys({
-      gatewayId: Joi.string(),
-      name: Joi.string().required(),
-      description: Joi.string(),
-      deviceData: Joi.object().required(),
+      type: Joi.string().required().valid(DEVICE_TYPE_VALUES.LOGGER, DEVICE_TYPE_VALUES.INVERTER, DEVICE_TYPE_VALUES.SENSOR),
+      deviceId: Joi.number().required(),
+      name: Joi.string(),
+      ipAddress: Joi.string(),
+      port: Joi.number(),
+      startDataAddress: Joi.number(),
+      endDataAddress: Joi.number(),
+      state: Joi.string().valid(STATE_VALUES.OFFLINE, STATE_VALUES.ONLINE),
+      gatewayId: Joi.string().required(),
     })
     .min(1),
 };
@@ -51,7 +60,29 @@ const deleteDevice = {
 const syncRealDevices = {
   body: Joi.object().keys({
     gatewayId: Joi.string().required(),
-    list: Joi.array().required(),
+    list: Joi.array()
+      .items(
+        Joi.object({
+          type: Joi.string()
+            .required()
+            .valid(DEVICE_TYPE_VALUES.LOGGER, DEVICE_TYPE_VALUES.INVERTER, DEVICE_TYPE_VALUES.SENSOR),
+          deviceId: Joi.number().required(),
+          name: Joi.string(),
+          ipAddress: Joi.string(),
+          port: Joi.number(),
+          startDataAddress: Joi.number(),
+          endDataAddress: Joi.number(),
+          state: Joi.string().valid(STATE_VALUES.OFFLINE, STATE_VALUES.ONLINE),
+          dataList: Joi.array().items({
+            name: Joi.string().required(),
+            address: Joi.array().items(Joi.number()),
+            dataType: Joi.string().required(),
+            value: Joi.string().required(),
+            unit: Joi.string().required(),
+          }),
+        })
+      )
+      .required(),
   }),
 };
 

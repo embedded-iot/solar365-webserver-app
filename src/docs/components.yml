@@ -125,7 +125,6 @@ components:
         startDataAddress: 8000
         endDataAddress: 9000
         state: OFFLINE
-        updatedStateAt: 2023-02-13T14:51:45.018+00:00
         gateway: 32bac534954b54139806c112
     DeviceLog:
       type: object

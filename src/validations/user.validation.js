@@ -11,7 +11,7 @@ const createUser = {
     phone: Joi.string(),
     state: Joi.string(),
     password: Joi.string().required().custom(password),
-    role: Joi.string().required().valid(ROLE_VALUES.USER, ROLE_VALUES.USER),
+    role: Joi.string().required().valid(ROLE_VALUES.USER, ROLE_VALUES.ADMIN),
   }),
 };
 

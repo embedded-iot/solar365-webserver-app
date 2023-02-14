@@ -35,7 +35,7 @@ const queryGateways = async (filter, options) => {
  * @returns {Promise<Gateway>}
  */
 const getGatewayByOption = async (option) => {
-  const gateway = await Gateway.findOne(option);;
+  const gateway = await Gateway.findOne(option);
   return gateway;
 };
 
@@ -57,7 +57,6 @@ const updateGatewayByOption = async (option, updateBody) => {
   await gateway.save();
   return gateway;
 };
-
 
 /**
  * Update gateways by Option

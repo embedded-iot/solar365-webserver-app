@@ -46,34 +46,38 @@ module.exports = router;
  *              type: object
  *              required:
  *                - gatewayId
- *                - name
- *                - deviceData
+ *                - type
+ *                - deviceId
  *              properties:
- *                name:
+ *                type:
  *                  type: string
+ *                deviceId:
+ *                  type: number
  *                  description: must be unique
- *                deviceData:
- *                   type: object
+ *                name:
+ *                   type: string
+ *                ipAddress:
+ *                   type: string
+ *                port:
+ *                   type: number
+ *                startDataAddress:
+ *                   type: number
+ *                endDataAddress:
+ *                   type: number
+ *                state:
+ *                   type: string
+ *                gateway:
+ *                   type: string
  *              example:
- *                gatewayId: Gateway id
+ *                type: INVERTER
+ *                deviceId: 1
  *                name: Device name
- *                description: Device description
- *                deviceData: {
- *                  "id": 1,
- *                  "dev_id": 1,
- *                  "dev_code": 61003,
- *                  "dev_type": 25,
- *                  "dev_sn": "",
- *                  "dev_name": "SUN2000(36~50)(COM3-001)",
- *                  "dev_model": "SUN2000(36~50)",
- *                  "port_name": "COM3",
- *                  "phys_addr": "1",
- *                  "logc_addr": "1",
- *                  "link_status": 0,
- *                  "init_status": 0,
- *                  "dev_special": "0",
- *                  "list": [ ]
- *                }
+ *                ipAddress: 192.168.0.100
+ *                port: 502
+ *                startDataAddress: 8000
+ *                endDataAddress: 9000
+ *                state: OFFLINE
+ *                gatewayId: Gateway id
  *      responses:
  *        "201":
  *          description: Created
@@ -101,10 +105,10 @@ module.exports = router;
  *            type: string
  *          description: Gateway id
  *        - in: query
- *          name: name
+ *          name: keyword
  *          schema:
  *            type: string
- *          description: Device name
+ *          description: Search by name ...
  *        - in: query
  *          name: sortBy
  *          schema:
@@ -159,7 +163,7 @@ module.exports = router;
  * path:
  *  /devices/syncRealDevices:
  *    post:
- *      summary: Sync real devices
+ *      summary: (Device) Sync real devices
  *      description: [Device only]
  *      tags: [Devices]
  *      requestBody:
@@ -172,29 +176,65 @@ module.exports = router;
  *                - gatewayId
  *                - list
  *              properties:
- *                name:
+ *                gatewayId:
  *                  type: string
  *                  description: must be unique
- *                deviceData:
- *                   type: object
+ *                list:
+ *                   type: array
  *              example:
  *                gatewayId: Gateway id
  *                list: [
  *                  {
- *                    "id": 1,
- *                    "dev_id": 4,
- *                    "dev_code": 61003,
- *                    "dev_type": 25,
- *                    "dev_sn": "11212",
- *                    "dev_name": "SUN2000(36~50)(COM3-001)",
- *                    "dev_model": "SUN2000(36~50)",
- *                    "port_name": "COM3",
- *                    "phys_addr": "1",
- *                    "logc_addr": "1",
- *                    "link_status": 0,
- *                    "init_status": 0,
- *                    "dev_special": "0",
- *                    "list": []
+ *                    "type": "INVERTER",
+ *                    "deviceId": 1,
+ *                    "name": "Inverter 1",
+ *                    "ipAddress": "192.168.0.100",
+ *                    "port": 502,
+ *                    "startDataAddress": 8000,
+ *                    "endDataAddress": 9000,
+ *                    "state": "ONLINE",
+ *                    "dataList": [
+ *                      {
+ *                        "name": "SN",
+ *                        "address": [4990, 4999],
+ *                        "dataType": "UTF-8",
+ *                        "value": "SN123456",
+ *                        "unit": ""
+ *                      },
+ *                      {
+ *                        "name": "Device type code",
+ *                        "address": [5000],
+ *                        "dataType": "U16",
+ *                        "value": "1",
+ *                        "unit": ""
+ *                      }
+ *                    ]
+ *                  },
+ *                  {
+ *                    "type": "LOGGER",
+ *                    "deviceId": 2,
+ *                    "name": "Logger3000",
+ *                    "ipAddress": "12.12.12.12",
+ *                    "port": 502,
+ *                    "startDataAddress": 8000,
+ *                    "endDataAddress": 9000,
+ *                    "state": "ONLINE",
+ *                    "dataList": [
+ *                      {
+ *                        "name": "Device type code",
+ *                        "address": [8000],
+ *                        "dataType": "U16",
+ *                        "value": "0x0705",
+ *                        "unit": ""
+ *                      },
+ *                      {
+ *                        "name": "Protocol number",
+ *                        "address": [8001],
+ *                        "dataType": "U32",
+ *                        "value": "1",
+ *                        "unit": ""
+ *                      }
+ *                    ]
  *                  }
  *                ]
  *      responses:
@@ -270,34 +310,38 @@ module.exports = router;
  *              type: object
  *              required:
  *                - gatewayId
- *                - name
- *                - deviceData
+ *                - type
+ *                - deviceId
  *              properties:
- *                name:
+ *                type:
  *                  type: string
+ *                deviceId:
+ *                  type: number
  *                  description: must be unique
- *                deviceData:
- *                   type: object
+ *                name:
+ *                   type: string
+ *                ipAddress:
+ *                   type: string
+ *                port:
+ *                   type: number
+ *                startDataAddress:
+ *                   type: number
+ *                endDataAddress:
+ *                   type: number
+ *                state:
+ *                   type: string
+ *                gateway:
+ *                   type: string
  *              example:
- *                gatewayId: Gateway id
+ *                type: INVERTER
+ *                deviceId: 1
  *                name: Device name
- *                description: Device description
- *                deviceData: {
- *                  "id": 1,
- *                  "dev_id": 1,
- *                  "dev_code": 61003,
- *                  "dev_type": 25,
- *                  "dev_sn": "",
- *                  "dev_name": "SUN2000(36~50)(COM3-001)",
- *                  "dev_model": "SUN2000(36~50)",
- *                  "port_name": "COM3",
- *                  "phys_addr": "1",
- *                  "logc_addr": "1",
- *                  "link_status": 0,
- *                  "init_status": 0,
- *                  "dev_special": "0",
- *                  "list": [ ]
- *                }
+ *                ipAddress: 192.168.0.100
+ *                port: 502
+ *                startDataAddress: 8000
+ *                endDataAddress: 9000
+ *                state: OFFLINE
+ *                gatewayId: Gateway id
  *      responses:
  *        "200":
  *          description: OK

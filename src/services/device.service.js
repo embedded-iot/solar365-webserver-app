@@ -8,9 +8,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Device>}
  */
 const createDevice = async (deviceBody) => {
-  if (await Device.isDeviceNameTaken(deviceBody.name)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Device name already taken');
-  } else if (await Device.isDeviceNameTaken(deviceBody.deviceId)) {
+  if (await Device.isDeviceIdTaken(deviceBody.deviceId)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Device id already taken');
   }
   const device = await Device.create(deviceBody);
@@ -72,9 +70,6 @@ const updateDeviceById = async (deviceId, updateBody) => {
   } else if (await Device.isDeviceIdTaken(updateBody.deviceId, deviceId)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Device id already taken');
   }
-  if (updateBody.name && (await Device.isDeviceNameTaken(updateBody.name, deviceId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Device name already taken');
-  }
   Object.assign(device, updateBody);
   await device.save();
   return device;
@@ -100,7 +95,8 @@ const deleteDeviceById = async (deviceId) => {
  * @returns {Number}
  */
 const getDevicesCount = async (option) => {
-  return await Device.countDocuments(option);
+  const count = await Device.countDocuments(option);
+  return count;
 };
 
 module.exports = {
