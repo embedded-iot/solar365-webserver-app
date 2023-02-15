@@ -36,7 +36,7 @@ const queryDevices = async (filter, options) => {
  * @returns {Promise<Device>}
  */
 const getDeviceById = async (id) => {
-  return Device.findById(id).populate('gateway').exec();
+  return Device.findById(id);
 };
 
 /**
@@ -45,7 +45,15 @@ const getDeviceById = async (id) => {
  * @returns {Promise<Device>}
  */
 const getDeviceByOption = async (option) => {
-  return Device.findOne(option).populate('gateway').exec();
+  return Device.findOne(option);
+};
+/**
+ * Get devices by Option
+ * @param {Object} option
+ * @returns {Promise<Device>}
+ */
+const getDevicesByOption = async (option) => {
+  return Device.find(option);
 };
 
 /**
@@ -104,6 +112,7 @@ module.exports = {
   queryDevices,
   getDeviceById,
   getDeviceByOption,
+  getDevicesByOption,
   getDeviceByName,
   updateDeviceById,
   deleteDeviceById,

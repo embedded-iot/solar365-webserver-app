@@ -5,11 +5,6 @@ const catchAsync = require('../utils/catchAsync');
 const { gatewayService, deviceService, projectService } = require('../services');
 const { STATE_VALUES } = require('../config/constants');
 
-const defaultSettings = {
-  refreshDataAfterTime: 12000,
-  price: 2000,
-};
-
 const checkExistingProject = async (projectId) => {
   const project = await projectService.getProjectByOption({ _id: projectId });
   if (!project) {
@@ -97,11 +92,7 @@ const getGatewaySettings = catchAsync(async (req, res) => {
   if (!gateway) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const settings = {
-    ...defaultSettings,
-    ...gateway.settings,
-  };
-  res.send(settings);
+  res.send(gateway.toJSON().settings);
 });
 
 const updateGatewaySettings = catchAsync(async (req, res) => {
@@ -111,8 +102,7 @@ const updateGatewaySettings = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   gateway.settings = {
-    ...defaultSettings,
-    ...req.body.settings,
+    ...req.body,
   };
   gateway.save();
   res.send();

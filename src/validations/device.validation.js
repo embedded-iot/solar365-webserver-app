@@ -74,11 +74,11 @@ const syncRealDevices = {
           endDataAddress: Joi.number(),
           state: Joi.string().valid(STATE_VALUES.OFFLINE, STATE_VALUES.ONLINE),
           dataList: Joi.array().items({
-            name: Joi.string().required(),
+            name: Joi.string(),
             address: Joi.array().items(Joi.number()),
-            dataType: Joi.string().required(),
-            value: Joi.string().required(),
-            unit: Joi.string().required(),
+            dataType: Joi.string(),
+            value: Joi.string(),
+            unit: Joi.string(),
           }),
         })
       )

@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceLogService, gatewayService, deviceService } = require('../services');
+const { deviceLogService, gatewayService, deviceService, projectService } = require('../services');
 
 const createDeviceLog = catchAsync(async (req, res) => {
   const { gatewayId, deviceId, ...body } = req.body;
@@ -16,7 +16,6 @@ const createDeviceLog = catchAsync(async (req, res) => {
   }
   const deviceLogBody = {
     ...body,
-    gateway: gateway._id,
     device: device._id,
   };
   const deviceLog = await deviceLogService.createDeviceLog(deviceLogBody);
@@ -24,32 +23,33 @@ const createDeviceLog = catchAsync(async (req, res) => {
 });
 
 const getDeviceLogs = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId, deviceId, from, to } = pick(req.query, ['gatewayId', 'deviceId', 'from', 'to']);
+  const { gatewayId, deviceId } = pick(req.query, ['gatewayId', 'deviceId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const projects = await projectService.getProjectsByOption({ user: req.user._id });
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
   if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
+    gatewayOptions.gatewayId = gatewayId;
   }
-
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  const deviceOptions = { gateway: { $in: gatewayIds } };
   if (deviceId) {
-    const device = await deviceService.getDeviceByOption({ deviceId });
-    if (!device) {
-      throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
-    }
-    filter.device = device._id;
+    deviceOptions.deviceId = deviceId;
   }
-
-  if (from) {
-    filter.updatedAt = {
-      $gt: new Date(from),
-      $lt: new Date(to || new Date()),
-    };
+  const devices = await deviceService.getDevicesByOption(deviceOptions);
+  const deviceIds = await devices.map((device) => device._id);
+  if (!deviceIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
   }
-
+  const filter = {
+    gateway: {
+      $in: gatewayIds,
+    },
+  };
   const result = await deviceLogService.queryDeviceLogs(filter, options);
   res.send(result);
 });
@@ -81,88 +81,10 @@ const deleteDeviceLog = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getLatestDeviceLog = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId, deviceId } = pick(req.query, ['gatewayId', 'deviceId']);
-  if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
-  }
-
-  if (deviceId) {
-    const device = await deviceService.getDeviceByOption({ deviceId });
-    if (!device) {
-      throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
-    }
-    filter.device = device._id;
-  }
-  const result = await deviceLogService.queryDeviceLogs(filter, { sortBy: 'updatedAt:desc', limit: 1 });
-  const deviceLog = result.results.length ? result.results[0] : null;
-  if (!deviceLog) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'DeviceLog not found');
-  }
-  res.send(deviceLog);
-});
-
-const getStatisticDeviceLogs = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId, deviceId, from, to, dataName } = pick(req.query, ['gatewayId', 'deviceId', 'from', 'to', 'dataName']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
-  }
-
-  if (deviceId) {
-    const device = await deviceService.getDeviceByOption({ deviceId });
-    if (!device) {
-      throw new ApiError(httpStatus.NOT_FOUND, `Device not found`);
-    }
-    filter.device = device._id;
-  }
-
-  if (from) {
-    filter.updatedAt = {
-      $gt: new Date(from),
-      $lt: new Date(to || new Date()),
-    };
-  }
-
-  const result = await deviceLogService.queryDeviceLogs(filter, options);
-  result.results = result.results.map((deviceLog) => {
-    const filteredDeviceLog = deviceLog.deviceLogData.find((deviceLogData) => deviceLogData.data_name === dataName) || {};
-    const filteredDeviceLogIO =
-      (!Object.keys(filteredDeviceLog).length &&
-        deviceLog.deviceLogIOData.find((deviceLogIOData) => deviceLogIOData.name === dataName)) ||
-      {};
-    return {
-      date: deviceLog.updatedAt,
-      ...filteredDeviceLog,
-      ...filteredDeviceLogIO,
-    };
-  });
-  result.dataName = dataName;
-  res.send(result);
-});
-
-const clearData = async (filter) => {
-  // eslint-disable-next-line no-return-await
-  return await deviceLogService.deleteDeviceLogByFilter(filter);
-};
-
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
   getDeviceLog,
   updateDeviceLog,
   deleteDeviceLog,
-  getLatestDeviceLog,
-  getStatisticDeviceLogs,
-  clearData,
 };

@@ -200,13 +200,6 @@ module.exports = router;
  *                        "dataType": "UTF-8",
  *                        "value": "SN123456",
  *                        "unit": ""
- *                      },
- *                      {
- *                        "name": "Device type code",
- *                        "address": [5000],
- *                        "dataType": "U16",
- *                        "value": "1",
- *                        "unit": ""
  *                      }
  *                    ]
  *                  },
@@ -225,13 +218,6 @@ module.exports = router;
  *                        "address": [8000],
  *                        "dataType": "U16",
  *                        "value": "0x0705",
- *                        "unit": ""
- *                      },
- *                      {
- *                        "name": "Protocol number",
- *                        "address": [8001],
- *                        "dataType": "U32",
- *                        "value": "1",
  *                        "unit": ""
  *                      }
  *                    ]

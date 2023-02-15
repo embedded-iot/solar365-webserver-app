@@ -2,7 +2,8 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceService, gatewayService } = require('../services');
+const { deviceService, gatewayService, projectService } = require('../services');
+const { getSearchOptions } = require('../utils/search.service');
 
 const createDevice = catchAsync(async (req, res) => {
   const { gatewayId, ...body } = req.body;
@@ -12,7 +13,6 @@ const createDevice = catchAsync(async (req, res) => {
   }
   const deviceBody = {
     ...body,
-    deviceId: body.deviceData.dev_id,
     gateway: gateway._id,
   };
   const device = await deviceService.createDevice(deviceBody);
@@ -20,14 +20,25 @@ const createDevice = catchAsync(async (req, res) => {
 });
 
 const getDevices = catchAsync(async (req, res) => {
-  const { gatewayId, ...filter } = pick(req.query, ['gatewayId', 'name']);
+  const { gatewayId, keyword } = pick(req.query, ['gatewayId', 'keyword']);
+  const searchOptions = getSearchOptions(keyword, ['name']);
+  const projects = await projectService.getProjectsByOption({ user: req.user._id });
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
   if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
+    gatewayOptions.gatewayId = gatewayId;
   }
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  const filter = {
+    ...searchOptions,
+    gateway: {
+      $in: gatewayIds,
+    },
+  };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await deviceService.queryDevices(filter, options);
   res.send(result);
@@ -49,7 +60,6 @@ const updateDevice = catchAsync(async (req, res) => {
   }
   const deviceBody = {
     ...body,
-    deviceId: body.deviceData.dev_id,
     gateway: gateway._id,
   };
   const device = await deviceService.updateDeviceById(req.params.deviceId, deviceBody);

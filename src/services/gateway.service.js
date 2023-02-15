@@ -40,6 +40,15 @@ const getGatewayByOption = async (option) => {
 };
 
 /**
+ * Get gateways by option
+ * @param {Object} option
+ * @returns {Promise<Gateway>}
+ */
+const getGatewaysByOption = async (option) => {
+  return Gateway.find(option);
+};
+
+/**
  * Update gateway by Option
  * @param {{_id: *, user: *}} option
  * @param {Object} updateBody
@@ -87,6 +96,7 @@ module.exports = {
   createGateway,
   queryGateways,
   getGatewayByOption,
+  getGatewaysByOption,
   updateGatewayByOption,
   updateGatewaysByOption,
   deleteGatewayByOption,

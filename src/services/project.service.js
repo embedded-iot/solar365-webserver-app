@@ -36,6 +36,15 @@ const getProjectByOption = async (option) => {
 };
 
 /**
+ * Get projects by option
+ * @param {Object} option
+ * @returns {Promise<Project>}
+ */
+const getProjectsByOption = async (option) => {
+  return Project.find(option);
+};
+
+/**
  * Update project by Option
  * @param {{_id: *, user: *}} option
  * @param {Object} updateBody
@@ -69,6 +78,7 @@ module.exports = {
   createProject,
   queryProjects,
   getProjectByOption,
+  getProjectsByOption,
   updateProjectByOption,
   deleteProjectByOption,
 };
