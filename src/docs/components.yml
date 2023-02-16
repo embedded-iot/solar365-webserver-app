@@ -18,7 +18,7 @@ components:
           type: string
         state:
           type: string
-          enum: [ACTIVATED, BLOCKED]
+          enum: [Activated, Blocked]
         lastLogin:
           type: string
           format: date-time
@@ -32,7 +32,7 @@ components:
         avatar: ''
         email: user@gmail.com
         phone: 0123456789
-        state: ACTIVATED
+        state: Activated
         role: USER
         lastLogin: null
     Project:
@@ -152,91 +152,52 @@ components:
       properties:
         id:
           type: string
+        device:
+          type: string
         category:
           type: string
+          enum: [Systems, Additional]
         type:
           type: string
-        event:
-          type: string
-        position:
-          type: number
+          enum: [Fault, Alarm]
         description:
           type: string
         reason:
           type: string
         suggest:
           type: string
-        faultData:
-          type: object
       example:
         id: 45bac534954b54139806c112
-        category: LoggerFault
-        type: Error
-        event: Devices
-        position: 1
+        device: 45bac534954b54139806c112
+        category: Systems
+        type: Fault
         description: This is description
         reason: This is reason
         suggest: This is suggest
-        faultData: {}
-    Statistic:
-      type: object
-      properties:
-        id:
-          type: string
-        statisticData:
-          type: array
-      example:
-        id: 45bac534954b54139806c112
-        statisticData: [
-          {
-            "today_energy": "--",
-            "today_energy_unit": "kWh",
-            "total_energy": "--",
-            "total_energy_unit": "kWh",
-            "curr_power": "--",
-            "curr_power_unit": "kW",
-            "curr_reactive": "--",
-            "curr_reactive_unit": "kvar",
-            "rated_power": "--",
-            "rated_power_unit": "kW",
-            "rated_reactive": "--",
-            "rated_reactive_unit": "kvar",
-            "adjust_power_uplimit": "--",
-            "adjust_power_uplimit_unit": "kW",
-            "adjust_reactive_uplimit": "--",
-            "adjust_reactive_uplimit_unit": "kvar",
-            "adjust_reactive_lowlimit": "--",
-            "adjust_reactive_lowlimit_unit": "kvar"
-          },
-          {
-            "online_num": "0",
-            "online_num_unit": "",
-            "offline_num": "1",
-            "offline_num_unit": ""
-          }
-        ]
     ActivityLog:
       type: object
       properties:
         id:
           type: string
-        gateway:
-          type: string
         category:
           type: string
+          enum: [Gateway, Device, DeviceLog, Fault]
         type:
           type: string
+          enum: [Success, Info, Warning, Error]
         description:
           type: string
-        activityLogData:
-          type: object
+        details:
+          type: string
+        user:
+          type: string
       example:
         id: 45bac534954b54139806c112
-        gateway: 45bac534954b54139806c113
+        gateway: 45bac534954b54139806c112
         category: Gateway
         type: Success
         description: Gateway not found
-        activityLogData: {}
+        details: 45bac534954b54139806c112
     Token:
       type: object
       properties:

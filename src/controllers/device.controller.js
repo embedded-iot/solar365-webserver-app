@@ -82,7 +82,7 @@ const syncRealDevices = catchAsync(async (req, res) => {
   /* eslint-disable no-await-in-loop */
   for (let i = 0; i < list.length; i++) {
     const deviceData = list[i];
-    const existingDevice = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId: deviceData.dev_id });
+    const existingDevice = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId: deviceData.deviceId });
     if (!existingDevice) {
       const deviceBody = {
         gateway: gateway._id,

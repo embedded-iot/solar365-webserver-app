@@ -6,8 +6,8 @@ const createActivityLog = {
     gatewayId: Joi.string().required(),
     category: Joi.string().required(),
     type: Joi.string().required(),
-    description: Joi.string(),
-    activityLogData: Joi.object(),
+    description: Joi.string().required(),
+    details: Joi.string(),
   }),
 };
 
@@ -37,8 +37,8 @@ const updateActivityLog = {
       gatewayId: Joi.string().required(),
       category: Joi.string().required(),
       type: Joi.string().required(),
-      description: Joi.string(),
-      activityLogData: Joi.object(),
+      description: Joi.string().required(),
+      details: Joi.string(),
     })
     .min(1),
 };
@@ -49,17 +49,10 @@ const deleteActivityLog = {
   }),
 };
 
-const getLatestActivityLog = {
-  query: Joi.object().keys({
-    gatewayId: Joi.string().required(),
-  }),
-};
-
 module.exports = {
   createActivityLog,
   getActivityLogs,
   getActivityLog,
   updateActivityLog,
   deleteActivityLog,
-  getLatestActivityLog,
 };

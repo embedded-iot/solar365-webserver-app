@@ -1,17 +1,9 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
-
-const categories = ['LoggerFault', 'Solar365Fault'];
-const events = ['Devices', 'MPPT', 'String'];
-const types = ['Error', 'Warning'];
+const { faultCategories, faultTypes } = require('../config/constants');
 
 const faultSchema = mongoose.Schema(
   {
-    gateway: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Gateway',
-      required: true,
-    },
     device: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Device',
@@ -19,21 +11,12 @@ const faultSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: categories,
+      enum: faultCategories,
       required: true,
     },
     type: {
       type: String,
-      enum: types,
-      required: true,
-    },
-    event: {
-      type: String,
-      enum: events,
-      required: true,
-    },
-    position: {
-      type: Number,
+      enum: faultTypes,
       required: true,
     },
     description: {
@@ -44,9 +27,6 @@ const faultSchema = mongoose.Schema(
     },
     suggest: {
       type: String,
-    },
-    faultData: {
-      type: Object,
     },
   },
   {

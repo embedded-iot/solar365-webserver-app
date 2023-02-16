@@ -33,7 +33,7 @@ const getDeviceLogs = catchAsync(async (req, res) => {
   }
   const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
   const gatewayIds = await gateways.map((gateway) => gateway._id);
-  if (!gatewayIds.length) {
+  if (gatewayId && !gatewayIds.length) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
   const deviceOptions = { gateway: { $in: gatewayIds } };
@@ -42,12 +42,14 @@ const getDeviceLogs = catchAsync(async (req, res) => {
   }
   const devices = await deviceService.getDevicesByOption(deviceOptions);
   const deviceIds = await devices.map((device) => device._id);
-  if (!deviceIds.length) {
+  if (!gatewayId && deviceId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway can"t empty when there has device id');
+  } else if (deviceId && !deviceIds.length) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
   }
   const filter = {
-    gateway: {
-      $in: gatewayIds,
+    device: {
+      $in: deviceIds,
     },
   };
   const result = await deviceLogService.queryDeviceLogs(filter, options);

@@ -9,7 +9,7 @@ const createDeviceLog = {
       .items(
         Joi.object().keys({
           name: Joi.string().allow(''),
-          address: Joi.array().items(Joi.number()).min(0),
+          address: Joi.array().items(Joi.number()),
           dataType: Joi.string().allow(''),
           value: Joi.string().allow(''),
           unit: Joi.string().allow(''),
@@ -22,7 +22,7 @@ const createDeviceLog = {
 const getDeviceLogs = {
   query: Joi.object().keys({
     gatewayId: Joi.string(),
-    deviceId: Joi.string(),
+    deviceId: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -46,11 +46,11 @@ const updateDeviceLog = {
       list: Joi.array()
         .items(
           Joi.object({
-            name: Joi.string(),
+            name: Joi.string().allow(''),
             address: Joi.array().items(Joi.number()),
-            dataType: Joi.string(),
-            value: Joi.string(),
-            unit: Joi.string(),
+            dataType: Joi.string().allow(''),
+            value: Joi.string().allow(''),
+            unit: Joi.string().allow(''),
           })
         )
         .required(),

@@ -8,12 +8,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(activityLogValidation.createActivityLog), activityLogController.createActivityLog)
+  .post(auth(), validate(activityLogValidation.createActivityLog), activityLogController.createActivityLog)
   .get(auth(), validate(activityLogValidation.getActivityLogs), activityLogController.getActivityLogs);
-
-router
-  .route('/latest')
-  .get(auth(), validate(activityLogValidation.getLatestActivityLog), activityLogController.getLatestActivityLog);
 
 router
   .route('/:activityLogId')
@@ -50,6 +46,7 @@ module.exports = router;
  *                - gatewayId
  *                - category
  *                - type
+ *                - description
  *              properties:
  *                gatewayId:
  *                   type: string
@@ -59,14 +56,14 @@ module.exports = router;
  *                   type: string
  *                description:
  *                   type: string
- *                activityLogData:
- *                   type: object
+ *                details:
+ *                   type: string
  *              example:
  *                gatewayId: Gateway id
  *                category: Gateway
  *                type: Success
  *                description: Gateway not found
- *                activityLogData: {}
+ *                details: 45bac534954b54139806c112
  *      responses:
  *        "201":
  *          description: Created
@@ -89,16 +86,6 @@ module.exports = router;
  *          schema:
  *            type: string
  *          description: Gateway id
- *        - in: query
- *          name: from
- *          schema:
- *            type: string
- *          description: Start datetime. ex. 2021-03-15 00:00:00
- *        - in: query
- *          name: to
- *          schema:
- *            type: string
- *          description: End datetime
  *        - in: query
  *          name: limit
  *          schema:
@@ -197,6 +184,7 @@ module.exports = router;
  *                - gatewayId
  *                - category
  *                - type
+ *                - description
  *              properties:
  *                gatewayId:
  *                   type: string
@@ -206,14 +194,14 @@ module.exports = router;
  *                   type: string
  *                description:
  *                   type: string
- *                activityLogData:
- *                   type: object
+ *                details:
+ *                   type: string
  *              example:
  *                gatewayId: Gateway id
  *                category: Gateway
  *                type: Success
  *                description: Gateway not found
- *                activityLogData: {}
+ *                details: 45bac534954b54139806c112
  *      responses:
  *        "200":
  *          description: OK
@@ -246,37 +234,6 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
- *  /activityLogs/latest:
- *    get:
- *      summary: Get latest activityLog
- *      description: Get latest activityLog
- *      tags: [ActivityLogs]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: query
- *          name: gatewayId
- *          schema:
- *            type: string
- *          description: Gateway id
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 $ref: '#/components/schemas/ActivityLog'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

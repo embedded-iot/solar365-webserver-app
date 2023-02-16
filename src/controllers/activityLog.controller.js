@@ -2,14 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { activityLogService, gatewayService } = require('../services');
-
-const transformActivityLog = (activityLog) => {
-  const { gateway, ...log } = activityLog;
-  return {
-    ...log,
-  };
-};
+const { activityLogService, gatewayService, projectService } = require('../services');
 
 const createActivityLog = catchAsync(async (req, res) => {
   const { gatewayId, ...body } = req.body;
@@ -27,27 +20,26 @@ const createActivityLog = catchAsync(async (req, res) => {
 });
 
 const getActivityLogs = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId, from, to } = pick(req.query, ['gatewayId', 'from', 'to']);
+  const { gatewayId } = pick(req.query, ['gatewayId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   options.sortBy = options.sortBy || 'updatedAt:desc';
+  const projects = await projectService.getProjectsByOption({ user: req.user._id });
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
   if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
+    gatewayOptions.gatewayId = gatewayId;
   }
-
-  if (from) {
-    filter.updatedAt = {
-      $gt: new Date(from),
-      $lt: new Date(to || new Date()),
-    };
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-
+  const filter = {
+    gateway: {
+      $in: gatewayIds,
+    },
+  };
   const result = await activityLogService.queryActivityLogs(filter, options);
-  result.results = result.results.map((activityLog) => transformActivityLog(activityLog.toJSON()));
   res.send(result);
 });
 
@@ -65,32 +57,17 @@ const updateActivityLog = catchAsync(async (req, res) => {
   if (!gateway) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
-  const activityLog = await activityLogService.updateActivityLogById(req.params.activityLogId, body);
+  const activityLogBody = {
+    ...body,
+    gateway: gateway._id,
+  };
+  const activityLog = await activityLogService.updateActivityLogById(req.params.activityLogId, activityLogBody);
   res.send(activityLog);
 });
 
 const deleteActivityLog = catchAsync(async (req, res) => {
   await activityLogService.deleteActivityLogById(req.params.activityLogId);
   res.status(httpStatus.NO_CONTENT).send();
-});
-
-const getLatestActivityLog = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId } = pick(req.query, ['gatewayId']);
-  if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
-  }
-
-  const result = await activityLogService.queryActivityLogs(filter, { sortBy: 'updatedAt:desc', limit: 1 });
-  const activityLog = result.results.length ? result.results[0] : null;
-  if (!activityLog) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'ActivityLog not found');
-  }
-  res.send(activityLog);
 });
 
 const clearData = async (filter) => {
@@ -104,6 +81,5 @@ module.exports = {
   getActivityLog,
   updateActivityLog,
   deleteActivityLog,
-  getLatestActivityLog,
   clearData,
 };

@@ -76,7 +76,7 @@ module.exports = router;
  *                avatar: ''
  *                email: user@gmail.com
  *                phone: 0123456789
- *                state: ACTIVATED
+ *                state: Activated
  *                password: user@123456
  *                role: USER
  *      responses:

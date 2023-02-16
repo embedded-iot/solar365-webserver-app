@@ -2,17 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { faultService, gatewayService, deviceService } = require('../services');
-const config = require('../config/config');
-
-const transformFault = ({ gateway, device, faultData, ...fault }) => {
-  return {
-    ...fault,
-    faultData,
-    gatewayName: (gateway && gateway.name) || '',
-    deviceName: (device && device.name) || '',
-  };
-};
+const { faultService, gatewayService, deviceService, projectService } = require('../services');
 
 const createFault = catchAsync(async (req, res) => {
   const { gatewayId, deviceId, ...body } = req.body;
@@ -27,7 +17,6 @@ const createFault = catchAsync(async (req, res) => {
 
   const faultBody = {
     ...body,
-    gateway: gateway._id,
     device: device._id,
   };
   const fault = await faultService.createFault(faultBody);
@@ -35,27 +24,37 @@ const createFault = catchAsync(async (req, res) => {
 });
 
 const getFaults = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId, from, to } = pick(req.query, ['gatewayId', 'from', 'to']);
+  const { gatewayId, deviceId } = pick(req.query, ['gatewayId', 'deviceId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  options.sortBy = options.sortBy || 'updatedAt:desc';
+  const projects = await projectService.getProjectsByOption({ user: req.user._id });
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
   if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
+    gatewayOptions.gatewayId = gatewayId;
   }
-
-  if (from) {
-    filter.updatedAt = {
-      $gt: new Date(from),
-      $lt: new Date(to || new Date()),
-    };
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayId && deviceId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway can"t empty when there has device id');
+  } else if (gatewayId && !gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
+  const deviceOptions = { gateway: { $in: gatewayIds } };
+  if (deviceId) {
+    deviceOptions.deviceId = deviceId;
+  }
+  const devices = await deviceService.getDevicesByOption(deviceOptions);
+  const deviceIds = await devices.map((device) => device._id);
+  if (deviceId && !deviceIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
+  }
+  const filter = {
+    device: {
+      $in: deviceIds,
+    },
+  };
 
   const result = await faultService.queryFaults(filter, options);
-  result.results = result.results.map((fault) => transformFault(fault.toJSON()));
   res.send(result);
 });
 
@@ -64,7 +63,7 @@ const getFault = catchAsync(async (req, res) => {
   if (!fault) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Fault not found');
   }
-  res.send(transformFault(fault.toJSON()));
+  res.send(fault);
 });
 
 const updateFault = catchAsync(async (req, res) => {
@@ -77,45 +76,13 @@ const updateFault = catchAsync(async (req, res) => {
   if (!device) {
     throw new ApiError(httpStatus.NOT_FOUND, `Device not found in ${gatewayId}`);
   }
-  const faultBody = {
-    ...body,
-    gateway: gateway._id,
-    device: device._id,
-  };
-  const fault = await faultService.updateFaultById(req.params.faultId, faultBody);
+  const fault = await faultService.updateFaultById(req.params.faultId, body);
   res.send(fault);
 });
 
 const deleteFault = catchAsync(async (req, res) => {
   await faultService.deleteFaultById(req.params.faultId);
   res.status(httpStatus.NO_CONTENT).send();
-});
-
-const getLatestFault = catchAsync(async (req, res) => {
-  const filter = {};
-  const { gatewayId } = pick(req.query, ['gatewayId']);
-  if (gatewayId) {
-    const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-    if (!gateway) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-    }
-    filter.gateway = gateway._id;
-  }
-
-  const today = new Date();
-  const yesterday = new Date();
-  yesterday.setMinutes(today.getMinutes() - config.latestUploadedDataMinutes);
-  filter.updatedAt = {
-    $gt: yesterday,
-    $lt: today,
-  };
-
-  const result = await faultService.queryFaults(filter, { sortBy: 'updatedAt:desc', limit: 1 });
-  const fault = result.results.length ? result.results[0].toJSON() : null;
-  if (!fault) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'ActivityLog not found');
-  }
-  res.send(transformFault(fault));
 });
 
 const clearData = async (filter) => {
@@ -129,6 +96,5 @@ module.exports = {
   getFault,
   updateFault,
   deleteFault,
-  getLatestFault,
   clearData,
 };

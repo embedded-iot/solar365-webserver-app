@@ -1,8 +1,8 @@
 const STATE_VALUES = {
-  ACTIVATED: 'ACTIVATED',
-  BLOCKED: 'BLOCKED',
-  ONLINE: 'ONLINE',
-  OFFLINE: 'OFFLINE',
+  ACTIVATED: 'Activated',
+  BLOCKED: 'Blocked',
+  ONLINE: 'Online',
+  OFFLINE: 'Offline',
 };
 
 const userStates = [STATE_VALUES.ACTIVATED, STATE_VALUES.BLOCKED];
@@ -17,11 +17,61 @@ const DEVICE_TYPE_VALUES = {
 
 const deviceTypes = [DEVICE_TYPE_VALUES.LOGGER, DEVICE_TYPE_VALUES.INVERTER, DEVICE_TYPE_VALUES.SENSOR];
 
+const FAULT_CATEGORY_VALUES = {
+  SYSTEMS: 'Systems',
+  ADDITIONAL: 'Additional',
+};
+
+const faultCategories = [FAULT_CATEGORY_VALUES.LOGGER, FAULT_CATEGORY_VALUES.ADDITIONAL];
+
+const FAULT_TYPE_VALUES = {
+  FAULT: 'Fault',
+  ALARM: 'Alarm',
+};
+
+const faultTypes = [FAULT_TYPE_VALUES.FAULT, FAULT_TYPE_VALUES.ALARM];
+
+const ACTIVITY_LOG_CATEGORY_VALUES = {
+  GATEWAY: 'Gateway',
+  DEVICE: 'Device',
+  DEVICE_LOG: 'DeviceLog',
+  FAULT: 'Fault',
+};
+
+const activityLogCategories = [
+  ACTIVITY_LOG_CATEGORY_VALUES.GATEWAY,
+  ACTIVITY_LOG_CATEGORY_VALUES.DEVICE,
+  ACTIVITY_LOG_CATEGORY_VALUES.DEVICE_LOG,
+  ACTIVITY_LOG_CATEGORY_VALUES.FAULT,
+];
+
+const ACTIVITY_LOG_TYPE_VALUES = {
+  SUCCESS: 'Success',
+  INFO: 'Info',
+  WARNING: 'Warning',
+  ERROR: 'Error',
+};
+
+const activityLogTypes = [
+  ACTIVITY_LOG_TYPE_VALUES.FAULT,
+  ACTIVITY_LOG_TYPE_VALUES.INFO,
+  ACTIVITY_LOG_TYPE_VALUES.WARNING,
+  ACTIVITY_LOG_TYPE_VALUES.ERROR,
+];
+
 module.exports = {
   STATE_VALUES,
   userStates,
   gatewayStates,
   DEVICE_TYPE_VALUES,
-  deviceTypes,
   deviceStates,
+  deviceTypes,
+  FAULT_CATEGORY_VALUES,
+  faultCategories,
+  FAULT_TYPE_VALUES,
+  faultTypes,
+  ACTIVITY_LOG_CATEGORY_VALUES,
+  activityLogCategories,
+  ACTIVITY_LOG_TYPE_VALUES,
+  activityLogTypes,
 };

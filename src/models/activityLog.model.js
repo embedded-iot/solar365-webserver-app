@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
-
-const categories = ['General', 'Gateway', 'Devices', 'DeviceLogs', 'Fault'];
-const types = ['Success', 'Error', 'Warning'];
+const { activityLogCategories, activityLogTypes } = require('../config/constants');
 
 const activityLogSchema = mongoose.Schema(
   {
@@ -13,19 +11,21 @@ const activityLogSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: categories,
+      enum: activityLogCategories,
       required: true,
     },
     type: {
       type: String,
-      enum: types,
+      enum: activityLogTypes,
       required: true,
     },
     description: {
       type: String,
+      required: true,
     },
-    activityLogData: {
-      type: Object,
+    details: {
+      type: mongoose.SchemaTypes.ObjectId,
+      refPath: 'category',
     },
   },
   {

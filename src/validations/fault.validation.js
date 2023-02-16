@@ -4,23 +4,19 @@ const { objectId } = require('./custom.validation');
 const createFault = {
   body: Joi.object().keys({
     gatewayId: Joi.string().required(),
-    deviceId: Joi.string().required(),
+    deviceId: Joi.number().required(),
     category: Joi.string().required(),
     type: Joi.string().required(),
-    event: Joi.string().required(),
-    position: Joi.number().required(),
     description: Joi.string(),
     reason: Joi.string(),
     suggest: Joi.string(),
-    faultData: Joi.object(),
   }),
 };
 
 const getFaults = {
   query: Joi.object().keys({
     gatewayId: Joi.string(),
-    from: Joi.number(),
-    to: Joi.number(),
+    deviceId: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -40,15 +36,12 @@ const updateFault = {
   body: Joi.object()
     .keys({
       gatewayId: Joi.string().required(),
-      deviceId: Joi.string().required(),
+      deviceId: Joi.number().required(),
       category: Joi.string().required(),
       type: Joi.string().required(),
-      event: Joi.string().required(),
-      position: Joi.number().required(),
       description: Joi.string(),
       reason: Joi.string(),
       suggest: Joi.string(),
-      faultData: Joi.object().required(),
     })
     .min(1),
 };

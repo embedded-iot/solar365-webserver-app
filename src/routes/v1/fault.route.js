@@ -8,10 +8,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(faultValidation.createFault), faultController.createFault)
+  .post(auth(), validate(faultValidation.createFault), faultController.createFault)
   .get(auth(), validate(faultValidation.getFaults), faultController.getFaults);
-
-router.route('/latest').get(auth(), validate(faultValidation.getLatestFault), faultController.getLatestFault);
 
 router
   .route('/:faultId')
@@ -50,39 +48,29 @@ module.exports = router;
  *                - category
  *                - type
  *                - event
- *                - position
  *              properties:
  *                gatewayId:
  *                   type: string
  *                deviceId:
- *                   type: string
+ *                   type: number
  *                category:
  *                   type: string
  *                type:
  *                   type: string
- *                event:
- *                   type: string
- *                position:
- *                   type: number
  *                description:
  *                   type: string
  *                reason:
  *                   type: string
  *                suggest:
  *                   type: string
- *                faultData:
- *                   type: object
  *              example:
  *                gatewayId: Gateway id
- *                deviceId: '1'
- *                category: LoggerFault
- *                type: Error
- *                event: Devices
- *                position: 2
+ *                deviceId: 1
+ *                category: Systems
+ *                type: Fault
  *                description: This is description
  *                reason: This is reason
  *                suggest: This is suggest
- *                faultData: {}
  *      responses:
  *        "201":
  *          description: Created
@@ -106,15 +94,10 @@ module.exports = router;
  *            type: string
  *          description: Gateway id
  *        - in: query
- *          name: from
+ *          name: deviceId
  *          schema:
- *            type: string
- *          description: Start datetime. ex. 2021-03-15 00:00:00
- *        - in: query
- *          name: to
- *          schema:
- *            type: string
- *          description: End datetime
+ *            type: number
+ *          description: Device id
  *        - in: query
  *          name: limit
  *          schema:
@@ -215,37 +198,29 @@ module.exports = router;
  *                - category
  *                - type
  *                - event
- *                - position
  *              properties:
  *                gatewayId:
  *                   type: string
  *                deviceId:
- *                   type: string
+ *                   type: number
  *                category:
  *                   type: string
  *                type:
  *                   type: string
- *                position:
- *                   type: number
  *                description:
  *                   type: string
  *                reason:
  *                   type: string
  *                suggest:
  *                   type: string
- *                faultData:
- *                   type: object
  *              example:
  *                gatewayId: Gateway id
- *                deviceId: '1'
- *                category: LoggerFault
- *                type: Error
- *                event: Devices
- *                position: 1
+ *                deviceId: 1
+ *                category: Systems
+ *                type: Fault
  *                description: This is description
  *                reason: This is reason
  *                suggest: This is suggest
- *                faultData: {}
  *      responses:
  *        "200":
  *          description: OK
@@ -278,37 +253,6 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
- *  /faults/latest:
- *    get:
- *      summary: Get latest fault
- *      description: Get latest fault
- *      tags: [Faults]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: query
- *          name: gatewayId
- *          schema:
- *            type: string
- *          description: Gateway id
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 $ref: '#/components/schemas/Fault'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":

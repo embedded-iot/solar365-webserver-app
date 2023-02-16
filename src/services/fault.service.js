@@ -8,9 +8,6 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Fault>}
  */
 const createFault = async (faultBody) => {
-  // if (await Fault.isFaultNameTaken(faultBody.name)) {
-  //   throw new ApiError(httpStatus.BAD_REQUEST, 'Fault name already taken');
-  // }
   const fault = await Fault.create(faultBody);
   return fault;
 };
@@ -25,7 +22,7 @@ const createFault = async (faultBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryFaults = async (filter, options) => {
-  const faults = await Fault.paginate(filter, { ...options, populate: 'gateway,device' });
+  const faults = await Fault.paginate(filter, { ...options, populate: 'device' });
   return faults;
 };
 
@@ -35,7 +32,7 @@ const queryFaults = async (filter, options) => {
  * @returns {Promise<Fault>}
  */
 const getFaultById = async (id) => {
-  return Fault.findById(id).populate('gateway').populate('device').exec();
+  return Fault.findById(id).populate('device').exec();
 };
 
 /**
