@@ -8,6 +8,7 @@ const deviceLogRoute = require('./deviceLog.route');
 const faultRoute = require('./fault.route');
 const statisticRoute = require('./statistic.route');
 const activityLogRoute = require('./activityLog.route');
+const deviceAppRoute = require('./device-app.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -49,6 +50,10 @@ const defaultRoutes = [
   {
     path: '/activityLogs',
     route: activityLogRoute,
+  },
+  {
+    path: '/device-app',
+    route: deviceAppRoute,
   },
 ];
 

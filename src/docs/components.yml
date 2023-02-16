@@ -73,7 +73,7 @@ components:
           type: string
         state:
           type: string
-          enum: [ONLINE, OFFLINE]
+          enum: [Online, Offline]
         updatedStateAt:
           type: string
           format: date-time
@@ -86,7 +86,7 @@ components:
         gatewayId: Gateway id
         name: Gateway name
         project: 32bac534954b54139806c112
-        state: OFFLINE
+        state: Online
         updatedStateAt: 2023-02-13T14:51:45.018+00:00
         settings: {}
         devicesCount: 0
@@ -112,7 +112,7 @@ components:
           type: number
         state:
           type: string
-          enum: [ONLINE, OFFLINE]
+          enum: [Online, Offline]
         gateway:
           type: string
       example:
@@ -124,7 +124,7 @@ components:
         port: 502
         startDataAddress: 8000
         endDataAddress: 9000
-        state: OFFLINE
+        state: Online
         gateway: 32bac534954b54139806c112
     DeviceLog:
       type: object

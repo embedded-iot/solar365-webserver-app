@@ -71,41 +71,10 @@ const deleteDevice = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const syncRealDevices = catchAsync(async (req, res) => {
-  const { gatewayId, list } = req.body;
-  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-  const results = [];
-  if (!gateway) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-  }
-  /* eslint-disable no-plusplus */
-  /* eslint-disable no-await-in-loop */
-  for (let i = 0; i < list.length; i++) {
-    const deviceData = list[i];
-    const existingDevice = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId: deviceData.deviceId });
-    if (!existingDevice) {
-      const deviceBody = {
-        ...deviceData,
-        gateway: gateway._id,
-      };
-      const device = await deviceService.createDevice(deviceBody);
-      results.push(device);
-    } else {
-      existingDevice.deviceData = deviceData;
-      const device = await deviceService.updateDeviceById(existingDevice._id, deviceData);
-      results.push(device);
-    }
-  }
-  /* eslint-enable no-plusplus */
-  /* eslint-enable no-await-in-loop */
-  res.status(httpStatus.CREATED).send({ results, totalResults: results.length });
-});
-
 module.exports = {
   createDevice,
   getDevices,
   getDevice,
   updateDevice,
   deleteDevice,
-  syncRealDevices,
 };

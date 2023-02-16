@@ -39,12 +39,13 @@ const getDeviceLogById = async (id) => {
 };
 
 /**
- * Get deviceLog by name
- * @param {string} name
+ * Get deviceLog by option
+ * @param {object} option
  * @returns {Promise<DeviceLog>}
  */
-const getDeviceLogByDeviceID = async (deviceId) => {
-  return await DeviceLog.findOne({ deviceId }).populate('device');
+
+const getDeviceLogByOption = async (option) => {
+  return await DeviceLog.findOne(option);
 };
 
 /**
@@ -94,7 +95,7 @@ module.exports = {
   createDeviceLog,
   queryDeviceLogs,
   getDeviceLogById,
-  getDeviceLogByDeviceID,
+  getDeviceLogByOption,
   updateDeviceLogById,
   deleteDeviceLogById,
   deleteDeviceLogByFilter,

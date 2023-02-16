@@ -11,8 +11,6 @@ router
   .post(auth(), validate(deviceValidation.createDevice), deviceController.createDevice)
   .get(auth(), validate(deviceValidation.getDevices), deviceController.getDevices);
 
-router.route('/syncRealDevices').post(validate(deviceValidation.syncRealDevices), deviceController.syncRealDevices);
-
 router
   .route('/:deviceId')
   .get(auth(), validate(deviceValidation.getDevice), deviceController.getDevice)
@@ -76,7 +74,7 @@ module.exports = router;
  *                port: 502
  *                startDataAddress: 8000
  *                endDataAddress: 9000
- *                state: OFFLINE
+ *                state: Online
  *                gatewayId: Gateway id
  *      responses:
  *        "201":
@@ -192,7 +190,7 @@ module.exports = router;
  *                    "port": 502,
  *                    "startDataAddress": 8000,
  *                    "endDataAddress": 9000,
- *                    "state": "ONLINE",
+ *                    "state": "Online",
  *                    "dataList": [
  *                      {
  *                        "name": "SN",
@@ -211,7 +209,7 @@ module.exports = router;
  *                    "port": 502,
  *                    "startDataAddress": 8000,
  *                    "endDataAddress": 9000,
- *                    "state": "ONLINE",
+ *                    "state": "Online",
  *                    "dataList": [
  *                      {
  *                        "name": "Device type code",
@@ -326,7 +324,7 @@ module.exports = router;
  *                port: 502
  *                startDataAddress: 8000
  *                endDataAddress: 9000
- *                state: OFFLINE
+ *                state: Online
  *                gatewayId: Gateway id
  *      responses:
  *        "200":

@@ -7,3 +7,4 @@ module.exports.deviceLogController = require('./deviceLog.controller');
 module.exports.faultController = require('./fault.controller');
 module.exports.statisticController = require('./statistic.controller');
 module.exports.activityLogController = require('./activityLog.controller');
+module.exports.deviceAppController = require('./device-app.controller');
