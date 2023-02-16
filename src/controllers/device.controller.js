@@ -85,16 +85,14 @@ const syncRealDevices = catchAsync(async (req, res) => {
     const existingDevice = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId: deviceData.deviceId });
     if (!existingDevice) {
       const deviceBody = {
+        ...deviceData,
         gateway: gateway._id,
-        deviceId: deviceData.dev_id,
-        name: `${deviceData.dev_name} ${deviceData.dev_id}`,
-        deviceData,
       };
       const device = await deviceService.createDevice(deviceBody);
       results.push(device);
     } else {
       existingDevice.deviceData = deviceData;
-      const device = await deviceService.updateDeviceById(existingDevice._id, existingDevice);
+      const device = await deviceService.updateDeviceById(existingDevice._id, deviceData);
       results.push(device);
     }
   }
