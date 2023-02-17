@@ -24,8 +24,8 @@ const createDeviceLog = async (deviceLogBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryDeviceLogs = async (filter, options) => {
-  const deviceLogs = await DeviceLog.paginate(filter, { ...options, populate: 'device' });
+const queryDeviceLogs = async (filter, options, populate = 'device') => {
+  const deviceLogs = await DeviceLog.paginate(filter, { ...options, populate });
   return deviceLogs;
 };
 
@@ -45,7 +45,7 @@ const getDeviceLogById = async (id) => {
  */
 
 const getDeviceLogByOption = async (option) => {
-  return await DeviceLog.findOne(option);
+  return DeviceLog.findOne(option);
 };
 
 /**
@@ -58,9 +58,6 @@ const updateDeviceLogById = async (deviceLogId, updateBody) => {
   const deviceLog = await getDeviceLogById(deviceLogId);
   if (!deviceLog) {
     throw new ApiError(httpStatus.NOT_FOUND, 'DeviceLog not found');
-  }
-  if (updateBody.name && (await DeviceLog.isDeviceLogNameTaken(updateBody.name, deviceLogId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'DeviceLog name already taken');
   }
   Object.assign(deviceLog, updateBody);
   await deviceLog.save();

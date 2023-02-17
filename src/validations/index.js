@@ -7,4 +7,5 @@ module.exports.deviceLogValidation = require('./deviceLog.validation');
 module.exports.faultValidation = require('./fault.validation');
 module.exports.statisticValidation = require('./statistic.validation');
 module.exports.activityLogValidation = require('./activityLog.validation');
-module.exports.deviceAppValidation = require('./device-app.validation');
+module.exports.deviceAppValidation = require('./deviceApp.validation');
+module.exports.dashboardValidation = require('./dashboard.validation');

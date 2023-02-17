@@ -24,8 +24,8 @@ const createDevice = async (deviceBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryDevices = async (filter, options) => {
-  const devices = await Device.paginate(filter, { ...options, populate: 'gateway' });
+const queryDevices = async (filter, options, populate = 'gateway') => {
+  const devices = await Device.paginate(filter, { ...options, populate });
   // devices.populate([{ path: 'gateway' }]).exec();
   return devices;
 };

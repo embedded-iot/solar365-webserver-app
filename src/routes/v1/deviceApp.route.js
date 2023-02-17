@@ -5,7 +5,7 @@ const { deviceAppValidation } = require('../../validations');
 
 const router = express.Router();
 
-router.route('/syncRealDevices').post(validate(deviceAppController.syncRealDevices), deviceAppValidation.syncRealDevices);
+router.route('/syncRealDevices').post(validate(deviceAppValidation.syncRealDevices), deviceAppController.syncRealDevices);
 
 module.exports = router;
 
@@ -19,7 +19,7 @@ module.exports = router;
 /**
  * @swagger
  * path:
- *  /devices-app/syncRealDevices:
+ *  /deviceApp/syncRealDevices:
  *    post:
  *      summary: Sync real devices to server
  *      description: [Device only]
