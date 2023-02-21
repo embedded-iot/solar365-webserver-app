@@ -4,6 +4,7 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { gatewayService, deviceService, projectService } = require('../services');
 const { STATE_VALUES } = require('../config/constants');
+const { getSearchOptions } = require('../utils/search.service');
 
 const checkExistingProject = async (projectId) => {
   const project = await projectService.getProjectByOption({ _id: projectId });
@@ -32,10 +33,13 @@ const createGateway = catchAsync(async (req, res) => {
 });
 
 const getGateways = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'projectId']);
+  const filter = pick(req.query, ['keyword', 'projectId']);
+  const searchOptions = getSearchOptions(filter.keyword, ['name', 'description']);
+  const projects = await projectService.getProjectsByOption({ user: req.user._id });
+  const projectIds = await projects.map((project) => project._id);
   const filterByUserReq = {
-    ...filter,
-    projectId: req.query.projectId,
+    ...searchOptions,
+    project: { $in: projectIds },
   };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await gatewayService.queryGateways(filterByUserReq, options);
@@ -86,15 +90,6 @@ const deleteGateway = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getGatewaySettings = catchAsync(async (req, res) => {
-  const { gatewayId } = req.params;
-  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-  if (!gateway) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-  }
-  res.send(gateway.toJSON().settings);
-});
-
 const updateGatewaySettings = catchAsync(async (req, res) => {
   const { gatewayId } = req.params;
   const gateway = await gatewayService.getGatewayByOption({ gatewayId });
@@ -128,7 +123,6 @@ module.exports = {
   getGateway,
   updateGateway,
   deleteGateway,
-  getGatewaySettings,
   updateGatewaySettings,
   autoUpdateGatewayStatus,
 };

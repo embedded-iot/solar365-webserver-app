@@ -5,7 +5,8 @@ const { deviceService, gatewayService, deviceLogService } = require('../services
 const { STATE_VALUES } = require('../config/constants');
 
 const syncRealDevices = catchAsync(async (req, res) => {
-  const { gatewayId, list } = req.body;
+  const list = req.body;
+  const { gatewayId } = req.params;
   const gateway = await gatewayService.getGatewayByOption({ gatewayId });
   const results = [];
   if (!gateway) {
@@ -62,6 +63,16 @@ const syncRealDevices = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({ results, totalResults: results.length });
 });
 
+const getGatewaySettings = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  res.send(gateway.toJSON().settings);
+});
+
 module.exports = {
   syncRealDevices,
+  getGatewaySettings,
 };

@@ -5,7 +5,13 @@ const { deviceAppValidation } = require('../../validations');
 
 const router = express.Router();
 
-router.route('/syncRealDevices').post(validate(deviceAppValidation.syncRealDevices), deviceAppController.syncRealDevices);
+router
+  .route('/gateways/:gatewayId/sync-data')
+  .post(validate(deviceAppValidation.syncRealDevices), deviceAppController.syncRealDevices);
+
+router
+  .route('/gateways/:gatewayId/settings')
+  .get(validate(deviceAppValidation.getGatewaySettings), deviceAppController.getGatewaySettings);
 
 module.exports = router;
 
@@ -13,35 +19,32 @@ module.exports = router;
  * @swagger
  * tags:
  *   name: Devices App
- *   description: Gateway sync devices data to server
+ *   description: (DEVICE APP) Sync devices data and server
  */
 
 /**
  * @swagger
  * path:
- *  /deviceApp/syncRealDevices:
+ *  /deviceApp/gateways/{gatewayId}/sync-data:
  *    post:
  *      summary: Sync real devices to server
- *      description: [Device only]
+ *      description: Sync real devices to server
  *      tags: [Devices App]
+ *      parameters:
+ *        - in: path
+ *          name: gatewayId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Gateway Id
  *      requestBody:
  *        required: true
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              required:
- *                - gatewayId
- *                - list
- *              properties:
- *                gatewayId:
- *                  type: string
- *                  description: must be unique
- *                list:
- *                   type: array
+ *              type: array
  *              example:
- *                gatewayId: Gateway id
- *                list: [
+ *                [
  *                  {
  *                    "type": "INVERTER",
  *                    "deviceId": 1,
@@ -100,4 +103,34 @@ module.exports = router;
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":
  *          $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /deviceApp/gateways/{gatewayId}/settings:
+ *    get:
+ *      summary: Get a gateway settings
+ *      description: Get gateway settings by Gateway Id
+ *      tags: [Devices App]
+ *      parameters:
+ *        - in: path
+ *          name: gatewayId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Gateway Id
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/GatewaySetting'
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
  */

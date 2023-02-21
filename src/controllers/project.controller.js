@@ -29,7 +29,6 @@ const getProjects = catchAsync(async (req, res) => {
 const getProject = catchAsync(async (req, res) => {
   const option = {
     _id: req.params.projectId,
-    user: req.user._id,
   };
   const project = await projectService.getProjectByOption(option);
   if (!project) {

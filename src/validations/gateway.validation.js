@@ -47,12 +47,6 @@ const deleteGateway = {
   }),
 };
 
-const getGatewaySettings = {
-  params: Joi.object().keys({
-    gatewayId: Joi.string().required(),
-  }),
-};
-
 const updateGatewaySettings = {
   params: Joi.object().keys({
     gatewayId: Joi.string().required(),
@@ -70,6 +64,5 @@ module.exports = {
   getGateway,
   updateGateway,
   deleteGateway,
-  getGatewaySettings,
   updateGatewaySettings,
 };

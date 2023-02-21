@@ -13,7 +13,6 @@ router
 
 router
   .route('/:gatewayId/settings')
-  .get(validate(gatewayValidation.getGatewaySettings), gatewayController.getGatewaySettings)
   .patch(auth('manageGateways'), validate(gatewayValidation.updateGatewaySettings), gatewayController.updateGatewaySettings);
 
 router
@@ -240,76 +239,6 @@ module.exports = router;
  *      responses:
  *        "200":
  *          description: No content
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * path:
- *  /gateways/{gatewayId}/settings:
- *    get:
- *      summary: (Device) Get a gateway settings
- *      description: Get gateway settings by Gateway Id
- *      tags: [Gateways]
- *      parameters:
- *        - in: path
- *          name: gatewayId
- *          required: true
- *          schema:
- *            type: string
- *          description: Gateway Id
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 $ref: '#/components/schemas/GatewaySetting'
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
- *
- *    patch:
- *      summary: (Admin) Update a gateway settings
- *      description: Update gateway by Gateway Id
- *      tags: [Gateways]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: path
- *          name: gatewayId
- *          required: true
- *          schema:
- *            type: string
- *          description: Gateway Id
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              required:
- *                - refreshDataAfterTime
- *              properties:
- *                refreshDataAfterTime:
- *                  type: number
- *              example:
- *                refreshDataAfterTime: 12000
- *      responses:
- *        "200":
- *          description: OK
- *          content:
- *            application/json:
- *              schema:
- *                 $ref: '#/components/schemas/GatewaySetting'
  *        "401":
  *          $ref: '#/components/responses/Unauthorized'
  *        "403":
