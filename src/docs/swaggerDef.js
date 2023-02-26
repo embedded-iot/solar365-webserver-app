@@ -8,10 +8,10 @@ const swaggerDef = {
     description: `
       - Upload device data from device:
       POST /deviceApp/syncRealDevices
-      ex: https://www.connector365.site/api/deviceApp/syncRealDevices
+      ex: https://api.connector365.site/api/deviceApp/gateways/{gatewayId}/sync-data
       - Overview device data
       GET /dashboard/overview
-      ex: https://www.connector365.site/api/dashboard/overview?gatewayId=Gateway%20id
+      ex: https://api.connector365.site/api/dashboard/overview?gatewayId=Gateway%20id
     `,
     version,
     license: {
