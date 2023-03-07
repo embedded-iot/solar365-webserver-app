@@ -2,8 +2,8 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { gatewayService, deviceService, projectService } = require('../services');
-const { STATE_VALUES } = require('../config/constants');
+const { gatewayService, deviceService, projectService, activityLogService } = require('../services');
+const { STATE_VALUES, ACTIVITY_LOG_CATEGORY_VALUES, ACTIVITY_LOG_TYPE_VALUES } = require('../config/constants');
 const { getSearchOptions } = require('../utils/search.service');
 
 const checkExistingProject = async (projectId) => {
@@ -104,17 +104,31 @@ const updateGatewaySettings = catchAsync(async (req, res) => {
 });
 
 const autoUpdateGatewayStatus = async (refreshStateAfterTime) => {
-  await gatewayService.updateGatewaysByOption(
-    {
-      updatedStateAt: {
-        $lte: new Date() - refreshStateAfterTime,
-      },
+  const filters = {
+    updatedAt: {
+      $lte: new Date() - refreshStateAfterTime,
     },
-    {
+  };
+  const offlineGateways = await gatewayService.getGatewaysByOption(filters);
+  if (offlineGateways.length) {
+    await gatewayService.updateGatewaysByOption(filters, {
       state: STATE_VALUES.OFFLINE,
       updatedStateAt: new Date(),
-    }
-  );
+    });
+    await Promise.all(
+      offlineGateways.map(async (gateway) => {
+        const activityLogBody = {
+          gateway: gateway._id,
+          category: ACTIVITY_LOG_CATEGORY_VALUES.GATEWAY,
+          type: ACTIVITY_LOG_TYPE_VALUES.WARNING,
+          description: 'Gateway not found',
+          details: gateway._id,
+        };
+        await activityLogService.createActivityLog(activityLogBody);
+      })
+    );
+  }
+  return offlineGateways;
 };
 
 module.exports = {
