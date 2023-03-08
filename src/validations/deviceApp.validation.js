@@ -19,7 +19,6 @@ const syncRealDevices = {
         endDataAddress: Joi.number(),
         state: Joi.string().valid(STATE_VALUES.OFFLINE, STATE_VALUES.ONLINE),
         dataList: Joi.array().items({
-          name: Joi.string().allow(''),
           address: Joi.array().items(Joi.number()),
           dataType: Joi.string().allow(''),
           value: Joi.string().allow(''),

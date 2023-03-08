@@ -56,11 +56,8 @@ module.exports = router;
  *                    "state": "Online",
  *                    "dataList": [
  *                      {
- *                        "name": "SN",
- *                        "address": [4990, 4999],
- *                        "dataType": "UTF-8",
+ *                        "address": [4990],
  *                        "value": "SN123456",
- *                        "unit": ""
  *                      }
  *                    ]
  *                  },
@@ -75,11 +72,8 @@ module.exports = router;
  *                    "state": "Online",
  *                    "dataList": [
  *                      {
- *                        "name": "Device type code",
- *                        "address": [8000],
- *                        "dataType": "U16",
- *                        "value": "0x0705",
- *                        "unit": ""
+ *                        "address": [4990],
+ *                        "value": "SN123456",
  *                      }
  *                    ]
  *                  }

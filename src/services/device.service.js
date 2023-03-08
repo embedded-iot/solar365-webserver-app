@@ -47,6 +47,7 @@ const getDeviceById = async (id) => {
 const getDeviceByOption = async (option) => {
   return Device.findOne(option);
 };
+
 /**
  * Get devices by Option
  * @param {Object} option
@@ -84,6 +85,16 @@ const updateDeviceById = async (deviceId, updateBody) => {
 };
 
 /**
+ * Create new device or update existing
+ * @param {Object} option
+ * @param {Object} updateBody
+ * @returns {Promise<Device>}
+ */
+const createAndUpdateDevice = async (option, updateBody) => {
+  return Device.findOneAndUpdate(option, updateBody, { upsert: true, new: true, setDefaultsOnInsert: true });
+};
+
+/**
  * Delete device by id
  * @param {ObjectId} deviceId
  * @returns {Promise<Device>}
@@ -115,6 +126,7 @@ module.exports = {
   getDevicesByOption,
   getDeviceByName,
   updateDeviceById,
+  createAndUpdateDevice,
   deleteDeviceById,
   getDevicesCount,
 };

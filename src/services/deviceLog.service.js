@@ -65,6 +65,16 @@ const updateDeviceLogById = async (deviceLogId, updateBody) => {
 };
 
 /**
+ * Create new device log or update existing
+ * @param {Object} option
+ * @param {Object} updateBody
+ * @returns {Promise<Device>}
+ */
+const createAndUpdateDeviceLog = async (option, updateBody) => {
+  return DeviceLog.findOneAndUpdate(option, updateBody, { upsert: true, new: true, setDefaultsOnInsert: true });
+};
+
+/**
  * Delete deviceLog by id
  * @param {ObjectId} deviceLogId
  * @returns {Promise<DeviceLog>}
@@ -94,6 +104,7 @@ module.exports = {
   getDeviceLogById,
   getDeviceLogByOption,
   updateDeviceLogById,
+  createAndUpdateDeviceLog,
   deleteDeviceLogById,
   deleteDeviceLogByFilter,
 };

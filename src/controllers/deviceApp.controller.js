@@ -1,14 +1,67 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { deviceService, gatewayService, deviceLogService } = require('../services');
-const { STATE_VALUES } = require('../config/constants');
+const i18n = require('../config/i18n');
+
+const { deviceService, gatewayService, deviceLogService, activityLogService } = require('../services');
+const {
+  STATE_VALUES,
+  ACTIVITY_LOG_CATEGORY_VALUES,
+  ACTIVITY_LOG_TYPE_VALUES,
+  DEVICE_TYPE_VALUES,
+} = require('../config/constants');
+const { DEVICE_DATA_ADDRESS } = require('../config/devices');
+const { groupBy } = require('../utils/cui');
+
+const transformDeviceData = async (deviceType, dataList = []) => {
+  if (deviceType === DEVICE_TYPE_VALUES.INVERTER) {
+    const convertedDataAddress = DEVICE_DATA_ADDRESS.map((dataAddress) => {
+      const addressArr = dataAddress.address.split('-');
+      return {
+        ...dataAddress,
+        startAddress: addressArr.length >= 1 ? addressArr[0] : -1,
+        // eslint-disable-next-line no-nested-ternary
+        endAddress: addressArr.length >= 1 ? addressArr[addressArr.length >= 2 ? 1 : 0] : -1,
+      };
+    });
+    const convertedDataList = dataList
+      .map((data) => {
+        const existingDataAddress =
+          convertedDataAddress.find(
+            (dataAddress) =>
+              dataAddress.startAddress <= data.address.toString() && dataAddress.endAddress >= data.address.toString()
+          ) || {};
+        return {
+          address: data.address,
+          value: data.value,
+          name: existingDataAddress.name,
+          group: existingDataAddress.address,
+          unit: existingDataAddress.unit,
+          dataType: existingDataAddress.dataType,
+        };
+      })
+      .filter((data) => !!data.group);
+    const groupedDataList = groupBy(convertedDataList, (item) => item.group);
+    const result = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [, value] of groupedDataList.entries()) {
+      result.push({
+        name: value[0].name,
+        unit: value[0].unit,
+        dataType: value[0].dataType,
+        value: value.map((dataAddress) => dataAddress.value).join(''),
+        address: value.map((dataAddress) => dataAddress.address[0].toString()),
+      });
+    }
+    return result.filter((deviceData) => deviceData.name !== 'Reserved');
+  }
+  return dataList.filter((deviceData) => deviceData.name !== 'Reserved');
+};
 
 const syncRealDevices = catchAsync(async (req, res) => {
   const list = req.body;
   const { gatewayId } = req.params;
   const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-  const results = [];
   if (!gateway) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
   }
@@ -19,47 +72,37 @@ const syncRealDevices = catchAsync(async (req, res) => {
       updatedStateAt: Date.now(),
     }
   );
-  /* eslint-disable no-plusplus */
-  /* eslint-disable no-await-in-loop */
-  for (let i = 0; i < list.length; i++) {
-    const { dataList, ...deviceData } = list[i];
-    const existingDevice = await deviceService.getDeviceByOption({ gateway: gateway._id, deviceId: deviceData.deviceId });
-    let selectedDevice = null;
-    if (!existingDevice) {
-      const deviceBody = {
-        ...deviceData,
-        gateway: gateway._id,
-      };
-      selectedDevice = await deviceService.createDevice(deviceBody);
-    } else {
-      selectedDevice = await deviceService.updateDeviceById(existingDevice._id, deviceData);
-    }
-    const deviceLogList = [];
-    if (dataList.length) {
-      for (let j = 0; j < dataList.length; j++) {
-        let selectedDeviceLog = null;
-        const existingDeviceLog = await deviceLogService.getDeviceLogByOption({ device: selectedDevice._id });
-        if (!existingDeviceLog) {
-          const deviceLogBody = {
-            device: selectedDevice._id,
-            list: dataList,
-          };
-          selectedDeviceLog = await deviceLogService.createDeviceLog(deviceLogBody);
-        } else {
-          selectedDeviceLog = await deviceLogService.updateDeviceLogById(existingDeviceLog._id, {
-            list: dataList,
-          });
+  const results = await Promise.all(
+    list.map(async (deviceData) => {
+      const device = await deviceService.createAndUpdateDevice(
+        { gateway: gateway._id, deviceId: deviceData.deviceId },
+        {
+          ...deviceData,
+          gateway: gateway._id,
         }
-        deviceLogList.push(selectedDeviceLog);
-      }
-    }
-    results.push({
-      ...selectedDevice.toJSON(),
-      dataList: deviceLogList,
-    });
-  }
-  /* eslint-enable no-plusplus */
-  /* eslint-enable no-await-in-loop */
+      );
+      const transformedDataList = await transformDeviceData(device.type, deviceData.dataList);
+      const deviceLog = await deviceLogService.createAndUpdateDeviceLog(
+        { device: device._id },
+        {
+          device: device._id,
+          list: transformedDataList,
+        }
+      );
+      return {
+        ...device.toJSON(),
+        deviceLogs: deviceLog.toJSON().list,
+      };
+    })
+  );
+  const activityLogBody = {
+    gateway: gateway._id,
+    category: ACTIVITY_LOG_CATEGORY_VALUES.GATEWAY,
+    type: ACTIVITY_LOG_TYPE_VALUES.SUCCESS,
+    description: i18n.SYNC_GATEWAY_DATA_SUCCESSFULLY,
+    details: gateway._id,
+  };
+  await activityLogService.createActivityLog(activityLogBody);
   res.status(httpStatus.CREATED).send({ results, totalResults: results.length });
 });
 
