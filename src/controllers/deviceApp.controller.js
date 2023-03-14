@@ -10,12 +10,13 @@ const {
   ACTIVITY_LOG_TYPE_VALUES,
   DEVICE_TYPE_VALUES,
 } = require('../config/constants');
-const { DEVICE_DATA_ADDRESS } = require('../config/devices');
+const { DEVICE_DATA_ADDRESS, LOGGER_DATA_ADDRESS } = require('../config/devices');
 const { groupBy } = require('../utils/cui');
 
 const transformDeviceData = async (deviceType, dataList = []) => {
-  if (deviceType === DEVICE_TYPE_VALUES.INVERTER) {
-    const convertedDataAddress = DEVICE_DATA_ADDRESS.map((dataAddress) => {
+  if (deviceType === DEVICE_TYPE_VALUES.INVERTER || deviceType === DEVICE_TYPE_VALUES.LOGGER) {
+    const dataAddressMap = deviceType === DEVICE_TYPE_VALUES.INVERTER ? DEVICE_DATA_ADDRESS : LOGGER_DATA_ADDRESS;
+    const convertedDataAddress = dataAddressMap.map((dataAddress) => {
       const addressArr = dataAddress.address.split('-');
       return {
         ...dataAddress,

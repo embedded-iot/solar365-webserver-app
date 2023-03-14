@@ -83,10 +83,45 @@ const deleteDeviceLog = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getDeviceLogsManagement = catchAsync(async (req, res) => {
+  const { gatewayId, deviceId } = pick(req.query, ['gatewayId', 'deviceId']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const projects = await projectService.getProjectsByOption({});
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
+  if (gatewayId) {
+    gatewayOptions.gatewayId = gatewayId;
+  }
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (gatewayId && !gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  const deviceOptions = { gateway: { $in: gatewayIds } };
+  if (deviceId) {
+    deviceOptions.deviceId = deviceId;
+  }
+  const devices = await deviceService.getDevicesByOption(deviceOptions);
+  const deviceIds = await devices.map((device) => device._id);
+  if (!gatewayId && deviceId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway can"t empty when there has device id');
+  } else if (deviceId && !deviceIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Device not found');
+  }
+  const filter = {
+    device: {
+      $in: deviceIds,
+    },
+  };
+  const result = await deviceLogService.queryDeviceLogs(filter, options);
+  res.send(result);
+});
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
   getDeviceLog,
   updateDeviceLog,
   deleteDeviceLog,
+  getDeviceLogsManagement,
 };

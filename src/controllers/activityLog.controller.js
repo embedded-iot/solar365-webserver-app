@@ -75,11 +75,36 @@ const clearData = async (filter) => {
   return await activityLogService.deleteActivityLogByFilter(filter);
 };
 
+const getActivityLogsManagement = catchAsync(async (req, res) => {
+  const { gatewayId } = pick(req.query, ['gatewayId']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.sortBy = options.sortBy || 'updatedAt:desc';
+  const projects = await projectService.getProjectsByOption({});
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
+  if (gatewayId) {
+    gatewayOptions.gatewayId = gatewayId;
+  }
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  const filter = {
+    gateway: {
+      $in: gatewayIds,
+    },
+  };
+  const result = await activityLogService.queryActivityLogs(filter, options);
+  res.send(result);
+});
+
 module.exports = {
   createActivityLog,
   getActivityLogs,
   getActivityLog,
   updateActivityLog,
   deleteActivityLog,
+  getActivityLogsManagement,
   clearData,
 };

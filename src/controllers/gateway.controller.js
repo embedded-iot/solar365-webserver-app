@@ -33,7 +33,7 @@ const createGateway = catchAsync(async (req, res) => {
 });
 
 const getGateways = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['keyword', 'projectId']);
+  const filter = pick(req.query, ['keyword']);
   const searchOptions = getSearchOptions(filter.keyword, ['name', 'description']);
   const projects = await projectService.getProjectsByOption({ user: req.user._id });
   const projectIds = await projects.map((project) => project._id);
@@ -90,19 +90,6 @@ const deleteGateway = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const updateGatewaySettings = catchAsync(async (req, res) => {
-  const { gatewayId } = req.params;
-  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
-  if (!gateway) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
-  }
-  gateway.settings = {
-    ...req.body,
-  };
-  gateway.save();
-  res.send();
-});
-
 const autoUpdateGatewayStatus = async (refreshStateAfterTime) => {
   const filters = {
     updatedAt: {
@@ -131,12 +118,49 @@ const autoUpdateGatewayStatus = async (refreshStateAfterTime) => {
   return offlineGateways;
 };
 
+const getGatewaysManagement = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['keyword']);
+  const searchOptions = getSearchOptions(filter.keyword, ['name', 'description']);
+  const projects = await projectService.getProjectsByOption({});
+  const projectIds = await projects.map((project) => project._id);
+  const filterByUserReq = {
+    ...searchOptions,
+    project: { $in: projectIds },
+  };
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await gatewayService.queryGateways(filterByUserReq, options);
+  const results = [];
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < result.results.length; index++) {
+    const gateway = result.results[index];
+    // eslint-disable-next-line no-await-in-loop
+    const transformedGateway = await transformGateway(gateway.toJSON());
+    results.push(transformedGateway);
+  }
+  result.results = results;
+  res.send(result);
+});
+
+const updateGatewaySettingsManagement = catchAsync(async (req, res) => {
+  const { gatewayId } = req.params;
+  const gateway = await gatewayService.getGatewayByOption({ gatewayId });
+  if (!gateway) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  gateway.settings = {
+    ...req.body,
+  };
+  gateway.save();
+  res.send();
+});
+
 module.exports = {
   createGateway,
   getGateways,
   getGateway,
   updateGateway,
   deleteGateway,
-  updateGatewaySettings,
   autoUpdateGatewayStatus,
+  getGatewaysManagement,
+  updateGatewaySettingsManagement,
 };

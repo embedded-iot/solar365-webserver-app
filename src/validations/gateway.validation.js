@@ -47,7 +47,18 @@ const deleteGateway = {
   }),
 };
 
-const updateGatewaySettings = {
+const getGatewaysManagement = {
+  query: Joi.object().keys({
+    projectId: Joi.string().custom(objectId),
+    keyword: Joi.string(),
+    description: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
+const updateGatewaySettingsManagement = {
   params: Joi.object().keys({
     gatewayId: Joi.string().required(),
   }),
@@ -64,5 +75,6 @@ module.exports = {
   getGateway,
   updateGateway,
   deleteGateway,
-  updateGatewaySettings,
+  getGatewaysManagement,
+  updateGatewaySettingsManagement,
 };

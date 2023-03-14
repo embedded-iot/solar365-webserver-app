@@ -64,10 +64,21 @@ const deleteDeviceLog = {
   }),
 };
 
+const getDeviceLogsManagement = {
+  query: Joi.object().keys({
+    gatewayId: Joi.string(),
+    deviceId: Joi.number(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createDeviceLog,
   getDeviceLogs,
   getDeviceLog,
   updateDeviceLog,
   deleteDeviceLog,
+  getDeviceLogsManagement,
 };

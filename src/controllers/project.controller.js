@@ -59,10 +59,22 @@ const deleteProject = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getProjectsManagement = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['keyword']);
+  const searchOptions = getSearchOptions(filter.keyword, ['name', 'description']);
+  const filterByUserReq = {
+    ...searchOptions,
+  };
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await projectService.queryProjects(filterByUserReq, options);
+  res.send(result);
+});
+
 module.exports = {
   createProject,
   getProjects,
   getProject,
   updateProject,
   deleteProject,
+  getProjectsManagement,
 };

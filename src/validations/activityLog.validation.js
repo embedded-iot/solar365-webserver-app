@@ -49,10 +49,22 @@ const deleteActivityLog = {
   }),
 };
 
+const getActivityLogsManagement = {
+  query: Joi.object().keys({
+    gatewayId: Joi.string(),
+    from: Joi.number(),
+    to: Joi.number(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createActivityLog,
   getActivityLogs,
   getActivityLog,
   updateActivityLog,
   deleteActivityLog,
+  getActivityLogsManagement,
 };

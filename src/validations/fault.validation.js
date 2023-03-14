@@ -58,6 +58,16 @@ const getLatestFault = {
   }),
 };
 
+const getFaultsManagement = {
+  query: Joi.object().keys({
+    gatewayId: Joi.string(),
+    deviceId: Joi.number(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createFault,
   getFaults,
@@ -65,4 +75,5 @@ module.exports = {
   updateFault,
   deleteFault,
   getLatestFault,
+  getFaultsManagement,
 };

@@ -12,10 +12,6 @@ router
   .get(auth(), validate(gatewayValidation.getGateways), gatewayController.getGateways);
 
 router
-  .route('/:gatewayId/settings')
-  .patch(auth('manageGateways'), validate(gatewayValidation.updateGatewaySettings), gatewayController.updateGatewaySettings);
-
-router
   .route('/:gatewayId')
   .get(auth(), validate(gatewayValidation.getGateway), gatewayController.getGateway)
   .patch(auth(), validate(gatewayValidation.updateGateway), gatewayController.updateGateway)

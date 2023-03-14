@@ -41,10 +41,20 @@ const deleteProject = {
   }),
 };
 
+const getProjectsManagement = {
+  query: Joi.object().keys({
+    keyword: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createProject,
   getProjects,
   getProject,
   updateProject,
   deleteProject,
+  getProjectsManagement,
 };

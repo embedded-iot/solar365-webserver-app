@@ -71,10 +71,36 @@ const deleteDevice = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getDevicesManagement = catchAsync(async (req, res) => {
+  const { gatewayId, keyword } = pick(req.query, ['gatewayId', 'keyword']);
+  const searchOptions = getSearchOptions(keyword, ['name']);
+  const projects = await projectService.getProjectsByOption({});
+  const projectIds = await projects.map((project) => project._id);
+  const gatewayOptions = { project: { $in: projectIds } };
+  if (gatewayId) {
+    gatewayOptions.gatewayId = gatewayId;
+  }
+  const gateways = await gatewayService.getGatewaysByOption(gatewayOptions);
+  const gatewayIds = await gateways.map((gateway) => gateway._id);
+  if (!gatewayIds.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Gateway not found');
+  }
+  const filter = {
+    ...searchOptions,
+    gateway: {
+      $in: gatewayIds,
+    },
+  };
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await deviceService.queryDevices(filter, options);
+  res.send(result);
+});
+
 module.exports = {
   createDevice,
   getDevices,
   getDevice,
   updateDevice,
   deleteDevice,
+  getDevicesManagement,
 };

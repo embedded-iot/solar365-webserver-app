@@ -57,10 +57,21 @@ const deleteDevice = {
   }),
 };
 
+const getDevicesManagement = {
+  query: Joi.object().keys({
+    gatewayId: Joi.string(),
+    keyword: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createDevice,
   getDevices,
   getDevice,
   updateDevice,
   deleteDevice,
+  getDevicesManagement,
 };
