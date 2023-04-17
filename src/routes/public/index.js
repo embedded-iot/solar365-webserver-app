@@ -10,14 +10,6 @@ const activityLogRoute = require('./activityLog.route');
 const deviceAppRoute = require('./deviceApp.route');
 const dashboardRoute = require('./dashboard.route');
 
-const userManagementRoute = require('./userManagement.route');
-const projectManagementRoute = require('./projectManagement.route');
-const gatewayManagementRoute = require('./gatewayManagement.route');
-const deviceManagementRoute = require('./deviceManagement.route');
-const deviceLogManagementRoute = require('./deviceLogManagement.route');
-const faultManagementRoute = require('./faultManagement.route');
-const activityLogManagementRoute = require('./activityLogManagement.route');
-
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -63,34 +55,6 @@ const defaultRoutes = [
   {
     path: '/dashboard',
     route: dashboardRoute,
-  },
-  {
-    path: '/admin/users',
-    route: userManagementRoute,
-  },
-  {
-    path: '/admin/gateways',
-    route: gatewayManagementRoute,
-  },
-  {
-    path: '/admin/projects',
-    route: projectManagementRoute,
-  },
-  {
-    path: '/admin/devices',
-    route: deviceManagementRoute,
-  },
-  {
-    path: '/admin/deviceLogs',
-    route: deviceLogManagementRoute,
-  },
-  {
-    path: '/admin/faults',
-    route: faultManagementRoute,
-  },
-  {
-    path: '/admin/activityLogs',
-    route: activityLogManagementRoute,
   },
 ];
 
