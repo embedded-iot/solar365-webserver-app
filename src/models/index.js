@@ -7,3 +7,4 @@ module.exports.DeviceLog = require('./deviceLog.model');
 module.exports.Fault = require('./fault.model');
 module.exports.Statistic = require('./statistic.model');
 module.exports.ActivityLog = require('./activityLog.model');
+module.exports.Config = require('./config.model');
