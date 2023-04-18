@@ -9,3 +9,4 @@ module.exports.statisticController = require('./statistic.controller');
 module.exports.activityLogController = require('./activityLog.controller');
 module.exports.deviceAppController = require('./deviceApp.controller');
 module.exports.dashboardController = require('./dashboard.controller');
+module.exports.configController = require('./config.controller');

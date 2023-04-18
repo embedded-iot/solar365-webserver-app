@@ -1,10 +1,14 @@
 const cron = require('node-cron');
-const { gatewayController } = require('./controllers');
+const { gatewayController, configController } = require('./controllers');
+const { SYSTEM_CONFIG } = require('./config/constants');
 
 const start = async () => {
   // every 5 minutes
   cron.schedule('*/1 * * * *', async () => {
-    await gatewayController.autoUpdateGatewayStatus(1000);
+    const updateGatewayTime = await configController.getConfigByName(SYSTEM_CONFIG.UPDATE_GATEWAY_AFTER_TIMES);
+    await gatewayController.autoUpdateGatewayStatus(
+      !!updateGatewayTime && updateGatewayTime.value ? +updateGatewayTime.value : 1000
+    );
   });
 };
 

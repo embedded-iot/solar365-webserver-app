@@ -9,6 +9,7 @@ const statisticRoute = require('./statistic.route');
 const activityLogRoute = require('./activityLog.route');
 const deviceAppRoute = require('./deviceApp.route');
 const dashboardRoute = require('./dashboard.route');
+const configRoute = require('./config.route');
 
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -19,6 +20,10 @@ const defaultRoutes = [
   {
     path: '/auth',
     route: authRoute,
+  },
+  {
+    path: '/dashboard',
+    route: dashboardRoute,
   },
   {
     path: '/projects',
@@ -53,8 +58,8 @@ const defaultRoutes = [
     route: deviceAppRoute,
   },
   {
-    path: '/dashboard',
-    route: dashboardRoute,
+    path: '/configs',
+    route: configRoute,
   },
 ];
 

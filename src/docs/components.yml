@@ -198,6 +198,22 @@ components:
         type: Success
         description: Gateway not found
         details: 45bac534954b54139806c112
+    Config:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+        comment:
+          type: string
+      example:
+        id: 45bac534954b54139806c112
+        name: name
+        value: value
+        comment: comment
     Token:
       type: object
       properties:

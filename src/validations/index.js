@@ -9,3 +9,4 @@ module.exports.statisticValidation = require('./statistic.validation');
 module.exports.activityLogValidation = require('./activityLog.validation');
 module.exports.deviceAppValidation = require('./deviceApp.validation');
 module.exports.dashboardValidation = require('./dashboard.validation');
+module.exports.configValidation = require('./config.validation');

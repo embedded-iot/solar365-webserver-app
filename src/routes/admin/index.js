@@ -7,6 +7,7 @@ const device = require('./device.route');
 const deviceLog = require('./deviceLog.route');
 const fault = require('./fault.route');
 const activityLog = require('./activityLog.route');
+const config = require('./config.route');
 
 const router = express.Router();
 
@@ -38,6 +39,10 @@ const defaultRoutes = [
   {
     path: '/activityLogs',
     route: activityLog,
+  },
+  {
+    path: '/configs',
+    route: config,
   },
 ];
 

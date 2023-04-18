@@ -59,6 +59,10 @@ const activityLogTypes = [
   ACTIVITY_LOG_TYPE_VALUES.ERROR,
 ];
 
+const SYSTEM_CONFIG = {
+  UPDATE_GATEWAY_AFTER_TIMES: 'UPDATE_GATEWAY_AFTER_TIMES',
+};
+
 module.exports = {
   STATE_VALUES,
   userStates,
@@ -74,4 +78,5 @@ module.exports = {
   activityLogCategories,
   ACTIVITY_LOG_TYPE_VALUES,
   activityLogTypes,
+  SYSTEM_CONFIG,
 };
